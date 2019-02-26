@@ -1,17 +1,33 @@
+"""
+2292 벌집문제)
+
+위의 그림과 같이 육각형으로 이루어진 벌집이 있다.
+그림에서 보는 바와 같이 중앙의 방 1부터 시작해서 이웃하는 방에 돌아가면서 1씩 증가하는 번호를 주소로 매길 수 있다.
+숫자 N이 주어졌을 때, 벌집의 중앙 1에서 N번 방까지 최소 개수의 방을 지나서 갈 때 몇 개의 방을 지나가는지
+(시작과 끝을 포함하여)를 계산하는 프로그램을 작성하시오. 예를 들면, 13까지는 3개, 58까지는 5개를 지난다.
+"""
+
 n = int(input())
-start = 2
-mult = 6
+
+
+"""
+1: 1개, 2~7 : 2개, 8~19 : 3개, 20~37 : 4개, 38~61 : 5개 ...
+ - 같은 결과값을 가지는 숫자들을 묶자.
+ -> 범위의 시작(start)을 정하고 일정한 크기(mult)로 범위를 증가시키자. 
+"""
+start = 2 
+mult = 6 #range는 끝-1 까지 이므로
 cnt = 1
-if n == 1:
+if n == 1: #1이면 그대로 출력
     print(cnt)
 else:
     while 1:
-        if n not in range(start,(start+mult)):
-            start = start+mult
+        if n not in range(start,(start+mult)):  # n이 범위내에 없으면  
+            start = start+mult #start와 mult를 증가시켜 다음 결과값을 가지는 범위로 고고
             mult = mult+6
-            cnt = cnt+1
+            cnt = cnt+1 #cnt 증가는 필수
         else:
-            print(cnt+1)
+            print(cnt+1) #해당 범위의 cnt 도 포함시켜야 하므로 cnt+1 출력!
             break
 
     
