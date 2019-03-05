@@ -32,10 +32,13 @@ void main()
 	for (int i = 0; i < 5; i++)
 		cout << a3[i] << " ";
 	cout << endl;
-
 	heap(a1, 10);
 	for (int i = 0; i < 10; i++)
 		cout << a1[i] << " ";
 	cout << endl;
 
+	heap(a2, 8);
+	for (int i = 0; i < 8; i++)
+		cout << a2[i] << " ";
+	cout << endl;
 }
