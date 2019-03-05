@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 using namespace std;
-int partition(int a[], int left, int right)
+inline int partition(int a[], int left, int right)
 {
 	int L = left+1; //pivot 다음 값부터
 	int R = right;//젤 끝 값부터

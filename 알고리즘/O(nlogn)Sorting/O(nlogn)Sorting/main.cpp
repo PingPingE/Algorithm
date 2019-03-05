@@ -18,27 +18,27 @@ void main()
 	//	cout << a2[i] << " ";
 	//cout << endl;
 
-	//mergeSort(a1, 0, 9);
-	//for (int i = 0; i < 10; i++)
-	//	cout << a1[i] << " ";
-	//cout << endl;
-
-	//mergeSort(a3, 0, 4);
-	//for (int i = 0; i < 5; i++)
-	//	cout << a3[i] << " ";
-	//cout << endl;
-
-	heap(a3, 5);
-	for (int i = 0; i < 5; i++)
-		cout << a3[i] << " ";
-	cout << endl;
-	heap(a1, 10);
+	mergeSort(a1, 0, 9);
 	for (int i = 0; i < 10; i++)
 		cout << a1[i] << " ";
 	cout << endl;
 
-	heap(a2, 8);
-	for (int i = 0; i < 8; i++)
-		cout << a2[i] << " ";
+	mergeSort(a3, 0, 4);
+	for (int i = 0; i < 5; i++)
+		cout << a3[i] << " ";
 	cout << endl;
+
+	//heap(a3, 5);
+	//for (int i = 0; i < 5; i++)
+	//	cout << a3[i] << " ";
+	//cout << endl;
+	//heap(a1, 10);
+	//for (int i = 0; i < 10; i++)
+	//	cout << a1[i] << " ";
+	//cout << endl;
+
+	//heap(a2, 8);
+	//for (int i = 0; i < 8; i++)
+	//	cout << a2[i] << " ";
+	//cout << endl;
 }

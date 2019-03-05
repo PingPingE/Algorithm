@@ -1,6 +1,6 @@
 #pragma once
 #include <iostream>
-void merge(int a[], int left, int mid, int right)
+inline void merge(int a[], int left, int mid, int right)
 {
 	int i = left;//첫번째 블록 시작점
 	int j = mid + 1; //두번재 블록 시작점

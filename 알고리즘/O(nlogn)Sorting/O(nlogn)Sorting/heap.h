@@ -31,7 +31,7 @@ inline void sift_down(int a[], int current, int last)
 	}
 
 }
-void heapify(int a[], int size) //Bottom-up
+inline void heapify(int a[], int size) //Bottom-up
 {
 	int end = size - 1; 
 	int current = end / 2; //부모노드 시작점(밑에서 부터)
