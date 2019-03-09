@@ -3,7 +3,7 @@
 using namespace std;
 inline int partition(int a[], int left, int right)
 {
-	int L = left+1; //pivot 다음 값부터
+	int L = left; //pivot 다음 값부터
 	int R = right;//젤 끝 값부터
 	int pivot =left; // 젤 처음 값을 pivot으로 설정
 	int temp = 0; //swap할 때 필요한 변수
