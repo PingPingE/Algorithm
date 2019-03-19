@@ -17,8 +17,7 @@ def hanoi(n, start, end, temp):#옮길 원반 개수, 시작, 목표, 중간
         hanoi(n-1, start, temp, end)#마지막 가장 큰 원반 빼고 temp로 이동
         print(start, "->", end)
         hanoi(n-1, temp, end, start)
-    
-cnt = 0
+
 n = int(input()) #원반 갯수
 print(hanoi(n,1,3,2))
     
