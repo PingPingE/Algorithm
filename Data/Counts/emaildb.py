@@ -3,7 +3,7 @@ import sqlite3
 conn = sqlite3.connect('test1.sqlite')#데이터 베이스에 접근할 수 있는지 확인
 cur = conn.cursor()#핸들(명령을 보내고 답을 받음) 생성
 
-cur.execute("DROP TABLE IF EXISTS Counts") #테이블이 삭제하고 시작
+cur.execute("DROP TABLE IF EXISTS Counts") #테이블 삭제하고 시작
 cur.execute("CREATE TABLE Counts(email TEXT, count INTEGER)")
 
 fname = input("파일 이름:")
@@ -16,7 +16,7 @@ for i in fh:
     email = p[1]
     m[email] = m.get(email,0)+1 #key값이 email인 value+1(만약 없으면 key = email, value=0인 딕셔너리 생성 후 +1)
     #execute 메소드를 이용하여 sql문장을 DB서버에 보낸다
-    cur.execute('SELECT count FROM Counts WHERE email = ?', (email,)) #?를 사용하므로써 SQL주입을 막을 수 있
+    cur.execute('SELECT count FROM Counts WHERE email = ?', (email,)) #?를 사용하므로써 SQL주입을 막을 수 있음
     row = cur.fetchone() #한줄 읽기
 
     if row is None:#없으면 추가
