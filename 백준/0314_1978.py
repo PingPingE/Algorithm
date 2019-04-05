@@ -13,13 +13,12 @@ for i in a:
         continue
     elif i==1:#1은 소수가 아님
         continue
-    
-    for j in range(2,18):#17까지 검사한 이유는 1000 이하의 숫자에 17*17까지가
-                         #걸러내야할 숫자가 있으므로(289는 소수가 아님)
+
+    for j in range(2,40):#1000이하의 자연수이므로 대략 2~39로 범위를 잡음
         if i!=j and i%j == 0: #자기 자신이 아니고 나머지가 0인 숫자가 있으면
             status = 1#소수가 아니면 status 를 1로
             break
-    #status가 0이면 
+    #status가 0이면
     if status == 0:
         cnt+=1
 
