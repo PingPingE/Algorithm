@@ -1,0 +1,38 @@
+from collections import deque, Counter
+def solution(n, computers):
+    dic = {i:i for i in range(n)}
+    for i in range(n):
+        s = set()
+        for j in range(n):
+            if computers[i][j] == 1:
+                s.add(j)
+        #만약 이미 그룹이 있는 컴이 여러대면 새로 합칠 그룹 이름은 min으로 통일
+        tmp = set()
+        for ss in s:
+            if dic[ss] != ss:
+                tmp.add(dic[ss])
+        if len(tmp) == 0:
+            for ss in s:
+                dic[ss] = i
+        else:
+            mini = min(tmp)
+            for k,v in dic.items():
+                if v in tmp:
+                    dic[k] = mini
+                elif k in s:
+                    dic[k] = mini
+    return len(Counter(dic.values()))
+
+테스트 1 〉	통과 (0.08ms, 10.7MB)
+테스트 2 〉	통과 (0.08ms, 10.9MB)
+테스트 3 〉	통과 (0.15ms, 10.7MB)
+테스트 4 〉	통과 (0.14ms, 10.8MB)
+테스트 5 〉	통과 (0.06ms, 10.7MB)
+테스트 6 〉	통과 (0.42ms, 10.9MB)
+테스트 7 〉	통과 (0.10ms, 10.7MB)
+테스트 8 〉	통과 (0.31ms, 10.9MB)
+테스트 9 〉	통과 (0.21ms, 10.8MB)
+테스트 10 〉	통과 (0.22ms, 10.8MB)
+테스트 11 〉	통과 (1.28ms, 13.9MB)
+테스트 12 〉	통과 (1.00ms, 12.8MB)
+테스트 13 〉	통과 (0.52ms, 10.9MB)
