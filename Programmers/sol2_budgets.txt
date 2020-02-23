@@ -24,7 +24,7 @@ def solution(budgets, M):
                 low = mid
         if r >0:
             return r
-    if r==0:
+    if r==0:#모든 budgets속성값이 같은 경우를 위해 -> 그럼 이걸 좀 더 윗쪽에 놓으면 좋을 듯
         return M//len(budgets)
 
 
