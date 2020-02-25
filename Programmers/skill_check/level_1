@@ -1,0 +1,21 @@
+#모든 행렬의 덧셈
+def solution(arr1, arr2):
+    answer = []
+    for i in range(len(arr1)):
+        answer.append([0]*len(arr1[i]))
+        for j in range(len(arr1[i])):
+            answer[i][j] = arr1[i][j] + arr2[i][j]
+    return answer
+    
+#1로 만들기(단, count가 500이상이면 -1출력)
+def solution(num):
+    return sol(num, 0)
+def sol(num, count):
+    if count >500:
+        return -1
+    if num == 1:
+        return count
+    if num%2 == 0:
+        return sol(num/2, count+1)
+    else:
+        return sol((num*3)+1,count+1)
