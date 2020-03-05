@@ -1,0 +1,50 @@
+def solution(budgets, M):
+    if sum(budgets)<=M:
+        return max(budgets)
+    #상한액을 넘는 지방은 모두 동일하게 집행되어야함
+    budgets.sort()#오름차순
+    exceed = sum(budgets)-M#초과금액
+    maxx = max(budgets)#최고 금액
+    if maxx-exceed >= budgets[-2]:
+        return maxx-exceed
+    resi = 0
+    total = maxx
+    for res in range(len(budgets)-2, 0,-1):#상한액을 적용할 범위(뒤에서 부터)
+        total += budgets[res]#적용하는 범위의 합
+        high = budgets[res]
+        low = budgets[res-1]
+        r = 0
+        while high-low>1:
+            mid = (high+low)//2
+            if (total-mid*(len(budgets)-res)) < exceed:
+                high = mid
+                continue
+            if r<mid:
+                r = mid
+                low = mid
+        if r >0:
+            return r
+
+
+정확성  테스트
+테스트 1 〉	통과 (0.04ms, 10.7MB)
+테스트 2 〉	통과 (0.04ms, 10.7MB)
+테스트 3 〉	통과 (0.04ms, 10.8MB)
+테스트 4 〉	통과 (0.12ms, 10.7MB)
+테스트 5 〉	통과 (0.10ms, 10.8MB)
+테스트 6 〉	통과 (0.20ms, 10.8MB)
+테스트 7 〉	통과 (0.04ms, 10.8MB)
+테스트 8 〉	통과 (0.04ms, 10.7MB)
+테스트 9 〉	실패 (0.27ms, 10.7MB)
+테스트 10 〉	통과 (0.04ms, 10.8MB)
+테스트 11 〉	통과 (0.04ms, 10.8MB)
+테스트 12 〉	통과 (0.20ms, 10.7MB)
+테스트 13 〉	통과 (0.04ms, 10.8MB)
+테스트 14 〉	통과 (0.24ms, 10.8MB)
+테스트 15 〉	통과 (0.04ms, 10.6MB)
+효율성  테스트
+테스트 1 〉	통과 (0.11ms, 11.1MB)
+테스트 2 〉	통과 (20.48ms, 49.7MB)
+테스트 3 〉	통과 (1.38ms, 12MB)
+테스트 4 〉	통과 (0.14ms, 11.1MB)
+테스트 5 〉	통과 (0.22ms, 11.6MB)

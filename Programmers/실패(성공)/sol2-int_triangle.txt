@@ -1,0 +1,46 @@
+from collections import deque
+def solution(triangle):
+    answer = -1
+    remain = 0
+    maxx = {}
+    for i in range(len(triangle)-1,-1,-1): #각 행의 최댓값의 합
+        remain += max(triangle[i])
+        maxx[i] = remain
+    que = deque()
+    que.append([0,0,0])#행,열,값
+    while que:
+        i,j,tmp = que.popleft()
+        if i == len(triangle):
+            answer = max(answer,tmp)
+            if answer == maxx[0]:
+                break
+            continue
+        if tmp+maxx[i] <= answer:
+            continue
+        que.append([i+1,j,tmp+triangle[i][j]])
+        que.append([i+1,j+1,tmp+triangle[i][j]])
+        
+    return answer
+
+정확성  테스트
+테스트 1 〉	통과 (0.12ms, 10.9MB)
+테스트 2 〉	통과 (0.88ms, 10.7MB)
+테스트 3 〉	통과 (28.87ms, 14.6MB)
+테스트 4 〉	실패 (시간 초과)
+테스트 5 〉	실패 (시간 초과)
+테스트 6 〉	실패 (시간 초과)
+테스트 7 〉	실패 (시간 초과)
+테스트 8 〉	실패 (시간 초과)
+테스트 9 〉	통과 (0.16ms, 10.7MB)
+테스트 10 〉	실패 (시간 초과)
+효율성  테스트
+테스트 1 〉	실패 (시간 초과)
+테스트 2 〉	실패 (시간 초과)
+테스트 3 〉	실패 (시간 초과)
+테스트 4 〉	실패 (시간 초과)
+테스트 5 〉	실패 (시간 초과)
+테스트 6 〉	실패 (시간 초과)
+테스트 7 〉	실패 (시간 초과)
+테스트 8 〉	실패 (시간 초과)
+테스트 9 〉	실패 (시간 초과)
+테스트 10 〉	실패 (시간 초과)

@@ -1,0 +1,47 @@
+
+tri = []
+answer = -1
+maxx = {}
+def solution(triangle):
+    global tri, answer, maxx
+    tri = [triangle[i][:] for i in range(len(triangle))] 
+    remain = 0
+    for i in range(len(triangle)-1,-1,-1): #각 행의 최댓값의 합
+        remain += max(triangle[i])
+        maxx[i] = remain
+    sol(0,0,0)
+    return answer
+    
+def sol(cur_i, cur_j, cur_res):
+    global answer,maxx,tri
+    if answer >= cur_res+maxx[cur_i]:
+        return 
+    if cur_i == len(tri)-1:
+        answer = max(answer, cur_res+tri[cur_i][cur_j])
+        return 
+    sol(cur_i+1, cur_j, cur_res+tri[cur_i][cur_j]), sol(cur_i+1, cur_j+1, cur_res+tri[cur_i][cur_j])
+        
+   
+
+정확성  테스트
+테스트 1 〉	통과 (0.05ms, 10.6MB)
+테스트 2 〉	통과 (0.14ms, 10.7MB)
+테스트 3 〉	통과 (0.93ms, 10.8MB)
+테스트 4 〉	통과 (181.48ms, 10.7MB)
+테스트 5 〉	실패 (시간 초과)
+테스트 6 〉	실패 (시간 초과)
+테스트 7 〉	실패 (시간 초과)
+테스트 8 〉	통과 (8108.15ms, 10.8MB)
+테스트 9 〉	통과 (0.09ms, 10.8MB)
+테스트 10 〉	통과 (352.49ms, 10.9MB)
+효율성  테스트
+테스트 1 〉	실패 (시간 초과)
+테스트 2 〉	실패 (시간 초과)
+테스트 3 〉	실패 (시간 초과)
+테스트 4 〉	실패 (시간 초과)
+테스트 5 〉	실패 (시간 초과)
+테스트 6 〉	실패 (시간 초과)
+테스트 7 〉	실패 (시간 초과)
+테스트 8 〉	실패 (시간 초과)
+테스트 9 〉	실패 (시간 초과)
+테스트 10 〉	실패 (시간 초과)

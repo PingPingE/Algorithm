@@ -1,5 +1,5 @@
-check = []
-board = []
+check = []#초기: -1, 지나가면서 최댓값 저장
+board = []#실제 값
 def solution(triangle):
     global check,board
     board = [[] for _ in range(len(triangle))]
