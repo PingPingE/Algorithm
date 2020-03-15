@@ -1,0 +1,35 @@
+from collections import defaultdict, deque
+d = defaultdict(set)
+done = set()
+done.add(1)
+def solution(n, edge):
+    global d
+    for i, j in edge:
+        # 양방향
+        d[i].add(j)
+        d[j].add(i)
+    return sol(d[1])
+
+def sol(target):
+    global d,done
+    done |=target
+    tmp = set()
+    for t in target:
+        tmp |= d[t]
+    tmp-=done
+    if len(tmp)>0:
+        return sol(tmp)
+    else:
+        return len(target)
+
+
+정확성  테스트
+테스트 1 〉	통과 (0.04ms, 10.7MB)
+테스트 2 〉	통과 (0.05ms, 10.8MB)
+테스트 3 〉	통과 (0.07ms, 10.6MB)
+테스트 4 〉	통과 (0.32ms, 10.9MB)
+테스트 5 〉	통과 (1.66ms, 12.1MB)
+테스트 6 〉	통과 (2.84ms, 19.1MB)
+테스트 7 〉	통과 (32.97ms, 88.9MB)
+테스트 8 〉	실패 (런타임 에러)
+테스트 9 〉	통과 (55.88ms, 125MB)
