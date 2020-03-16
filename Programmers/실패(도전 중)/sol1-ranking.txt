@@ -1,0 +1,52 @@
+d = {}
+def win(s, target):
+    global d
+    if len(target) == 0 or target in s:#이긴사람이 없거나 done이면
+        return s
+    for t in target:
+        s.add(t)
+        s |= win(s, d[t][0])  # 이긴사람의 이긴사람 파고들기
+    return s
+
+
+def lose(s, target):
+    global d
+    if len(target) == 0 or target in s:  # 진사람이 없거나 done이면
+        return s
+    for t in target:
+        s.add(t)
+        s |= lose(s, d[t][1])  # 진사람의 진사람 파고들기
+    return s
+
+def solution(n, results):
+    answer = 0
+    global d
+    d = {i: [set(), set()] for i in range(1, n + 1)}
+    # key: 선수 번호
+    # value[0]: key선수가 이긴 선수들, value[1]: key선수가 이기지 못한 선수들
+    for i, j in results:
+        d[i][0].add(j)  # 이김
+        d[j][1].add(i)  # 짐
+
+    for k, v in d.items():
+        # 이긴 사람 타고 들어가기
+        v[0] |= win(set(), v[0])
+        # 진 사람 타고 들어가기
+        v[1] |=lose(set(), v[1])
+        #print(k, v)
+        if len(v[0]) + len(v[1]) == n - 1:
+            answer += 1
+
+    return answer
+
+정확성  테스트
+테스트 1 〉	통과 (0.06ms, 10.7MB)
+테스트 2 〉	통과 (0.11ms, 10.6MB)
+테스트 3 〉	통과 (0.57ms, 10.7MB)
+테스트 4 〉	통과 (0.08ms, 10.7MB)
+테스트 5 〉	실패 (시간 초과)
+테스트 6 〉	실패 (시간 초과)
+테스트 7 〉	실패 (시간 초과)
+테스트 8 〉	실패 (시간 초과)
+테스트 9 〉	실패 (시간 초과)
+테스트 10 〉	실패 (시간 초과)
