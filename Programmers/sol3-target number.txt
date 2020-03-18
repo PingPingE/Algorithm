@@ -18,3 +18,5 @@ def sol(current,  numbers, target):
 테스트 6 〉	통과 (0.74ms, 10.6MB) #sol2 : 0.78
 테스트 7 〉	통과 (0.39ms, 10.7MB) #sol2 : 0.43
 테스트 8 〉	통과 (2.88ms, 10.7MB) #sol2 : 3.52
+
+-> sol1~3 중에서 가장 빠르다.

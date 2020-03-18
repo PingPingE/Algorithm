@@ -1,4 +1,4 @@
-from collections import deque, Counter
+from collections import Counter
 def solution(n, computers):
     dic = {i:i for i in range(n)}
     for i in range(n):
