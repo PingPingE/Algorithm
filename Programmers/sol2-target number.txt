@@ -1,5 +1,5 @@
 def solution(numbers, target):
-    answer = sol(0,0, numbers, target)
+    answer = sol(0,0, numbers, target)#연산결과,연산횟수,number,target
     return answer
 
 def sol(current, cnt, numbers, target):
@@ -19,7 +19,7 @@ def sol(current, cnt, numbers, target):
 테스트 8 〉	통과 (3.52ms, 10.8MB)
 
 
-#다른 사람 코드
+#다른 사람 코드-----------------------------------------------------------------------------
 
 def solution(numbers, target):
     if not numbers and target == 0 : #시작이 0인 값에서부터 연산을 통해 == target이 아닌, target부터 연산을 시작해서 0이 되게함
@@ -29,3 +29,14 @@ def solution(numbers, target):
     else:
         return solution(numbers[1:], target-numbers[0]) + solution(numbers[1:], target+numbers[0]) 
 #numbers list의 첫번째 값을 뒤 연산에 쓰면서 numbers의 길이를 하나씩 줄여나감 
+
+정확성  테스트
+테스트 1 〉	통과 (388.68ms, 10.6MB)
+테스트 2 〉	통과 (378.94ms, 10.7MB)
+테스트 3 〉	통과 (0.42ms, 10.6MB)
+테스트 4 〉	통과 (1.53ms, 10.6MB)
+테스트 5 〉	통과 (12.06ms, 10.7MB)
+테스트 6 〉	통과 (0.79ms, 10.7MB)
+테스트 7 〉	통과 (0.42ms, 10.8MB)
+테스트 8 〉	통과 (3.06ms, 10.7MB)
+#속도는 별 차이 없는 듯하다.

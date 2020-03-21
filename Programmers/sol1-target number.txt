@@ -1,4 +1,5 @@
 from collections import deque
+#직관적인 방법이지만 효율성은 떨어짐
 def solution(numbers, target):
     answer = 0
     que = deque()
