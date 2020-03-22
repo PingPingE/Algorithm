@@ -1,0 +1,40 @@
+from collections import Counter, defaultdict
+n = 0
+def solution(citations):
+    global n
+    m = defaultdict(int)  # 인용횟수 count
+    n = len(citations)
+    for c in citations:
+        m[c] += 1
+    return sol(sorted(citations)[-1], sorted(list(m.items()), reverse=True, key=lambda x: x[0]), 0)
+def sol(h, m, cnt):
+    global n
+    t_cnt = 0
+    for k, v in m:
+        if k >= h:
+            cnt += v
+            t_cnt += 1
+        else:
+            break
+    if cnt >= h and n - cnt <= h:
+        return h
+    return sol(h - 1, m[t_cnt:], cnt)
+
+
+정확성  테스트
+테스트 1 〉	실패 (런타임 에러)
+테스트 2 〉	실패 (런타임 에러)
+테스트 3 〉	실패 (런타임 에러)
+테스트 4 〉	실패 (런타임 에러)
+테스트 5 〉	실패 (런타임 에러)
+테스트 6 〉	실패 (런타임 에러)
+테스트 7 〉	실패 (런타임 에러)
+테스트 8 〉	실패 (런타임 에러)
+테스트 9 〉	실패 (런타임 에러)
+테스트 10 〉	실패 (런타임 에러)
+테스트 11 〉	실패 (런타임 에러)
+테스트 12 〉	실패 (런타임 에러)
+테스트 13 〉	실패 (런타임 에러)
+테스트 14 〉	실패 (런타임 에러)
+테스트 15 〉	실패 (런타임 에러)
+테스트 16 〉	통과 (0.05ms, 10.8MB)
