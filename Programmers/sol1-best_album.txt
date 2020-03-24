@@ -1,0 +1,94 @@
+from collections import defaultdict
+def solution(genres, plays):
+    m = defaultdict(list)
+    total = defaultdict(int)
+    for e,g in enumerate(genres):
+        m[g].append(e)
+        total[g] += plays[e]
+    answer = []
+    for k,v in sorted(m.items(), key = lambda x: total[x[0]], reverse= True):
+        cnt = 0
+        for i in sorted(v, key = lambda x: plays[x], reverse = True):
+            cnt += 1
+            answer.append(i)
+            if cnt ==2:
+                break
+    
+    return answer
+
+정확성  테스트
+테스트 1 〉	통과 (0.05ms, 10.7MB)
+테스트 2 〉	통과 (0.05ms, 10.7MB)
+테스트 3 〉	통과 (0.05ms, 10.6MB)
+테스트 4 〉	통과 (0.05ms, 10.8MB)
+테스트 5 〉	통과 (0.08ms, 10.7MB)
+테스트 6 〉	통과 (0.08ms, 10.7MB)
+테스트 7 〉	통과 (0.07ms, 10.7MB)
+테스트 8 〉	통과 (0.06ms, 10.7MB)
+테스트 9 〉	통과 (0.05ms, 10.8MB)
+테스트 10 〉	통과 (0.12ms, 10.7MB)
+테스트 11 〉	통과 (0.05ms, 10.8MB)
+테스트 12 〉	통과 (0.07ms, 10.9MB)
+테스트 13 〉	통과 (0.08ms, 10.8MB)
+테스트 14 〉	통과 (0.08ms, 10.7MB)
+테스트 15 〉	통과 (0.05ms, 10.7MB)
+
+#---------------방법은 똑같지만 좀 더 짧게 정리한 코드-----------------------------------
+
+from collections import defaultdict
+from operator import itemgetter #itemgetter 처음으로 써봄
+def solution(genres, plays):
+    m,total,answer = defaultdict(list),defaultdict(int),[]
+    for e,g in enumerate(genres):
+        m[g].append((plays[e],e))
+        total[g] += plays[e]
+    for k,v in sorted(m.items(), key = lambda x: total[x[0]], reverse= True):
+        answer.extend([i[1] for i in sorted(v, key =itemgetter(0), reverse = True)[:2]])
+    return answer
+
+정확성  테스트
+테스트 1 〉	통과 (0.05ms, 10.8MB)
+테스트 2 〉	통과 (0.05ms, 10.7MB)
+테스트 3 〉	통과 (0.05ms, 10.7MB)
+테스트 4 〉	통과 (0.05ms, 10.8MB)
+테스트 5 〉	통과 (0.08ms, 10.8MB)
+테스트 6 〉	통과 (0.08ms, 10.8MB)
+테스트 7 〉	통과 (0.07ms, 10.7MB)
+테스트 8 〉	통과 (0.06ms, 10.8MB)
+테스트 9 〉	통과 (0.05ms, 10.8MB)
+테스트 10 〉	통과 (0.09ms, 10.6MB)
+테스트 11 〉	통과 (0.05ms, 10.8MB)
+테스트 12 〉	통과 (0.07ms, 10.8MB)
+테스트 13 〉	통과 (0.08ms, 10.7MB)
+테스트 14 〉	통과 (0.09ms, 10.8MB)
+테스트 15 〉	통과 (0.05ms, 10.7MB)
+
+#--------------itemgetter 대신 lambda x---------------------------------------------
+from collections import defaultdict
+def solution(genres, plays):
+    m,total,answer = defaultdict(list),defaultdict(int),[]
+    for e,g in enumerate(genres):
+        m[g].append((plays[e],e))
+        total[g] += plays[e]
+    for k,v in sorted(m.items(), key = lambda x: total[x[0]], reverse= True):
+        answer.extend([i[1] for i in sorted(v, key =lambda x: x[0], reverse = True)[:2]])
+    return answer
+
+정확성  테스트
+테스트 1 〉	통과 (0.07ms, 10.7MB)
+테스트 2 〉	통과 (0.05ms, 10.7MB)
+테스트 3 〉	통과 (0.05ms, 10.9MB)
+테스트 4 〉	통과 (0.04ms, 10.7MB)
+테스트 5 〉	통과 (0.08ms, 10.8MB)
+테스트 6 〉	통과 (0.08ms, 10.8MB)
+테스트 7 〉	통과 (0.07ms, 10.8MB)
+테스트 8 〉	통과 (0.07ms, 10.7MB)
+테스트 9 〉	통과 (0.05ms, 10.7MB)
+테스트 10 〉	통과 (0.09ms, 10.7MB)
+테스트 11 〉	통과 (0.06ms, 10.7MB)
+테스트 12 〉	통과 (0.07ms, 10.8MB)
+테스트 13 〉	통과 (0.08ms, 10.7MB)
+테스트 14 〉	통과 (0.08ms, 10.9MB)
+테스트 15 〉	통과 (0.05ms, 10.7MB)
+
+#사실 list크기가 커지면 커질수록 itemgetter의 성능이 더 좋다고한다.
