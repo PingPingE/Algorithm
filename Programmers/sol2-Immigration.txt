@@ -1,0 +1,33 @@
+def solution(n, times):
+    times.sort()
+    low,high = times[0], times[-1]*n #최소, 최대 시간
+    ans = 0
+    while low<=high:
+        mid = (low+high)//2
+        t_sum = 0
+        for t in times:
+            t_sum += mid//t #mid 시간동안 각 심사대의 심사 가능 인원
+            if t_sum >=n:
+                break
+        # if t_sum == n: #이전에는 n이랑 같으면 ans에 저장했다
+        #     ans = mid
+        #     high = mid-1
+        # elif t_sum > n:
+        #     high = mid-1
+        if t_sum >= n: #하지만 생각해보니 나의 방법은 사람 한명,한명씩 대입 해보는게 아니라서 n에 딱 떨어지지 않더라도 ans에 저장해놓아야한다.
+            high = mid-1
+            ans = mid
+        else:
+            low = mid+1
+    return ans
+
+정확성  테스트
+테스트 1 〉	통과 (0.04ms, 10.6MB)
+테스트 2 〉	통과 (0.11ms, 10.8MB)
+테스트 3 〉	통과 (3.70ms, 10.8MB)
+테스트 4 〉	통과 (140.40ms, 84.2MB)
+테스트 5 〉	통과 (367.89ms, 83.9MB)
+테스트 6 〉	통과 (205.70ms, 83.3MB)
+테스트 7 〉	통과 (410.60ms, 83.9MB)
+테스트 8 〉	통과 (549.56ms, 85.5MB)
+테스트 9 〉	통과 (0.06ms, 10.6MB)

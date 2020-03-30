@@ -1,0 +1,30 @@
+def solution(n, times):
+    times.sort()
+    low,high = times[0], times[-1]*n#최소, 최대 시간
+    ans = 0
+    while low<=high:
+        mid = (low+high)//2
+        t_sum = 0
+        for t in times:
+            t_sum += mid//t#mid 시간동안 각 심사대의 심사 가능 인원
+            # if t_sum >=n:
+            #     break
+        if t_sum >= n:
+            high = mid-1
+            ans = mid
+        else:
+            low = mid+1
+    return ans
+
+테스트 1 〉	통과 (0.05ms, 10.6MB)
+테스트 2 〉	통과 (0.13ms, 10.7MB)
+테스트 3 〉	통과 (3.88ms, 10.8MB)	[sol2와 비교]
+테스트 4 〉	통과 (367.91ms, 85.1MB)  <-> 140.40ms
+테스트 5 〉	통과 (488.20ms, 84.3MB)  <-> 367.89ms
+테스트 6 〉	통과 (273.62ms, 83.7MB)  <-> 205.70ms
+테스트 7 〉	통과 (643.33ms, 85.3MB)	<-> 410.60ms
+테스트 8 〉	통과 (664.26ms, 83.8MB)  <-> 549.56ms
+테스트 9 〉	통과 (0.07ms, 10.7MB)
+
+-> sol2와 다른 점은, 각 심사대의 심사 가능 인원의 합을 구하는 for문에서 t_sum이 n 이상인지 체크하는 if문을 없앤 것이다.
+확실히 인풋이 클수록(테스트4~8) 속도 차이가 크다.

@@ -1,0 +1,33 @@
+def solution(citations):
+    citations.sort()
+    t_low = 0
+    t_high = citations[-1]
+    answer = 0
+    while t_high >= t_low:
+        t_mid = (t_low+t_high)//2
+        down = set(i for i in range(t_mid+1))&set(j for j in citations if j<t_mid)
+        up = set(i for i in range(t_mid,citations[-1]+1))&set(j for j in citations if j >= t_mid)
+        if len(down)< t_mid and len(up) >= t_mid:
+            answer = t_mid
+            t_low = t_mid+1
+        else:
+            t_high = t_mid-1
+    return answer
+
+정확성  테스트
+테스트 1 〉	실패 (10.77ms, 11.7MB)
+테스트 2 〉	실패 (10.78ms, 11.7MB)
+테스트 3 〉	실패 (10.79ms, 11.6MB)
+테스트 4 〉	실패 (9.96ms, 11.7MB)
+테스트 5 〉	실패 (11.03ms, 11.7MB)
+테스트 6 〉	실패 (9.70ms, 11.7MB)
+테스트 7 〉	실패 (9.84ms, 11.6MB)
+테스트 8 〉	실패 (8.36ms, 11.4MB)
+테스트 9 〉	실패 (8.60ms, 11.5MB)
+테스트 10 〉	실패 (9.39ms, 11.7MB)
+테스트 11 〉	실패 (10.27ms, 11.7MB)
+테스트 12 〉	통과 (8.42ms, 11.4MB)
+테스트 13 〉	실패 (10.11ms, 11.7MB)
+테스트 14 〉	실패 (10.18ms, 11.7MB)
+테스트 15 〉	실패 (11.03ms, 11.8MB)
+테스트 16 〉	통과 (0.04ms, 10.7MB)

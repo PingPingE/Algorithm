@@ -1,0 +1,30 @@
+def solution(n, times):
+    times.sort()
+    low,high = n, times[-1]*n#최소, 최대 시간
+    answer = 0
+    while low<=high:
+        mid = (low+high)//2
+        t_sum = 0
+        for t in times:
+            t_sum += mid//t#mid 시간동안 각 심사대의 심사 가능 인원
+            if t_sum>=n:
+                break
+        if t_sum == n:
+            answer = mid
+            high = mid-1 
+        elif t_sum > n:
+            high = mid-1
+        else:
+            low = mid+1
+    return answer
+
+정확성  테스트
+테스트 1 〉	통과 (0.04ms, 10.8MB)
+테스트 2 〉	통과 (0.10ms, 10.8MB)
+테스트 3 〉	통과 (3.59ms, 10.8MB)
+테스트 4 〉	통과 (146.19ms, 83.9MB)
+테스트 5 〉	통과 (410.82ms, 84.4MB)
+테스트 6 〉	실패 (27.79ms, 83.3MB)
+테스트 7 〉	통과 (460.18ms, 85.2MB)
+테스트 8 〉	통과 (534.92ms, 84.2MB)
+테스트 9 〉	실패 (0.19ms, 10.7MB)
