@@ -50,7 +50,7 @@ def solution(budgets, M):
 테스트 4 〉	통과 (0.14ms, 11.1MB)
 테스트 5 〉	통과 (0.22ms, 11.4MB)
 
-#------------코드 정리...-------------
+#------------좀 더 간단한 방법-------------
 def solution(budgets, M):
     if sum(budgets) <=M:
         return max(budgets)
