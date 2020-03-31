@@ -43,3 +43,42 @@ def solution(n, results):
 테스트 8 〉	통과 (51.32ms, 13.8MB)
 테스트 9 〉	통과 (64.35ms, 16.3MB)
 테스트 10 〉	통과 (34.68ms, 17.5MB)
+
+#-------굳이 없어도 되는거 삭제---------------------
+def solution(n, results):
+    if n<3:
+        return n
+    dic = {r:[set(),set()] for r in range(1,n+1)}
+    ans = set()
+    for w, l in results:
+        dic[w][0].add(l)
+        dic[l][1].add(w)
+        
+    warn = 0
+    while warn <2:
+        tmp = len(ans)
+        for k,v in dic.items():
+            win_s = set()|v[0]
+            lose_s = set()|v[1]
+            for win in v[0]:
+                win_s = dic[win][0]|win_s
+            for lose in v[1]:
+                lose_s = dic[lose][1]|lose_s
+            if len(win_s) + len(lose_s) == n-1:
+                ans.add(k)
+            dic[k] = [win_s, lose_s]
+        if tmp==len(ans):
+            warn += 1
+    return len(ans)
+
+정확성  테스트
+테스트 1 〉	통과 (0.07ms, 10.9MB)
+테스트 2 〉	통과 (0.11ms, 10.7MB)
+테스트 3 〉	통과 (0.15ms, 10.8MB)
+테스트 4 〉	통과 (0.09ms, 10.7MB)
+테스트 5 〉	통과 (1.93ms, 10.9MB)
+테스트 6 〉	통과 (3.55ms, 11.1MB)
+테스트 7 〉	통과 (22.83ms, 11.3MB)
+테스트 8 〉	통과 (48.88ms, 13.7MB)
+테스트 9 〉	통과 (64.67ms, 16.2MB)
+테스트 10 〉	통과 (50.82ms, 17.6MB)

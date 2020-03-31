@@ -49,3 +49,48 @@ def solution(budgets, M):
 테스트 3 〉	통과 (1.27ms, 12MB)
 테스트 4 〉	통과 (0.14ms, 11.1MB)
 테스트 5 〉	통과 (0.22ms, 11.4MB)
+
+#------------코드 정리...-------------
+def solution(budgets, M):
+    if sum(budgets) <=M:
+        return max(budgets)
+    budgets.sort()
+    L = 1 #최저 예산
+    R = budgets[-1]#최고 예산
+    while L <= R:
+        mid= (L+R)//2
+        total = 0
+        for e,b in enumerate(budgets):
+            if b<mid:
+                total += b
+            else:
+                total += mid*(len(budgets)-e)
+                break
+        if total <= M:
+            L = mid+1
+        else:
+            R = mid-1
+    return R
+
+정확성  테스트
+테스트 1 〉	통과 (0.04ms, 10.7MB)
+테스트 2 〉	통과 (0.04ms, 10.7MB)
+테스트 3 〉	통과 (0.04ms, 10.8MB)
+테스트 4 〉	통과 (0.06ms, 10.7MB)
+테스트 5 〉	통과 (0.06ms, 10.7MB)
+테스트 6 〉	통과 (0.06ms, 10.9MB)
+테스트 7 〉	통과 (0.03ms, 10.7MB)
+테스트 8 〉	통과 (0.04ms, 10.7MB)
+테스트 9 〉	통과 (0.06ms, 10.8MB)
+테스트 10 〉	통과 (0.06ms, 10.8MB)
+테스트 11 〉	통과 (0.04ms, 10.8MB)
+테스트 12 〉	통과 (0.12ms, 10.7MB)
+테스트 13 〉	통과 (0.04ms, 10.8MB)
+테스트 14 〉	통과 (0.08ms, 10.7MB)
+테스트 15 〉	통과 (0.03ms, 10.7MB)
+효율성  테스트
+테스트 1 〉	통과 (0.12ms, 11.1MB)
+테스트 2 〉	통과 (21.14ms, 49.7MB)
+테스트 3 〉	통과 (6.64ms, 12MB)
+테스트 4 〉	통과 (0.13ms, 11.1MB)
+테스트 5 〉	통과 (0.21ms, 11.5MB)
