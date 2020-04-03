@@ -1,0 +1,26 @@
+#최소비용으로 계단오르기(한번에 1칸 or 2칸오르기 가능)
+
+from time import time
+s1 = time()
+def sol(cur_i, cur_cost):
+    if cur_i >= len(a):
+        return 100000
+    if len(a)-2<= cur_i<=len(a)-1:
+        return cur_cost+a[cur_i]
+    return min(sol(cur_i+1, cur_cost+a[cur_i]), sol(cur_i+2, cur_cost+a[cur_i]))
+a = list(range(1,30))#30이상 올라가면 넘 오래걸림
+print(min(sol(0,0), sol(1,0)), time()-s1)
+
+#결과: 210 0.7759582996368408
+
+s2=time()
+def minCostClimbingStairs(cost): #위에꺼보다 훠어어어엉어어얼씬 빠름
+    case1,case2,current = 0,0,0#1칸씩, 2칸씩, 현재 계단에서의 최소비용
+    for i in range(len(cost)-1, -1,-1):#뒤에서 부터
+        current = cost[i] + min(case1,case2)
+        case1, case2 = current, case1 #case2는 두칸씩이니까 현재의 비용을 더하지 않은 case1을 받는 것
+    return min(case1, case2)
+a = list(range(1,10000000))
+print(minCostClimbingStairs((a)),time()-s2)
+
+#결과:24999995000000 3.5305707454681396
