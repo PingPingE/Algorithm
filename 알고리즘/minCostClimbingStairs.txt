@@ -8,7 +8,7 @@ def sol(cur_i, cur_cost):
     if len(a)-2<= cur_i<=len(a)-1:
         return cur_cost+a[cur_i]
     return min(sol(cur_i+1, cur_cost+a[cur_i]), sol(cur_i+2, cur_cost+a[cur_i]))
-a = list(range(1,30))#30이상 올라가면 넘 오래걸림
+a = list(range(1,30)) #30이상 올라가면 넘 오래걸림
 print(min(sol(0,0), sol(1,0)), time()-s1)
 
 #결과: 210 0.7759582996368408
@@ -24,3 +24,16 @@ a = list(range(1,10000000))
 print(minCostClimbingStairs((a)),time()-s2)
 
 #결과:24999995000000 3.5305707454681396
+
+s3 = time()
+def sol2(cur_i,tmp):#tmp에다가 각 칸까지의 최소 비용 저장
+    if cur_i== len(a)-1 or cur_i==len(a)-2:
+        return a[cur_i]
+    if tmp[cur_i] == -1:
+        tmp[cur_i] = a[cur_i] + min(sol2(cur_i+1,tmp) , sol2(cur_i+2,tmp))
+    return tmp[cur_i]
+a = list(range(1,3000)) #3000이상은 넘 오래걸림
+tmp = [-1 for _ in range(len(a))]
+print(min(sol2(0,tmp[:]),sol2(1,tmp[:])), time()-s3)
+
+#결과:2248500 0.03383278846740723 

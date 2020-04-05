@@ -1,4 +1,3 @@
-from collections import deque
 def rotate(board):
     tmp = [[0]*len(board) for _ in range(len(board))]
     for i in range(len(board)):
@@ -7,17 +6,18 @@ def rotate(board):
     return tmp
 
 def solution(key, lock):
-    zero = 0
     m = len(key)
     n = len(lock)
-    for i in range(n):
-        for j in range(n):
-            if lock[i][j] == 0:
-                zero += 1
+    #zero = 0  # 0의 개수를 먼저 셈
+    # for i in range(n):
+    #     for j in range(n):
+    #         if lock[i][j] == 0:
+    #             zero += 1
+    zero = len(list(filter(lambda x: x == 0, sum(lock, []))))
     for _ in range(4):
         #열쇠 시작점(i,j)
-        for i in range(-21,21):
-            for j in range(-21, 21):
+        for i in range(-m,21):
+            for j in range(-m, 21):
                 cnt = 0
                 stat = True
                 #시작점으로부터 열쇠 대입
@@ -25,7 +25,7 @@ def solution(key, lock):
                     for x in range(m):
                         ny = i+y
                         nx = j+x
-                        if ny<0 or nx<0 or ny>=n or nx>=n:
+                        if ny<0 or nx<0 or ny>=n or nx>=n:#범위 체크
                             continue
                         if lock[ny][nx] == 0 and  key[y][x] == 1:
                             cnt += 1
