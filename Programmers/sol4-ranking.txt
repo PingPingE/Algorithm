@@ -6,7 +6,7 @@ def solution(n, results):
     res= 0
     for i in range(n):#거쳐가는 노드
         for j in range(n):#시작노드
-            d[j][j] = -2
+            d[j][j] = -2 #자기자신은 -2로 표시
             if d[j][i] == -1:
                 continue
             if d[j][i] == 0:#j가 i한테 짐
