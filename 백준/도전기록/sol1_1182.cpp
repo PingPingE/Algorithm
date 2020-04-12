@@ -6,8 +6,6 @@ abs(S)<=1000000
 */
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include<string>
-#include<sstream>
 using namespace std;
 int cnt = 0;
 int arr[21];
@@ -15,7 +13,6 @@ int N, S;
 int dfs (int,bool*,int);
 int main()
 {
-	string str;
 	cin >> N >> S;
 	for (int i = 0; i < N; i++)
 	{

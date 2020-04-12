@@ -13,7 +13,6 @@ int N, S;
 void dfs (int,bool*,int);
 int main()
 {
-	string str;
 	cin >> N >> S;
 	for (int i = 0; i < N; i++)
 	{
