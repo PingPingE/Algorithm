@@ -1,3 +1,7 @@
+/*
+숫자 카드는 정수 하나가 적혀져 있는 카드이다. 상근이는 숫자 카드 N개를 가지고 있다. 정수 M개가 주어졌을 때,
+이 수가 적혀있는 숫자 카드를 상근이가 가지고 있는지 아닌지를 구하는 프로그램을 작성하시오.
+*/
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include<algorithm>
@@ -14,7 +18,7 @@ int main()
 		scanf("%d", &arr[i]);
 	sort(arr, arr + N);
 	cin >> M;
-	for (; j < M; j++)//그냥 i=0으로 초기화해주고 이 for문도 i로 돌리니 엄청 느려짐(308ms ->  576ms) -> 그냥 변수 하나 더 미리 선언해서 쓰자
+	for (; j < M; j++)//위에 쓰던i를 i=0으로 초기화해주고 이 for문에 또 i로 돌리니 엄청 느려짐(308ms ->  576ms) -> 그냥 변수 하나 더 미리 선언해서 쓰자
 	{
 		scanf("%d", &mm);
 		printf("%d ", check(mm));
