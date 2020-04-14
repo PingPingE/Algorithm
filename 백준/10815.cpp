@@ -8,7 +8,7 @@ bool check(int);
 //sol1)메모리:3936kb 시간:308ms	
 int main()
 {
-	int M, tmp, i = 0, j = 0;//for문 안에 int i=0선언해서 하는 것보다 먼저 i=0선언해주고 for문 돌리는게 더 빠름(312ms->308ms)
+	int M, mm, i = 0, j = 0;//for문 안에 int i=0선언해서 하는 것보다 먼저 i=0선언해주고 for문 돌리는게 더 빠름(312ms->308ms)
 	cin >> N;
 	for (; i < N; i++)
 		scanf("%d", &arr[i]);
@@ -16,11 +16,8 @@ int main()
 	cin >> M;
 	for (; j < M; j++)//그냥 i=0으로 초기화해주고 이 for문도 i로 돌리니 엄청 느려짐(308ms ->  576ms) -> 그냥 변수 하나 더 미리 선언해서 쓰자
 	{
-		scanf("%d", &tmp);
-		if (arr[upper_bound(arr, arr + N, tmp) - arr - 1] != tmp)
-			printf("0 ");
-		else
-			printf("1 ");
+		scanf("%d", &mm);
+		printf("%d ", check(mm));
 	}
 	return 0;
 }
@@ -56,7 +53,7 @@ cin >> M;
 for (; j < M; j++)
 {
 scanf("%d", &tmp);
-if (arr[upper_bound(arr, arr + N, tmp) - arr - 1] != tmp)//직접 이분검색 구현 대신 upper_bound 내장함수 활용
+if (arr[lower_bound(arr, arr + N, tmp) - arr] != tmp)//직접 이분검색 구현 대신 lower_bound 내장함수 활용
 printf("0 ");
 else
 printf("1 ");
