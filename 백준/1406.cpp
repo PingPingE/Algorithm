@@ -1,4 +1,5 @@
 /*
+한 줄로 된 간단한 에디터를 구현하려고 한다. 이 편집기는 영어 소문자만을 기록할 수 있는 편집기로, 최대 600,000글자까지 입력할 수 있다.
 이 편집기가 지원하는 명령어는 다음과 같다.
 
 1. L: 커서를 왼쪽으로 한 칸 옮김 (커서가 문장의 맨 앞이면 무시됨)
@@ -10,6 +11,12 @@
 초기에 편집기에 입력되어 있는 문자열이 주어지고, 그 이후 입력한 명령어가 차례로 주어졌을 때, 
 모든 명령어를 수행하고 난 후 편집기에 입력되어 있는 문자열을 구하는 프로그램을 작성하시오. 
 단, 명령어가 수행되기 전에 커서는 문장의 맨 뒤에 위치하고 있다고 한다.
+
+* 1<= N(문자열 길이)<=100,000
+* 1 <= M(명령어 개수) <= 500,000
+*시간 제한: 0.3 초
+*메모리 제한: 512mb
+
 */
 
 #define _CRT_SECURE_NO_WARNINGS
@@ -17,6 +24,51 @@
 #include<string>
 #include<list>
 using namespace std;
+int main() //20984kb	68ms
+{
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	int M;
+	string st;
+	list<char> ch_list;
+	cin >> st >> M;
+	for (int i = 0; i < st.size(); i++)
+		ch_list.push_back(st[i]);
+	list<char>::iterator it =ch_list.end();
+	while (M--)
+	{
+		char ch;
+		cin >> ch;
+		if (ch == 'P')
+		{
+			cin >> ch;
+			it = ch_list.insert(it, ch);
+			it++;
+
+		}
+		else if (ch == 'B')
+		{
+			//삭제
+			if (it != ch_list.begin())
+				it = ch_list.erase(--it);
+		}
+		else if (ch == 'L')
+		{
+			//index --
+			if (it != ch_list.begin())
+				it--;
+		}
+		else
+		{
+			//index ++
+			if (it != ch_list.end())
+				it++;
+		}
+	}
+	for (list<char>::iterator iter = ch_list.begin(); iter != ch_list.end(); iter++)
+		cout << *iter;
+	return 0;
+}
 /*
 list<char>li;
 list<char>::iterator it;
@@ -70,7 +122,8 @@ void solve(int N)
 	
 }*/
 
-//sol2) 두개의 덱큐로 구현 : 4188kb   96ms
+//sol2) 두개의 덱으로 구현 : 4188kb   96ms
+/*
 #include<deque>
 int main()
 {
@@ -129,7 +182,7 @@ int main()
 	return 0;
 }
 
-
+*/
 //다른 사람 풀이 -> 두개의 stack으로 구현: 4264kb	24ms
 /*
 #include <iostream>

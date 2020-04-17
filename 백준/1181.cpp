@@ -11,6 +11,36 @@
 #include<set>
 #include<string>
 using namespace std;
+int main()
+{
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	//위 두줄없으면 6616kb	88ms
+
+	//sol2) 6744kb  36ms(pair) ,  6748kb	44ms(tuple)
+	int N;
+	set<string>t_set;
+	pair<int, string> t[20001];
+	//tuple<int, string> t[20001];
+	string st;
+	cin >> N;
+	int j = 0;
+	while (N--)
+	{
+		cin >> st;
+		if (t_set.find(st) == t_set.end())
+		{
+			t[j] = pair<int, string>(st.size(), st);
+			//t[j] = tuple<int, string>(st.size(), st);
+			t_set.insert(st);
+			j++;
+		}
+	}
+	sort(t, t + j);
+	for (int k = 0; k < j; k++)
+		cout << get<1>(t[k]) << "\n";
+}
+/*
 int main()//4764kb, 736ms
 {
 	int N;
@@ -31,7 +61,7 @@ int main()//4764kb, 736ms
 	}
 	return 0;
 }
-
+*/
 
 //다른 사람 풀이: 4224kb, 56ms
 /*
