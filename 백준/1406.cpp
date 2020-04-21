@@ -18,8 +18,70 @@
 *메모리 제한: 512mb
 
 */
+#include<iostream>
+#include<deque>
+#include<string>
+using namespace std;
+int main()//2768kb	36ms
+{
+	cin.tie(0);
+	ios::sync_with_stdio(0);
+	int M;
+	char ch;
+	deque<char> left;
+	deque<char> right;
+	string s;
+	cin >> s;
+	for (int i = 0; i < s.size(); i++)
+		left.push_back(s[i]);
+	cin >> M;
+	while (M--)
+	{
+		cin >> ch;
+		if (ch == 'P')
+		{
+			cin >> ch;
+			left.push_back(ch);
+		}
+		else if (ch == 'L')
+		{
+			//맨앞이면 왼쪽으로 이동안함
+			if (!left.empty())
+			{
+				right.push_front(left.back());
+				left.pop_back();
+			}
+		}
+		else if (ch == 'D')
+		{
+			//맨 뒤면 오른쪽으로 이동안함
+			if (!right.empty())
+			{
+				left.push_back(right.front());
+				right.pop_front();
+			}
+		}
+		else//B
+		{
+			//맨앞이면 삭제안함
+			if (!left.empty())
+				left.pop_back();
+		}
+	}
+	while (!left.empty())
+	{
+		cout << left.front();
+		left.pop_front();
+	}
+	while (!right.empty())
+	{
+		cout << right.front();
+		right.pop_front();
+	}
 
-#define _CRT_SECURE_NO_WARNINGS
+	return 0;
+}
+/*
 #include<iostream>
 #include<string>
 #include<list>
@@ -69,6 +131,8 @@ int main() //20984kb	68ms
 		cout << *iter;
 	return 0;
 }
+
+*/
 /*
 list<char>li;
 list<char>::iterator it;
@@ -183,68 +247,3 @@ int main()
 }
 
 */
-//다른 사람 풀이 -> 두개의 stack으로 구현: 4264kb	24ms
-/*
-#include <iostream>
-#include <stack>
-#include <queue>
-#include <algorithm>
-using namespace std;
-#define endl '\n'
-
-int main()
-{
-	// Set up : I/O
-	ios::sync_with_stdio(false);
-	cin.tie(nullptr);
-
-	// Set up : Input
-	string S; cin >> S;
-
-	// Process
-	stack<char> left; //스택 두개로 구현
-	stack<char> right;
-	for (auto &letter : S) { left.push(letter); }
-
-	int M; cin >> M;
-
-	while (M--) {
-		char cmd; cin >> cmd;
-
-		if (cmd == 'L') {
-			if (not(left.empty())) {
-				right.push(left.top());
-				left.pop();
-			}
-		}
-		else if (cmd == 'D') {
-			if (not(right.empty())) {
-				left.push(right.top());
-				right.pop();
-			}
-		}
-		else if (cmd == 'B') {
-			if (not(left.empty())) {
-				left.pop();
-			}
-		}
-		else if (cmd == 'P') {
-			char ch; cin >> ch;
-			left.push(ch);
-		}
-	}
-
-	// Control : Output
-	string str_left;
-	while (not(left.empty())) {
-		str_left.push_back(left.top());
-		left.pop();
-	}
-	reverse(str_left.begin(), str_left.end()); //주의: 왼쪽은 꺼낸다음 reverse해줘야함 (오른쪽은 그대로)
-	string str_right;
-	while (not(right.empty())) {
-		str_right.push_back(right.top());
-		right.pop();
-	}
-	cout << str_left + str_right << endl;
-}*/
