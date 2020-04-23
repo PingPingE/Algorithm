@@ -1,6 +1,43 @@
 #include<iostream>
 using namespace std;
-bool check(int, int);
+int N;
+void sol(int);
+int res;
+bool check(int);
+int rc[16] = { 0 };
+void main()//4936ms
+{
+	res = 0;
+	cin >> N;
+	sol(0);
+	cout << res;
+}
+
+void sol(int row)
+{
+	for (int i = 0; i < N; i++)
+	{
+		rc[row] = i;
+		if (check(row))
+		{
+			if (row == N - 1)
+				res++;
+			else
+				sol(row + 1);
+		}
+	}
+}
+
+bool check(int r)
+{
+	for (int k = 0; k < r; k++)//row
+	{
+		if (abs(rc[k] - rc[r]) == abs(k - r) || rc[k] == rc[r])
+			return 0;
+	}
+	return 1;
+}
+/*bool check(int, int);
 void dfs(int, int);
 int n, sum = 0;
 bool board[16][16] = { 0, };
@@ -48,4 +85,4 @@ bool check(int y, int x)
 			return 0;
 	}
 	return 1;
-}
+}*/
