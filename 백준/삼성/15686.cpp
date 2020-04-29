@@ -1,11 +1,11 @@
 /*
 치킨 배달
 
-크기가 N×N인 도시가 있다. 도시는 1×1크기의 칸으로 나누어져 있다. 도시의 각 칸은 빈 칸, 치킨집, 집 중 하나이다. 
+크기가 N×N인 도시가 있다. 도시는 1×1크기의 칸으로 나누어져 있다. 도시의 각 칸은 빈 칸, 치킨집, 집 중 하나이다.
 도시의 칸은 (r, c)와 같은 형태로 나타내고, r행 c열 또는 위에서부터 r번째 칸, 왼쪽에서부터 c번째 칸을 의미한다. r과 c는 1부터 시작한다.
 
-이 도시에 사는 사람들은 치킨을 매우 좋아한다. 따라서, 사람들은 "치킨 거리"라는 말을 주로 사용한다. 
-치킨 거리는 집과 가장 가까운 치킨집 사이의 거리이다. 
+이 도시에 사는 사람들은 치킨을 매우 좋아한다. 따라서, 사람들은 "치킨 거리"라는 말을 주로 사용한다.
+치킨 거리는 집과 가장 가까운 치킨집 사이의 거리이다.
 즉, 치킨 거리는 집을 기준으로 정해지며, 각각의 집은 치킨 거리를 가지고 있다. 도시의 치킨 거리는 모든 집의 치킨 거리의 합이다.
 
 임의의 두 칸 (r1, c1)과 (r2, c2) 사이의 거리는 |r1-r2| + |c1-c2|로 구한다.
@@ -21,6 +21,7 @@ struct RC
 {
 	int y, x;
 };
+//1. 구조체를 만들어서 배열 만들기
 RC chicken[14];
 RC house[101];
 int res = INF;
@@ -29,7 +30,7 @@ int main() //1988kb	132ms
 {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
-	int N, M, tmp, h= 0, c= 0; // h: 집 인덱스, c: 치킨집 인덱스
+	int N, M, tmp, h = 0, c = 0; // h: 집 인덱스, c: 치킨집 인덱스
 	cin >> N >> M;
 	for (int i = 0; i < N; i++)
 	{
@@ -39,18 +40,19 @@ int main() //1988kb	132ms
 			if (tmp == 1)
 			{
 				RC  tmp_h = { i,j };
-				house[h++] = tmp_h;
+				house[h++] = tmp_h;//2. 배열에 넣기
 			}
 			else if (tmp == 2)
 			{
 				RC tmp_c = { i,j };
-				chicken[c++] = tmp_c;
+				chicken[c++] = tmp_c;//2. 배열에 넣기
 			}
 		}
 	}
-	for (int k = 0; k <(1<<c); k++)
+	//3. 비트연산으로 모든 조합 구하기
+	for (int k = 0; k <(1 << c); k++)
 	{
-		if (countBit(k) >=1 && countBit(k) <= M)
+		if (countBit(k) >= 1 && countBit(k) <= M)
 		{
 			int sum = 0;
 			map<int, int> map_house;//house의 인덱스, 이번 조합에서의 치킨거리
@@ -62,13 +64,14 @@ int main() //1988kb	132ms
 				{
 					int chy = chicken[g].y;
 					int chx = chicken[g].x;
-					
+					//4. 선택된 치킨집 중 가장 가까운 거리를 저장(계속 갱신) 
 					for (int d = 0; d < h; d++)
 					{
 						map_house[d] = min(map_house[d], abs(chy - house[d].y) + abs(chx - house[d].x));
 					}
 				}
 			}
+			//5. 이번 조합에서의 치킨거리 구하기
 			for (int t_h = 0; t_h < h; t_h++)
 			{
 				sum += map_house[t_h];
@@ -84,7 +87,7 @@ int countBit(int num)
 	int cnt = 0;
 	while (num) {
 		if (num & 1)
-			cnt+=1;
+			cnt += 1;
 		num = num >> 1;
 	}
 	return cnt;
