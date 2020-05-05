@@ -1,0 +1,36 @@
+def solution(distance, rocks, n):
+    answer = 0
+    rocks.sort()
+    rocks = [0] + rocks[:] + [distance]
+    target_cnt = len(rocks) - n
+    right = distance
+    left = 0
+    while right>= left:
+        #mid 거리 이상인 지점의 개수가 target_cnt 이상인가?
+        mid  = (right+left)//2
+        cnt = 1
+        s,e = 0, 1
+        while e<len(rocks):
+            if rocks[e] - rocks[s] >= mid:
+                cnt += 1
+                s=e
+            e += 1
+        if cnt >=target_cnt:
+            left =mid +1
+            answer = mid
+        else:
+            right = mid-1
+    return answer
+
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.43ms, 10.8MB)
+테스트 2 〉	통과 (0.44ms, 10.8MB)
+테스트 3 〉	통과 (0.49ms, 10.8MB)
+테스트 4 〉	통과 (22.47ms, 11.4MB)
+테스트 5 〉	통과 (20.61ms, 11.4MB)
+테스트 6 〉	통과 (206.45ms, 45MB)
+테스트 7 〉	통과 (267.43ms, 45.5MB)
+테스트 8 〉	통과 (279.49ms, 46.7MB)
+테스트 9 〉	통과 (0.04ms, 10.7MB)
+'''
