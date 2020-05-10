@@ -20,7 +20,7 @@
 #include<algorithm>
 #include<vector>
 using namespace std;
-vector<long long> tree; //
+vector<long long> tree; //long long 주의
 //14400kb	200ms
 int main()
 {

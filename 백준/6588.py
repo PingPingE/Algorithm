@@ -17,6 +17,7 @@
 import sys
 prime ={}
 check = [0 for _ in range(1000005)]
+#에라토스테네스의 체
 for i in range(2,1000001):
     if check[i]:
         continue
