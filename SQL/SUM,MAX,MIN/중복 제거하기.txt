@@ -1,0 +1,5 @@
+-- 동물 보호소에 들어온 동물의 이름은 몇 개인지 조회하는 SQL 문을 작성해주세요. 이때 이름이 NULL인 경우는 집계하지 않으며 중복되는 이름은 하나로 칩니다.
+SELECT COUNT(DISTINCT(IF(NAME='',NULL,NAME))) from ANIMAL_INS
+-- COUNT(*) 은 NULL값도 카운트
+-- COUNT(속성값)은 NULL값을 제외하고 모두 카운트
+-- 하지만 NULL이 아닌 그냥 ''빈값이라면 COUNT에 들어가버림 -> COUNT(IF(속성이름='',NULL,속성이름)) 이렇게하면 괜춘
