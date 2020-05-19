@@ -1,0 +1,8 @@
+-- 보호소에서는 몇 시에 입양이 가장 활발하게 일어나는지 알아보려 합니다. 0시부터 23시까지, 각 시간대별로 입양이 몇 건이나 발생했는지 조회하는 SQL문을 작성해주세요. 이때 결과는 시간대 순으로 정렬해야 합니다.
+
+SET @N = -1; -- 변수 선언 및 초기화
+SELECT @N := @N + 1 AS N,  -- 변수N을 계속 +1시켜줌 + AS N (이거 꼭 필요) 
+(SELECT COUNT(*) FROM ANIMAL_OUTS WHERE HOUR(DATETIME) = N) 
+FROM ANIMAL_OUTS
+GROUP BY N
+HAVING N BETWEEN 0 AND 23
