@@ -1,0 +1,7 @@
+-- ANIMAL_OUTS 테이블의 ANIMAL_ID는 ANIMAL_INS의 ANIMAL_ID의 외래 키입니다. 관리자의 실수로 일부 동물의 입양일이 잘못 입력되었습니다. 보호 시작일보다 입양일이 더 빠른 동물의 아이디와 이름을 조회하는 SQL문을 작성해주세요. 이때 결과는 보호 시작일이 빠른 순으로 조회해야합니다.
+SELECT A_OUT.ANIMAL_ID , A_OUT.NAME 
+FROM ANIMAL_OUTS AS A_OUT 
+JOIN ANIMAL_INS AS A_IN
+ON A_OUT.ANIMAL_ID = A_IN.ANIMAL_ID -- JOIN 기준
+WHERE A_OUT.DATETIME < A_IN.DATETIME -- SELECT 기준
+ORDER BY A_IN.DATETIME -- 보호시작일이 빠른 순

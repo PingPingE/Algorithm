@@ -1,0 +1,8 @@
+-- 아직 입양을 못 간 동물 중, 가장 오래 보호소에 있었던 동물 3마리의 이름과 보호 시작일을 조회하는 SQL문을 작성해주세요. 이때 결과는 보호 시작일 순으로 조회해야 합니다.
+SELECT A_IN.NAME, A_IN.DATETIME 
+FROM ANIMAL_OUTS AS A_OUT 
+RIGHT JOIN ANIMAL_INS AS A_IN 
+ON A_OUT.ANIMAL_ID = A_IN.ANIMAL_ID -- ID를 기준으로 A_OUT과 A_IN의 교집합 + A_IN 나머지
+WHERE A_OUT.ANIMAL_ID IS NULL -- A_OUT의 ID가 NULL인 것(JOIN수행 후 연결되지 않은 부분)만 검색
+ORDER BY A_IN.DATETIME 
+LIMIT 3 -- 3마리만 조회 

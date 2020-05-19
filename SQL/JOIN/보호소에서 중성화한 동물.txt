@@ -1,0 +1,7 @@
+-- ANIMAL_OUTS 테이블의 ANIMAL_ID는 ANIMAL_INS의 ANIMAL_ID의 외래 키입니다. 보호소에서 중성화 수술을 거친 동물 정보를 알아보려 합니다. 보호소에 들어올 당시에는 중성화1되지 않았지만, 보호소를 나갈 당시에는 중성화된 동물의 아이디와 생물 종, 이름을 조회하는 아이디 순으로 조회하는 SQL 문을 작성해주세요.
+SELECT A_OUT.ANIMAL_ID, A_OUT.ANIMAL_TYPE, A_OUT.NAME 
+FROM ANIMAL_OUTS AS A_OUT 
+LEFT JOIN ANIMAL_INS AS A_IN
+ON A_OUT.ANIMAL_ID = A_IN.ANIMAL_ID -- JOIN 기준
+WHERE A_OUT.SEX_UPON_OUTCOME != A_IN.SEX_UPON_INTAKE -- SELECT 기준
+ORDER BY A_OUT.ANIMAL_ID
