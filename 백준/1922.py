@@ -41,7 +41,7 @@ links = {i:i for i in range(1,N+1)}
 que = []
 heapq.heapify(que)
 ans = 0
-cnt =0 #연결한 노드 개수 count해서 N-1이면 중단하기 위함 (추가 후 712ms -> 340ms)
+cnt =0 #연결한 간선 개수 count해서 N-1이면 중단하기 위함 (추가 후 712ms -> 340ms)
 for _ in range(M):
     a,b,c = map(int,sys.stdin.readline().split())
     heapq.heappush(que,[c,a,b])#비용, a컴, b컴
