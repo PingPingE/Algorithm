@@ -18,7 +18,8 @@ a컴퓨터와 b컴퓨터를 연결하는데 비용이 c (1 ≤ c ≤ 10,000) 만
 출력)
 모든 컴퓨터를 연결하는데 필요한 최소비용을 첫째 줄에 출력한다.
 '''
-#137820kb	712ms
+#137432kb	340ms(cnt 추가 후)
+#137820kb	712ms(cnt 추가 전)
 import sys,heapq
 def find(x,links): #부모찾기
     if links[x] == x:
@@ -40,7 +41,7 @@ links = {i:i for i in range(1,N+1)}
 que = []
 heapq.heapify(que)
 ans = 0
-
+cnt =0 #연결한 노드 개수 count해서 N-1이면 중단하기 위함 (추가 후 712ms -> 340ms)
 for _ in range(M):
     a,b,c = map(int,sys.stdin.readline().split())
     heapq.heappush(que,[c,a,b])#비용, a컴, b컴
@@ -52,5 +53,6 @@ while que:
     else:
         union(from_, to_, links)
         ans += cost
-
+        cnt += 1
+    if cnt == N-1:break
 print(ans)
