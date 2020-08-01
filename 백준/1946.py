@@ -1,42 +1,53 @@
-#서류, 면접성적을 모두 비교했을 때 둘 다 밀리는 경쟁자가 있으면 탈락
+'''
+문제)
+언제나 최고만을 지향하는 굴지의 대기업 진영 주식회사가 신규 사원 채용을 실시한다.
+인재 선발 시험은 1차 서류심사와 2차 면접시험으로 이루어진다.
+최고만을 지향한다는 기업의 이념에 따라 그들은 최고의 인재들만을 사원으로 선발하고 싶어 한다.
+
+그래서 진영 주식회사는, 다른 모든 지원자와 비교했을 때 서류심사 성적과 면접시험 성적 중 적어도 하나가 다른 지원자보다 떨어지지 않는 자만 선발한다는 원칙을 세웠다.
+즉, 어떤 지원자 A의 성적이 다른 어떤 지원자 B의 성적에 비해 서류 심사 결과와 면접 성적이 모두 떨어진다면 A는 결코 선발되지 않는다.
+
+이러한 조건을 만족시키면서, 진영 주식회사가 이번 신규 사원 채용에서 선발할 수 있는 신입사원의 최대 인원수를 구하는 프로그램을 작성하시오.
+
+입력)
+첫째 줄에는 테스트 케이스의 개수 T(1 ≤ T ≤ 20)가 주어진다. 각 테스트 케이스의 첫째 줄에 지원자의 숫자 N(1 ≤ N ≤ 100,000)이 주어진다.
+둘째 줄부터 N개 줄에는 각각의 지원자의 서류심사 성적, 면접 성적의 순위가 공백을 사이에 두고 한 줄에 주어진다.
+두 성적 순위는 모두 1위부터 N위까지 동석차 없이 결정된다고 가정한다.
+
+출력)
+각 테스트 케이스에 대해서 진영 주식회사가 선발할 수 있는 신입사원의 최대 인원수를 한 줄에 하나씩
+'''
+#sol1) 192040kb	1672ms
+# import sys
+# T = int(input())
+# while T:
+#     T-=1
+#     N = int(input())
+#     li = list(list(map(int, sys.stdin.readline().split())) for _ in range(N))
+#     li.sort()
+#     inter_rank = li[0][1]
+#     cnt = 1
+#     for i in range(N):
+#         if li[i][1] < inter_rank:
+#             inter_rank = li[i][1]
+#             cnt += 1
+#     print(cnt)
+
+#sol2)175752kb	520ms
 import sys
-sys.setrecursionlimit(10**6)
-T= int(input())
-while T != 0 :
+T = int(input())
+while T:
+    T-=1
     N = int(input())
-    arr = []
-    cnt = 1
-    T -= 1
+    li = list([0] for _ in range(N+1))
     for _ in range(N):
-        arr.append(list(map(int, sys.stdin.readline().split())))
-    #서류기준 sorting
-    arr.sort()
-    #서류 1등의 면접 점수
-    tmp = arr[0][1]
-    if tmp == 1:
-        cnt = 1
-    else:
-        for k in arr:
-            b= k[1]
-            if b<tmp:
-                #tmp값은 서류 1등의 면접등수보다 높은 사람들 중 가장 높은 등수로 갱신
-                tmp = b
-                cnt+=1
+        a,b = map(int, sys.stdin.readline().split())
+        li[a] = b
+    inter_rank = li[1]
+    cnt = 1
+    for i in range(2,N+1):
+        if li[i] < inter_rank:
+            inter_rank = li[i]
+            cnt += 1
     print(cnt)
 
-#숏코딩
-# import sys
-# input=sys.stdin.readline
-# for tc in range(int(input())):
-# 	n=int(input())
-# 	a=[0]*n
-# 	for i in range(n):
-# 		x,y=map(int,input().split())
-# 		a[x-1]=y-1
-# 	j=n
-# 	r=0
-# 	for i in range(n):
-# 		if a[i]<j:
-# 			r+=1
-# 			j=a[i]
-# 	print(r)
