@@ -53,3 +53,54 @@ def solution(board):
 테스트 22 〉	통과 (0.12ms, 10.8MB)
 테스트 23 〉	통과 (0.10ms, 10.9MB)
 '''
+#sol2
+import sys
+from collections import deque
+def solution(board):
+    N = len(board)
+    costs = {i:[sys.maxsize for _ in range(N)] for i in range(N) }
+    dy,dx = [-1,1,0,0],[0,0,-1,1]
+    que = deque()
+    costs[0][0] = 0
+    que.append((costs[0][0],0,0,-1))
+    while que:
+        cur_cost, row,col, prev = que.popleft()
+        if costs[row][col] < cur_cost:
+            continue
+        for d in range(4):
+            ny,nx = row+dy[d], col+dx[d]
+            if ny<0 or nx<0 or ny>=N or nx>=N or board[ny][nx] == 1:
+                continue
+            add_cost = 100
+            if (0<=d<2 and prev>=2) or (d>=2 and 0<=prev<2):
+                add_cost += 500
+            if cur_cost+add_cost <= costs[ny][nx]:
+                costs[ny][nx] = cur_cost+add_cost
+                que.append((costs[ny][nx],ny,nx,d))
+    return costs[N-1][N-1]
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.06ms, 10.7MB)
+테스트 2 〉	통과 (0.05ms, 10.8MB)
+테스트 3 〉	통과 (0.06ms, 10.8MB)
+테스트 4 〉	통과 (0.07ms, 10.8MB)
+테스트 5 〉	통과 (0.07ms, 10.8MB)
+테스트 6 〉	통과 (0.27ms, 10.8MB)
+테스트 7 〉	통과 (0.29ms, 10.8MB)
+테스트 8 〉	통과 (0.26ms, 10.8MB)
+테스트 9 〉	통과 (0.29ms, 10.8MB)
+테스트 10 〉	통과 (0.48ms, 10.9MB)
+테스트 11 〉	통과 (2.27ms, 10.8MB)
+테스트 12 〉	통과 (2.39ms, 10.8MB)
+테스트 13 〉	통과 (0.30ms, 10.8MB)
+테스트 14 〉	통과 (0.17ms, 10.8MB)
+테스트 15 〉	통과 (0.43ms, 10.8MB)
+테스트 16 〉	통과 (0.76ms, 10.8MB)
+테스트 17 〉	통과 (0.87ms, 10.9MB)
+테스트 18 〉	통과 (1.12ms, 10.8MB)
+테스트 19 〉	통과 (1.03ms, 10.8MB)
+테스트 20 〉	통과 (1.02ms, 10.8MB)
+테스트 21 〉	통과 (0.76ms, 10.8MB)
+테스트 22 〉	통과 (0.11ms, 10.8MB)
+테스트 23 〉	통과 (0.09ms, 10.7MB)
+'''
