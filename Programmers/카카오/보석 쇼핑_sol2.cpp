@@ -109,3 +109,4 @@ vector<int> solution(vector<string> gems) {
 테스트 14 〉	통과 (130.80ms, 9.52MB)
 테스트 15 〉	통과 (288.30ms, 10.4MB)
 */
+//sol1(cpp)이 더 효율성이 좋다.
