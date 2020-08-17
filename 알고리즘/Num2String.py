@@ -12,57 +12,55 @@ dic_num = {'0':'','1':'one', '2':'two', '3':'three', '4':'four', '5':'five', '6'
            '50':'fifty', '60':'sixty', '70':'seventy', '80':'eighty', '90':'ninety', '100':'hundred', '1000':'thousand',
            '1000000':'million'}
 
-def get_string(target, zero_c, stat):
-    global result
-    if zero_c<0:
+
+def to_string(target, zero_c, stat):  # stat은 0이 아닌 숫자이지만 단위가 출력되는걸 방지하기위함
+    if len(target) == 0 or zero_c < 0:
         return
-    #print(target,zero_c,result,stat)
-    if target[0] == '0': #0인 경우 단위만 출력
-        result.append(dic_num[f"1{'0' * (zero_c+1)}"])
-
-    else:#단위가 dic_num에 있는지 확인하기 위해 3자리씩 끊어 보기
-
-        if zero_c%3 ==0: #단위가 dic_num에 있는 경우
-            if stat:  # 이전에 10이상 19이하를 받은 경우
-                result.append(dic_num[f"1{'0' * zero_c}"])  # 단위만
+    #3개씩 끊어서 보기
+    if zero_c % 3 == 0: #1000의 자리까지 봐야하는 경우: 단위 붙이기
+        zero = '0' * zero_c
+        if zero == '':
+            if target[0] != '0':
+                result.append(dic_num[target[0]])
+                stat = False
+        else:
+            if target[0] != '0':
+                result.append(dic_num[target[0]])
                 stat = False
 
-            if len(target) > 1: #한자리 이상 남은 경우
-                result.append(dic_num[target[0]] + ' ' + dic_num[f"1{'0' * zero_c}"])
-            else: #한자리 남은 경우
-                result.append(dic_num[target[0]])
+            # 1,000,000의 경우 -> one million 먼저 넣고(stat = True) /  0,000 -> 여기서 이쪽으로 들어오게 된다.
+            # 위 if문에서 '0'이 아닌 경우는 stat=False로 바꾸어 밑 if문에 들어가게 되는데
+            # 0,000의 경우, 범위를 한번 더 출력할 필요가 없으므로 지나친다.
 
-        elif zero_c % 3 == 1: #10으로 끊는 경우
-            if target[0] == '1':  # 10이상 19이하는 따로 끊을 수가 없으므로
-                result.append(dic_num[target[:2]])
-                stat = True  # 따로 표시
-            else:
+            if stat ^ 1:
+                result.append(dic_num['1' + zero])
+                stat = True
+
+    elif zero_c % 3 == 1: #십의 자리 까지 봐야하는 경우
+        if target[0] == '1':  # 10~19는 한자리씩 끊어서 넣지 못하므로
+            result.append(dic_num[target[:2]])
+            target = target[0] + '0' + target[2:]  # 이미 target[0]과 합쳐서 result에 넣었으니 target[1] -> '0'
+            stat = False
+        else:
+            if target[0] != '0':
                 result.append(dic_num[target[0] + '0'])
-        else: #100으로 끊는 경우
-            result.append(dic_num[target[0]] +' '+ dic_num['100'])
-    n=1
-    if stat^1:
-        while n<=zero_c%3: #현재 보고 있는 범위 내에서 0인 자리 패스
-            if target[n] !='0':
-                break
-            n+=1
-        if zero_c%3 == 0 and n == 1:
-            while n<len(target) and target[n] == '0':
-                n+=1
-    print(n, target[n:])
-    return get_string(target[n:], zero_c-n,stat)
+                stat = False
 
-#최대 백만
+    else:#백의 자리 까지 봐야하는 경우
+        if target[0] != '0':
+            result.append(dic_num[target[0]])
+            result.append(dic_num['100'])
+            stat = False
+
+    return to_string(target[1:], zero_c - 1, stat)
+
 N = input()
 zero_c= len(N)-1
-if zero_c == 0:
-    if N == '0':
-        print('zero')
-    else:
-        print(dic_num[N])
+if N == '0':
+    print('zero')
 else:
     result =[]
-    get_string(N[:], zero_c,False)
+    to_string(N[:], zero_c,False)
     print(' '.join(result))
 
 '''
@@ -72,5 +70,17 @@ one hundred twenty three thousand four hundred
 
 120090
 one hundred twenty thousand ninety
+
+1000000
+one million
+
+1010101
+one million ten thousand one hundred one
+
+1234567
+one million two hundred thirty four thousand five hundred sixty seven
+
+100000
+one hundred thousand
 
 '''
