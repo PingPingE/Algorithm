@@ -1,3 +1,15 @@
+'''
+Given an array of integers, return indices of the two numbers such that they add up to a specific target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+Example:
+
+Given nums = [2, 7, 11, 15], target = 9,
+
+Because nums[0] + nums[1] = 2 + 7 = 9,
+return [0, 1].
+'''
 #3316 ms 14.8 MB
 #sol1) 모든 리스트원소를 순회하며 target-해당원소 값이 리스트에 있는지 확인(배열 전체 다시 확인) => O(n^2)
 class Solution:
