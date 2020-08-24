@@ -28,6 +28,7 @@ Example 5:
 Input: nums1 = [2], nums2 = []
 Output: 2.00000
 '''
+#84 ms	14 MB
 #merge sorting에서 merge부분 응용(while, if조건문 활용)
 class Solution:
     def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
