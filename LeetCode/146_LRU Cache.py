@@ -39,8 +39,21 @@ class LRUCache:
             self.recent[key] = self.time  
         self.time+=1
 
+#solution2: OrderedDict 이용
+from collections import OrderedDict
+class LRUCache:
+    def __init__(self, Capacity):
+        self.size = Capacity
+        self.cache = OrderedDict()#순서보장 dictionary
 
-# Your LRUCache object will be instantiated and called as such:
-# obj = LRUCache(capacity)
-# param_1 = obj.get(key)
-# obj.put(key,value)
+    def get(self, key):
+        if key not in self.cache: return -1
+        val = self.cache[key]
+        self.cache.move_to_end(key,last=True)#해당 key,value 뒤로 이동(last=True)
+        return val
+
+    def put(self, key, val):
+        if key in self.cache: del self.cache[key]
+        self.cache[key] = val
+        if len(self.cache) > self.size:
+            self.cache.popitem(last=False)#FIFO
