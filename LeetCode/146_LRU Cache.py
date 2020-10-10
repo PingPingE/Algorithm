@@ -44,7 +44,7 @@ from collections import OrderedDict
 class LRUCache:
     def __init__(self, Capacity):
         self.size = Capacity
-        self.cache = OrderedDict()#순서보장 dictionary
+        self.cache = OrderedDict()#순서보장 dictionary(3.6부터 일반 dict도 순서 보장)
 
     def get(self, key):
         if key not in self.cache: return -1
@@ -57,3 +57,5 @@ class LRUCache:
         self.cache[key] = val
         if len(self.cache) > self.size:
             self.cache.popitem(last=False)#FIFO
+
+#OrderedDict는 순서를 엄격히 지킬 때 사용 (일반 dict는 동등성 비교 시, 순서 상관 없이 비교)
