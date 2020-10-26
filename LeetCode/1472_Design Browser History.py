@@ -43,6 +43,28 @@ class BrowserHistory:
             self.back_list.append(self.forward_list.popleft()) #forward_list popleft, back_list push
         return self.back_list[-1]
 
+#sol2: 216 ms	16.5 MB -> list를 하나만, 인덱스를 저장하는 변수 두개만 쓰기
+from collections import deque
+class BrowserHistory:
+    def __init__(self, homepage: str):
+        self.history = [homepage]
+        self.total_cnt = 0 #가장 마지막 index
+        self.index=0 #현재 페이지의 index
+        
+    def visit(self, url: str) -> None:
+        self.history = self.history[:self.index+1]
+        self.history.append(url)
+        self.index+=1
+        self.total_cnt = self.index
+        
+    def back(self, steps: int) -> str:
+        self.index = max(0, self.index-steps)
+        return self.history[self.index]
+    
+    def forward(self, steps: int) -> str:
+        self.index=min(self.total_cnt, self.index+steps)
+        return self.history[self.index]
+
 # Your BrowserHistory object will be instantiated and called as such:
 # obj = BrowserHistory(homepage)
 # obj.visit(url)
