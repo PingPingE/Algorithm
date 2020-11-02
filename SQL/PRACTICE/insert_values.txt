@@ -1,0 +1,86 @@
+-- insert into table s
+INSERT INTO s VALUES ('08300010','s1','m',Date'1991-10-01','rj0801',0);
+INSERT INTO s VALUES ('08300012','s2','m',Date'1990-8-8','Rj0801', 0);
+INSERT INTO s VALUES ('08300015','s3','f',Date'1990-5-22','Rj0801', 0);
+INSERT INTO s VALUES ('08300020','s4','f',Date'1989-1-8','Rj0802', 0);
+INSERT INTO s VALUES ('08300030','s5','m',Date'1990-10-8','Rj0802', 0);
+INSERT INTO s VALUES ('08300048','s6','m',Date'1989-6-6','Rj0803', 0);
+INSERT INTO s VALUES ('08300050','s7','m',Date'1990-6-10','Rj0803', 0);
+INSERT INTO s VALUES ('08300067','s8','f',Date'1990-8-21','Rj0803', 0);
+INSERT INTO s VALUES ('08300075','s9','f',Date'1991-9-23','Rj0804', 0);
+INSERT INTO s VALUES ('08300088','s10','m',Date'1989-3-1','Rj0804', 0);
+INSERT INTO s VALUES ('08300100','s11','f',Date'1990-2-26','Rj0805', 0);
+INSERT INTO s VALUES ('08300148','s12','m',Date'1991-4-25','Rj0805', 0);
+INSERT INTO s VALUES ('08300150','s13','f',Date'1989-11-15','Rj0805', 0);
+INSERT INTO s VALUES ('08300160','s14','f',Date'1990-12-12','Rj0806', 0);
+INSERT INTO s VALUES ('08300161','s15','m',Date'1991-10-12','Rj0806', 0);
+
+-- insert into table class
+INSERT INTO class VALUES ('Rj0801','Software0801','SoftwareEngineering','School of Software Engineering', 24);
+INSERT INTO class VALUES ('Rj0802','Software0802','Software Engineering','School of Software Engineering', 26);
+INSERT INTO class VALUES ('Rj0803','Software0803','SoftwareEngineering','School of Software Engineering', 25);
+INSERT INTO class VALUES ('Rj0804','Software0804','SoftwareEngineering','School of Software Engineering', 25);
+INSERT INTO class VALUES ('Rj0805','Software0805','SoftwareEngineering','School of Software Engineering', 24);
+INSERT INTO class VALUES ('Rj0806','Software0806','SoftwareEngineering','School of Software Engineering', 24);
+
+-- insert into table course
+INSERT INTO course VALUES ('801','Foundation of Computer', 3);
+INSERT INTO course VALUES ('802','Programming Language', 2);
+INSERT INTO course VALUES ('803','Database Structure', 4);
+INSERT INTO course VALUES ('804','Database System', 4);
+INSERT INTO course VALUES ('805','Operating System', 3);
+INSERT INTO course VALUES ('806','Computer Network', 4);
+
+-- insert into table sc
+INSERT INTO sc VALUES ('08300012','801', 88);
+INSERT INTO sc VALUES ('08300012','802',null);
+INSERT INTO sc VALUES ('08300012','803', 91);
+INSERT INTO sc VALUES ('08300012','804', 78);
+INSERT INTO sc VALUES ('08300015','801', 95);
+INSERT INTO sc VALUES ('08300015','802', 67);
+INSERT INTO sc VALUES ('08300015','804', 58);
+INSERT INTO sc VALUES ('08300015','805', 89);
+INSERT INTO sc VALUES ('08300015','806', 71);
+INSERT INTO sc VALUES ('08300020','801', 95);
+INSERT INTO sc VALUES ('08300020','803', 67);
+INSERT INTO sc VALUES ('08300020','805', 58);
+INSERT INTO sc VALUES ('08300020','806',null);
+INSERT INTO sc VALUES ('08300030','801', 91);
+INSERT INTO sc VALUES ('08300030','803', 74);
+INSERT INTO sc VALUES ('08300030','805', 84);
+INSERT INTO sc VALUES ('08300030','806', 56);
+INSERT INTO sc VALUES ('08300048','801', 92);
+INSERT INTO sc VALUES ('08300048','802', 62);
+INSERT INTO sc VALUES ('08300048','803', 23);
+INSERT INTO sc VALUES ('08300050','801', 32);
+INSERT INTO sc VALUES ('08300050','802', 72);
+INSERT INTO sc VALUES ('08300050','803', 82);
+INSERT INTO sc VALUES ('08300050','804', 92);
+INSERT INTO sc VALUES ('08300050','805', 42);
+INSERT INTO sc VALUES ('08300067','802', 82);
+INSERT INTO sc VALUES ('08300067','803', 76);
+INSERT INTO sc VALUES ('08300067','804', 90);
+INSERT INTO sc VALUES ('08300075','803', 79);
+INSERT INTO sc VALUES ('08300075','806', 68);
+
+-- insert into table teacher
+INSERT INTO teacher VALUES ('T01','t1','m',Date'1980-6-10','lecturer');
+INSERT INTO teacher VALUES ('T02','t2','f',Date'1970-3-14','professor');
+INSERT INTO teacher VALUES ('T03','t3','m',Date'1973-4-20','associate professor');
+INSERT INTO teacher VALUES ('T04','t4','m',Date'1981-8-30','lecturer');
+INSERT INTO teacher VALUES ('T05','t5','f',Date'1975-7-20',' associate professor');
+INSERT INTO teacher VALUES ('T06','t6','m',Date'1980-9-19','lecturer');
+
+-- insert into table teaching
+INSERT INTO teaching VALUES ('T01','801','English');
+INSERT INTO teaching VALUES ('T02','801','Bilingual');
+INSERT INTO teaching VALUES ('T03','802','English');
+INSERT INTO teaching VALUES ('T04','802','Bilingual');
+INSERT INTO teaching VALUES ('T05','803','English');
+INSERT INTO teaching VALUES ('T06','803','Bilingual');
+INSERT INTO teaching VALUES ('T01','804','English');
+INSERT INTO teaching VALUES ('T03','804','Bilingual');
+INSERT INTO teaching VALUES ('T03','805','English');
+INSERT INTO teaching VALUES ('T04','805','Bilingual');
+INSERT INTO teaching VALUES ('T03','806','English');
+INSERT INTO teaching VALUES ('T06','806','Bilingual');

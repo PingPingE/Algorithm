@@ -1,0 +1,62 @@
+-- 모든 테이블을 삭제하고자 할 때, 아래 명령어를 실행해서 나오는 명령문을 복붙하면 된다.
+-- SELECT 'DROP TABLE "' || TABLE_NAME || '" CASCADE CONSTRAINTS;' FROM user_tables;
+
+
+create table s (
+sno char(8) primary key,
+sname char(10) not null,
+sex char(1),
+birthday date,
+classno char(6),
+totalCredit smallint);
+
+create table class (
+classno char(6) primary key,
+className char(20) not null,
+classsMajor char(20),
+school char(40),
+studentNumber smallint, 
+check (studentNumber between 20 and 40));
+
+create table course 
+( cno char(6) primary key,
+cname char(30) not null,
+credit smallint);
+
+create table sc(
+sno char(8),
+cno char(6),
+primary key(sno, cno),
+grade smallint, 
+constraint sc_sno_fk foreign key(sno) references s(sno) on delete cascade,
+constraint sc_cno_fk foreign key(cno) references course(cno) on delete cascade,
+constraint grade_ch check ((grade is null) or (grade between 0 and 100))
+);
+
+-- create table  sc(
+-- sno char(8),
+-- cno char(6),
+-- primary key(sno, cno),
+-- grade Smallint
+-- FOREIGN KEY(sno)REFERENCES s(sno)on delete cascade,
+-- FOREIGN KEY(cno)REFERENCES course(cno)on delete cascade,
+-- CHECK ((grade IS NULL) OR (grade BETWEEN 0 AND 100))
+-- );
+
+
+create table teacher(
+tno char(6) primary key,
+tname char(10) not null,
+sex char(1),
+birthday date,
+title char(20));
+
+create table teaching(
+tno char(6),
+cno char(6),
+primary key(tno, cno),
+language char(10),
+constraint tno_fk_2 foreign key(tno) references teacher(tno) on delete cascade,
+foreign key(cno) references course(cno) on delete cascade,
+check(language in ('Chinese','Bilingual', 'English'))
+);
