@@ -1,0 +1,67 @@
+-- （1）List the basic information of all students.
+select * from s;
+
+-- SNO	SNAME	SEX	BIRTHDAY	CLASSNO	TOTALCREDIT
+-- 08300010	s1        	m	01-OCT-91	rj0801	0
+-- 08300012	s2        	m	08-AUG-90	Rj0801	0
+-- 08300015	s3        	f	22-MAY-90	Rj0801	0
+-- 08300020	s4        	f	08-JAN-89	Rj0802	0
+-- 08300030	s5        	m	08-OCT-90	Rj0802	0
+-- 08300048	s6        	m	06-JUN-89	Rj0803	0
+-- 08300050	s7        	m	10-JUN-90	Rj0803	0
+-- 08300067	s8        	f	21-AUG-90	Rj0803	0
+-- 08300075	s9        	f	23-SEP-91	Rj0804	0
+-- 08300088	s10       	m	01-MAR-89	Rj0804	0
+-- 08300100	s11       	f	26-FEB-90	Rj0805	0
+-- 08300148	s12       	m	25-APR-91	Rj0805	0
+-- 08300150	s13       	f	15-NOV-89	Rj0805	0
+-- 08300160	s14       	f	12-DEC-90	Rj0806	0
+-- 08300161	s15       	m	12-OCT-91	Rj0806	0
+
+
+-- （2）List sno, sname, birthday of all male students.
+select sno, sname, birthday from s where sex='m';
+
+-- SNO	SNAME	BIRTHDAY
+-- 08300010	s1        	01-OCT-91
+-- 08300012	s2        	08-AUG-90
+-- 08300030	s5        	08-OCT-90
+-- 08300048	s6        	06-JUN-89
+-- 08300050	s7        	10-JUN-90
+-- 08300088	s10       	01-MAR-89
+-- 08300148	s12       	25-APR-91
+-- 08300161	s15       	12-OCT-91
+
+-- （3）Add a column named ‘addr’in table S，then change its length from 20 to 25.
+alter table s add addr varchar(20);
+alter table s modify addr varchar(25);
+
+-- （4）Add a column named ‘registerDate：date’ in table s，Set a default value  for column registerDate as the current system date, then drop it.
+alter table s add registerDate date default current_date;
+alter table s drop column registerDate;
+
+-- 물리적으로 지우진 않고 안보이게 하는 방법(삭제 시간을 줄이기 위해 -> 나중에 한번에 unused columns 다 지울 수 있음) 
+-- alter table s set unused (registerDate);
+
+-- （5）Set a default value 18 for column age in table s.
+alter table s add age smallint default 18;
+
+select * from s;
+
+-- SNO	SNAME	SEX	BIRTHDAY	CLASSNO	TOTALCREDIT	ADDR	AGE
+-- 08300010	s1        	m	01-OCT-91	rj0801	0	 - 	18
+-- 08300012	s2        	m	08-AUG-90	Rj0801	0	 - 	18
+-- 08300015	s3        	f	22-MAY-90	Rj0801	0	 - 	18
+-- 08300020	s4        	f	08-JAN-89	Rj0802	0	 - 	18
+-- 08300030	s5        	m	08-OCT-90	Rj0802	0	 - 	18
+-- 08300048	s6        	m	06-JUN-89	Rj0803	0	 - 	18
+-- 08300050	s7        	m	10-JUN-90	Rj0803	0	 - 	18
+-- 08300067	s8        	f	21-AUG-90	Rj0803	0	 - 	18
+-- 08300075	s9        	f	23-SEP-91	Rj0804	0	 - 	18
+-- 08300088	s10       	m	01-MAR-89	Rj0804	0	 - 	18
+-- 08300100	s11       	f	26-FEB-90	Rj0805	0	 - 	18
+-- 08300148	s12       	m	25-APR-91	Rj0805	0	 - 	18
+-- 08300150	s13       	f	15-NOV-89	Rj0805	0	 - 	18
+-- 08300160	s14       	f	12-DEC-90	Rj0806	0	 - 	18
+-- 08300161	s15       	m	12-OCT-91	Rj0806	0	 - 	18
+
