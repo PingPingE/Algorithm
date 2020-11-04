@@ -1,0 +1,26 @@
+-- （6）	Set column sname  as alternate key (not primary key) in table s.
+alter table s modify sname unique; -- 유일성을 만족하기 위해
+
+-- （7）	Create a unique index on ascending sno and descending cno in Table SC.
+create unique index sc_index on sc(sno asc, cno desc);
+
+-- （8）	Add a constraint in table S :male students’ age should be younger than 23 and female students’ age should be younger than 21.
+
+-- ORA-00933: SQL command not properly ended 해결해야한다.
+alter table s add constraint con1 check(sex like 'm' and age<23);
+alter table s add constraint con2 check(sex like 'f' and age<21);
+
+-- （9）	Create a view named View_80 which stores the rows with scores more than 80 using ‘with check option’, list sno, cno, and grade. 
+--with check option: 뷰의 조건식을 만족하는 데이터만 INSERT 또는 UPDATE가 가능 하도록 하는 옵션 (read only 옵션도 있음(with read only))
+create view View_80(sno,cno,scores) as select sno, cno, grade from sc where grade > 80 with check option; 
+
+-- （10）	List the tuples with scores more than 90.
+select scores from View_80 where scores >90;
+
+-- SCORES
+-- 91
+-- 95
+-- 95
+-- 91
+-- 92
+-- 92
