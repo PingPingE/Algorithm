@@ -1,0 +1,44 @@
+
+-- （11）	Insert the following rows into View_80.
+-- 08300010，801，87
+-- 08300010，804，76
+
+insert into View_80 values('08300010'，801，87);
+insert into View_80 values('08300010'，804，76);
+
+-- ORA-01402: view WITH CHECK OPTION where-clause violation ORA-06512: at "SYS.DBMS_SQL", line 1721
+-- 원인: WITH CHECK OPTION을 설정한 뷰(Scores > 80) 는 뷰의 조건에 해당되는 데이터만 삽입, 삭제,수정을 할 수 있다 -> scores를 바꾸던가, insert 하지 않던가 해야한다.
+insert into View_80 values('08300010'，804，76+5);
+
+-- （12）	In view View_80, remove the following tuple : sno =08300010，cno=801
+
+delete from View_80 where sno=08300010 and cno =801;
+        
+        
+-- （13）	In view View_80, update the following tuples: 
+-- Change the grade to 90 of tuple（08300010，803）
+-- Change the grade to 70 of tuple（08300010，803）
+
+
+update View_80 set scores=90 where(sno=08300010 and cno =803);
+update View_80 set scores=70 where(sno=08300010 and cno =803);
+-- ORA-01402: view WITH CHECK OPTION where-clause violation ORA-06512: at "SYS.DBMS_SQL", line 1721
+-- check 제약조건에 의해 80미만은 삽입할 수 없다.
+
+
+-- （14）	List sno, sname, sex and birthday of female students who were born before 1980-01-01.
+
+select sno, sname, sex, birthday from s where sex like 'f' and birthday < Date'1980-01-01';
+
+--없음
+
+-- （15）	List sno, sname, sex and birthday of male students whose names contain ‘s1’.
+
+select sno, sname, sex, birthday from s where sex like 'm' and sname like '%s1%';
+
+-- SNO	SNAME	SEX	BIRTHDAY
+-- 08300010	s1        	m	01-OCT-91
+-- 08300088	s10       	m	01-MAR-89
+-- 08300148	s12       	m	25-APR-91
+-- 08300161	s15       	m	12-OCT-91
+
