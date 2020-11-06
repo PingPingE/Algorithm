@@ -6,7 +6,7 @@ create unique index sc_index on sc(sno asc, cno desc);
 
 -- （8）	Add a constraint in table S :male students’ age should be younger than 23 and female students’ age should be younger than 21.
 
--- ORA-00933: SQL command not properly ended 해결해야한다.
+-- ORA-02293: cannot validate (SQL_CXHBIZHSAEZQDATFIIPWODTFI.CON2) - check constraint violated
 alter table s add constraint con1 check(sex like 'm' and age<23);
 alter table s add constraint con2 check(sex like 'f' and age<21);
 
