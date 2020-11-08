@@ -1,0 +1,55 @@
+-- （16）	Search for the teachers who give the lectures in English, displaying tno, name and number of courses.
+select t1.tno, t1.tname, count(*) "number of courses" from teacher t1 left join teaching t2 on (t1.tno=t2.tno) group by t1.tno, t1.tname;
+
+-- TNO	TNAME	number of courses
+-- T04   	t4        	2
+-- T05   	t5        	1
+-- T03   	t3        	4
+-- T06   	t6        	2
+-- T02   	t2        	1
+-- T01   	t1        	2
+
+-- 주의! group by 할 때 조회하는 컬럼들을 모두 적어줘야한다.
+
+-- （17）	List tno, name and title of teachers whose title is not lecturer.
+select tno, tname, title from teacher where title not like '%lecturer%'; 
+
+-- 공백때문에 %추가했음
+-- TNO	TNAME	TITLE
+-- T02   	t2        	professor           
+-- T03   	t3        	associate professor 
+-- T05   	t5        	 associate professor
+
+
+-- （18）	List sno of students who took course(s) and did not take the exam(s).
+
+select std.sno from s std join sc c on std.sno = c.sno where c.grade is null group by std.sno;
+
+-- SNO
+-- 08300020
+-- 08300012
+
+
+-- （19）	List sno, grade of students who fail the exam, dispaying the tuples in descending order.
+--fail 기준을 평균 미만으로 잡음
+-- select avg(grade) from sc where grade is not null; 평균: 73.35714285714285714285714285714285714286
+select std.sno, c.grade from s std join sc c on std.sno = c.sno where c.grade< (select avg(grade) from sc where grade is not null) order by c.grade desc;
+
+-- SNO	GRADE
+-- 08300050	72
+-- 08300015	71
+-- 08300075	68
+-- 08300015	67
+-- 08300020	67
+-- 08300048	62
+-- 08300015	58
+-- 08300020	58
+-- 08300030	56
+-- 08300050	42
+-- 08300050	32
+-- 08300048	23
+
+-- （20）	List tno, tname, birthday of teachers who were born in 1970.
+select tno, tname, birthday from teacher where birthday between Date'1970-01-01' and Date'1970-12-31';
+-- TNO	TNAME	BIRTHDAY
+-- T02   	t2        	14-MAR-70
