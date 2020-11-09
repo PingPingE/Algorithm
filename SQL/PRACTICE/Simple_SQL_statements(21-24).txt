@@ -1,0 +1,35 @@
+-- （21）	List the number of students studying each course.
+
+select s.cno, c.cname,count(s.sno) from sc s left join course c on s.cno  = c.cno group by s.cno,c.cname; 
+
+-- CNO	    CNAME	                COUNT(S.SNO)
+-- 806   	Computer Network              	4
+-- 805   	Operating System              	4
+-- 802   	Programming Language          	5
+-- 801   	Foundation of Computer        	6
+-- 804   	Database System               	4
+-- 803   	Database Structure            	7
+
+-- （22）	List the teacher numbers of teachers who teach more than 2 courses, showing the number of courses at the same time.
+
+select count(distinct t1.tno) "num of teachers", count(t2.cno) "num of courses"  from teacher t1 left join teaching t2 on t1.tno = t2.tno group by t1.tno  having count(t2.cno)>2; 
+
+-- num of teachers	num of courses
+-- 1	           4
+
+-- （23）	List the average score, minimum score and maximum score of course 801.
+
+select avg(grade), min(grade), max(grade) from sc group by cno having cno = 801;
+
+
+-- AVG(GRADE)                           	MIN(GRADE)	MAX(GRADE)
+-- 82.16666666666666666666666666666666666667	32	    95
+
+
+-- （24）	List the names, birthday of teachers whose titles are lecturers and who were born after 1960.
+select tname, birthday from teacher where title like '%lecturer%' and birthday > Date '1960-12-31'; 
+
+-- TNAME	    BIRTHDAY
+-- t1        	10-JUN-80
+-- t4        	30-AUG-81
+-- t6        	19-SEP-80
