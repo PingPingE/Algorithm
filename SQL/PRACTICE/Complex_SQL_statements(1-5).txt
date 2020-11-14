@@ -1,0 +1,44 @@
+-- （1）	Create a view name new_View, showing sno, sname, classno, cname and grade.
+-- create view new_View(sno, sname, classno, cname, grade) as select t1.sno, t1.sname, t1.classno, t3.cname, t2.grade from s t1 left join sc t2 on t1.sno=t2.sno inner join course t3 on t2.cno = t3.cno;
+
+-- （2）	In new_View, list sno, sname, cname and grade of the students in Class named Software0801.
+select t1.sno, t1.sname, t1.cname, t1.grade from new_View t1 left join class t2 on t1.classno = t2.classno where className like '%Software0801%';
+
+-- SNO	        SNAME	    CNAME	                        GRADE
+-- 08300012	s2        	Foundation of Computer        	88
+-- 08300015	s3        	Foundation of Computer        	95
+-- 08300012	s2        	Programming Language          	 - 
+-- 08300015	s3        	Programming Language          	67
+-- 08300012	s2        	Database Structure            	91
+-- 08300012	s2        	Database System               	78
+-- 08300015	s3        	Database System               	58
+-- 08300015	s3        	Operating System              	89
+-- 08300015	s3        	Computer Network              	71
+      
+-- （3）	In new_View, insert the following value (08300168，s21，Rj0803，Database System，88)
+insert into new_View values('08300168', 's21','Rj0803', 'Database System', 88);
+
+-- （4）	List each student’s total credits, showing sno, sname and total credits.
+select t1.sno, t1.sname, sum(t3.credit) from s t1 left join sc t2 on t1.sno = t2.sno inner join course t3 on t2.cno = t3.cno group by t1.sno, t1.sname;
+
+-- SNO	        SNAME	    SUM(T3.CREDIT)
+-- 08300075	s9        	8
+-- 08300020	s4        	14
+-- 08300050	s7        	16
+-- 08300015	s3        	16
+-- 08300030	s5        	14
+-- 08300048	s6        	9
+-- 08300012	s2        	13
+-- 08300067	s8        	10
+
+-- （5）	List each student’s average score and the number of elective courses, showing sno, sname, average score and the number of elective courses.
+select t1.sno, t1.sname, round(avg(t1.grade),2), count(distinct t2.cno) from new_View t1 inner join sc t2 on t1.sno = t2.sno group by t1.sno, t1.sname;
+-- SNO	    SNAME	    ROUND(AVG(T1.GRADE),2)	COUNT(DISTINCTT2.CNO)
+-- 08300048	s6        	59	                    3
+-- 08300030	s5        	76.25	                4
+-- 08300050	s7        	64	                    5
+-- 08300020	s4        	73.33	                4
+-- 08300075	s9        	73.5	                2
+-- 08300015	s3        	76	                    5
+-- 08300012	s2        	85.67	                4
+-- 08300067	s8        	82.67	                3
