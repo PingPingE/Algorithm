@@ -16,7 +16,18 @@ select t1.sno, t1.sname, t1.cname, t1.grade from new_View t1 left join class t2 
 -- 08300015	s3        	Computer Network              	71
       
 -- （3）	In new_View, insert the following value (08300168，s21，Rj0803，Database System，88)
-insert into new_View values('08300168', 's21','Rj0803', 'Database System', 88);
+insert into new_View(sno, sname, classno, cname, grade) values('08300168', 's21','Rj0803', 'Database System', 88);
+--ORA-01779: cannot modify a column which maps to a non key-preserved table 
+
+-- updatable 여부 확인
+select * from USER_UPDATABLE_COLUMNS where table_name ='NEW_VIEW';
+
+-- OWNER	TABLE_NAME	COLUMN_NAME	UPDATABLE	INSERTABLE	DELETABLE
+-- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	SNO	NO	NO	NO
+-- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	SNAME	NO	NO	NO
+-- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	CLASSNO	NO	NO	NO
+-- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	CNAME	NO	NO	NO
+-- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	GRADE	NO	NO	NO
 
 -- （4）	List each student’s total credits, showing sno, sname and total credits.
 select t1.sno, t1.sname, sum(t3.credit) from s t1 left join sc t2 on t1.sno = t2.sno inner join course t3 on t2.cno = t3.cno group by t1.sno, t1.sname;
