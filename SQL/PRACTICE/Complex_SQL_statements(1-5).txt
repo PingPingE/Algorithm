@@ -2,7 +2,7 @@
 -- create view new_View(sno, sname, classno, cname, grade) as select t1.sno, t1.sname, t1.classno, t3.cname, t2.grade from s t1 left join sc t2 on t1.sno=t2.sno inner join course t3 on t2.cno = t3.cno;
 
 -- （2）	In new_View, list sno, sname, cname and grade of the students in Class named Software0801.
-select t1.sno, t1.sname, t1.cname, t1.grade from new_View t1 left join class t2 on t1.classno = t2.classno where className like '%Software0801%';
+-- select t1.sno, t1.sname, t1.cname, t1.grade from new_View t1 left join class t2 on t1.classno = t2.classno where className like '%Software0801%';
 
 -- SNO	        SNAME	    CNAME	                        GRADE
 -- 08300012	s2        	Foundation of Computer        	88
@@ -16,11 +16,11 @@ select t1.sno, t1.sname, t1.cname, t1.grade from new_View t1 left join class t2 
 -- 08300015	s3        	Computer Network              	71
       
 -- （3）	In new_View, insert the following value (08300168，s21，Rj0803，Database System，88)
-insert into new_View(sno, sname, classno, cname, grade) values('08300168', 's21','Rj0803', 'Database System', 88);
+-- insert into new_View(sno, sname, classno, cname, grade) values('08300168', 's21','Rj0803', 'Database System', 88);
 --ORA-01779: cannot modify a column which maps to a non key-preserved table 
 
--- updatable 여부 확인
-select * from USER_UPDATABLE_COLUMNS where table_name ='NEW_VIEW';
+-- updatable 여부를 확인
+-- select * from USER_UPDATABLE_COLUMNS where table_name ='NEW_VIEW';
 
 -- OWNER	TABLE_NAME	COLUMN_NAME	UPDATABLE	INSERTABLE	DELETABLE
 -- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	SNO	NO	NO	NO
@@ -29,8 +29,20 @@ select * from USER_UPDATABLE_COLUMNS where table_name ='NEW_VIEW';
 -- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	CNAME	NO	NO	NO
 -- SQL_XDNOZECKKHXOENLWMGGOSQANH	NEW_VIEW	GRADE	NO	NO	NO
 
+-- View에 연결되어 작동하는 Trigger를 생성
+-- 참고:https://orangestation.tistory.com/359
+create trigger or replace trigger tri_insert_view
+instead of insert on newView
+for each row
+declare
+begin
+    insert into s(sno, sname, classno) values(:new.sno,sname,classno);
+    insert into sc(grade) values(:new.grade);
+    insert into course(cname) values(:new.cname);
+end;
+
 -- （4）	List each student’s total credits, showing sno, sname and total credits.
-select t1.sno, t1.sname, sum(t3.credit) from s t1 left join sc t2 on t1.sno = t2.sno inner join course t3 on t2.cno = t3.cno group by t1.sno, t1.sname;
+-- select t1.sno, t1.sname, sum(t3.credit) from s t1 left join sc t2 on t1.sno = t2.sno inner join course t3 on t2.cno = t3.cno group by t1.sno, t1.sname;
 
 -- SNO	        SNAME	    SUM(T3.CREDIT)
 -- 08300075	s9        	8
@@ -43,7 +55,7 @@ select t1.sno, t1.sname, sum(t3.credit) from s t1 left join sc t2 on t1.sno = t2
 -- 08300067	s8        	10
 
 -- （5）	List each student’s average score and the number of elective courses, showing sno, sname, average score and the number of elective courses.
-select t1.sno, t1.sname, round(avg(t1.grade),2), count(distinct t2.cno) from new_View t1 inner join sc t2 on t1.sno = t2.sno group by t1.sno, t1.sname;
+-- select t1.sno, t1.sname, round(avg(t1.grade),2), count(distinct t2.cno) from new_View t1 inner join sc t2 on t1.sno = t2.sno group by t1.sno, t1.sname;
 -- SNO	    SNAME	    ROUND(AVG(T1.GRADE),2)	COUNT(DISTINCTT2.CNO)
 -- 08300048	s6        	59	                    3
 -- 08300030	s5        	76.25	                4
