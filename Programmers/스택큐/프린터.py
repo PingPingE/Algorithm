@@ -31,7 +31,7 @@ def solution(priorities, location):
         if target == -1:
             stat = True
             
-        #현 que에서 loc까지 합쳐서 max구하기
+        #현 que에서 loc까지 합쳐서 max구하기 -> max(max(que),loc) 이게 좀 더 효율이 좋을 것이다.
         if que and max(list(que)+[loc]) > (target if target > -1 else loc):
             que.append(target)
             continue
@@ -65,4 +65,44 @@ def solution(priorities, location):
 테스트 18 〉	통과 (0.03ms, 10.3MB)
 테스트 19 〉	통과 (0.93ms, 10.2MB)
 테스트 20 〉	통과 (0.13ms, 10.2MB)
+'''
+
+#sol2: 다른 사람 코드 참고
+from collections import deque
+def solution(priorities, location):
+    answer = 0
+    #(우선순위, 인덱스)
+    que = deque((pri, e) for e,pri in enumerate(priorities))
+    while que:
+        pri, e  = que.popleft()
+        if any(pri < t[0] for t in que): #any는 하나라도 True면 return True -> all도 있음
+            que.append((pri,e))
+        else:
+            answer +=1
+            if e==location:
+                break
+    return answer
+
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.41ms, 10.2MB)
+테스트 2 〉	통과 (1.07ms, 10.2MB)
+테스트 3 〉	통과 (0.07ms, 10.2MB)
+테스트 4 〉	통과 (0.04ms, 10.2MB)
+테스트 5 〉	통과 (0.01ms, 10.2MB)
+테스트 6 〉	통과 (0.16ms, 10.1MB)
+테스트 7 〉	통과 (0.12ms, 10.2MB)
+테스트 8 〉	통과 (0.82ms, 10.2MB)
+테스트 9 〉	통과 (0.03ms, 10.2MB)
+테스트 10 〉	통과 (0.17ms, 10.2MB)
+테스트 11 〉	통과 (0.55ms, 10.2MB)
+테스트 12 〉	통과 (0.04ms, 10.2MB)
+테스트 13 〉	통과 (0.50ms, 10.2MB)
+테스트 14 〉	통과 (0.01ms, 10.3MB)
+테스트 15 〉	통과 (0.02ms, 10.3MB)
+테스트 16 〉	통과 (0.06ms, 10.2MB)
+테스트 17 〉	통과 (0.80ms, 10.2MB)
+테스트 18 〉	통과 (0.03ms, 10.2MB)
+테스트 19 〉	통과 (0.60ms, 10.2MB)
+테스트 20 〉	통과 (0.10ms, 10.2MB)
 '''
