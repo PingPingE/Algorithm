@@ -1,16 +1,16 @@
-#pypy3: 메모리초과, python3:시간초과
-
 import sys
 from collections import defaultdict
-sys.setrecursionlimit(10**9)
-def find(x,targets): #함께 해킹 가능한 컴퓨터들 set에 담기
-    targets.add(x)
+# set -> list: set의 삽입 연산때문에 시간초과가 나는건가 싶어서 바꿈 -> 이제 런타임에러가 뜸(pypy3)
+#필요없는 연산 없앰 (for v2 in v) -> 여전히 런타임에러 ;; -> dfs말고 bfs로 풀어보자
+def find(x):
+    global check
+    check[x] = 1
     if x not in links:
         return
     for xx in links[x]:
-        if xx in targets: continue
-        find(xx, targets)
-    return targets
+        if check[xx]: continue
+        find(xx)
+    return
 
 N,M = map(int, input().split())
 links = defaultdict(list)
@@ -20,14 +20,10 @@ for _ in range(M):
 
 max_target = [0,[]]
 for k,v in links.items(): #v: k를 해킹했을 때 함께 해킹할 수 있는 컴퓨터들
-    child = set()
-    child.update(v)
-    for v2 in v: #v를 해킹했을 때 함께 해킹할 수 있는 컴퓨터들
-        if v2 in links:
-            tmp=find(v2,set())
-            child.update(tmp)
-    child |= {k}
-    length = len(child)
+    check = list(0 for _ in range(N+1))
+    find(k)
+    length = sum(check)
+    print(check)
     if max_target[0] <length:
         max_target = [length, [k]]
     elif max_target[0] == length:
