@@ -40,7 +40,7 @@ def solution(n, computers):
     global links
     links = {i: i for i in range(n)}
     for i in range(n):
-        for j in range(n): #i부터 하면 안되는 이유: 1->4 연결, 4->2가 연결되어 있으면 2도 바꿔줘야함
+        for j in range(n):
             if computers[i][j]:
                 union(i, j)
     print(links)
