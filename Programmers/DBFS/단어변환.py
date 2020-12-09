@@ -60,3 +60,66 @@ def solution(begin, target, words):
 테스트 4 〉	통과 (0.01ms, 10.2MB)
 테스트 5 〉	통과 (0.00ms, 10.2MB)
 '''
+
+#solution 염탐
+def solution2(begin, target, words):
+    answer = 0
+    Q = [begin]
+
+    while True:
+        temp_Q = []
+        for word_1 in Q:
+            if word_1 == target:
+                    return answer
+            for i in range(len(words)-1, -1, -1):
+                word_2 = words[i]
+                if sum([x!=y for x, y in zip(word_1, word_2)]) == 1: #true, false값으로 이루어진 list의 sum으로도 할 수 있겠네
+                    temp_Q.append(words.pop(i))
+
+        if not temp_Q:
+            return 0
+        Q = temp_Q
+        answer += 1
+
+
+#solution 염탐
+from collections import defaultdict
+
+def nextWord(cur, words):
+    ret = []
+    for word in words:
+        cnt = 0
+        for idx in range(len(word)):
+            if word[idx] == cur[idx]:
+                cnt += 1
+        if cnt == len(cur)-1:
+            ret.append(word)
+    return ret
+
+def bfs(begin, target, words):
+    visited = defaultdict(lambda: False)
+    queue = nextWord(begin, words)
+    count = 0
+    min = 1e9
+
+    while(len(queue) > 0):
+        size = len(queue)
+        count += 1
+
+        for _ in range(size):
+            key = queue.pop(0)
+            visited[key] = True
+            if (key == target and count < min):
+                min = count
+            for candidate in nextWord(key, words):
+                if (visited[candidate] == False):
+                    queue.append(candidate)
+
+    if min == 1e9:
+        return 0
+    else:
+        return min
+
+def solution3(begin, target, words):
+    answer = bfs(begin, target, words)
+    return answer
