@@ -1,4 +1,40 @@
-#아직 도전중================================================================
+#최종 코드
+from collections import Counter
+def solution(n, computers):
+    links = {i: i for i in range(n)}
+    for i in range(n):
+        mini = links[i]
+
+        for j in range(n):
+            if computers[i][j]:
+                mini = min(mini, links[j])
+
+        links[i] = mini
+        for j in range(n):
+            if computers[i][links[j]]: #여기서, computers[i][j]가 아니라, j와 연결된 노드와 연결되어있는지 봐야함
+                links[j] = links[i]
+
+    return len(Counter(links.values()))
+
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.05ms, 10.3MB)
+테스트 2 〉	통과 (0.04ms, 10.3MB)
+테스트 3 〉	통과 (0.13ms, 10.2MB)
+테스트 4 〉	통과 (0.14ms, 10.3MB)
+테스트 5 〉	통과 (0.03ms, 10.2MB)
+테스트 6 〉	통과 (0.57ms, 10.2MB)
+테스트 7 〉	통과 (0.06ms, 10.2MB)
+테스트 8 〉	통과 (0.47ms, 10.2MB)
+테스트 9 〉	통과 (0.25ms, 10.2MB)
+테스트 10 〉	통과 (0.26ms, 10.2MB)
+테스트 11 〉	통과 (1.33ms, 10.3MB)
+테스트 12 〉	통과 (1.32ms, 10.1MB)
+테스트 13 〉	통과 (0.85ms, 10.2MB)
+'''
+
+
+#도전기록 ================================
 #T1(문제 이해 ~ 코딩 시작): 5분 31초
 #T2(코딩 시작 ~ 제출): 8분 33초(3분 2초)
 #T3(디버깅): 21분6초
@@ -95,3 +131,4 @@ def solution(n, computers):
 테스트 12 〉	통과 (1.22ms, 10.3MB)
 테스트 13 〉	통과 (0.65ms, 10.2MB)
 '''
+
