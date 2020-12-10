@@ -1,46 +1,54 @@
-#도전중============================
+'''
+문제 설명)
+n명의 권투선수가 권투 대회에 참여했고 각각 1번부터 n번까지 번호를 받았습니다. 권투 경기는 1대1 방식으로 진행이 되고, 만약 A 선수가 B 선수보다 실력이 좋다면 A 선수는 B 선수를 항상 이깁니다. 
+심판은 주어진 경기 결과를 가지고 선수들의 순위를 매기려 합니다. 하지만 몇몇 경기 결과를 분실하여 정확하게 순위를 매길 수 없습니다.
+
+선수의 수 n, 경기 결과를 담은 2차원 배열 results가 매개변수로 주어질 때 정확하게 순위를 매길 수 있는 선수의 수를 return 하도록 solution 함수를 작성해주세요.
+
+제한사항)
+선수의 수는 1명 이상 100명 이하입니다.
+경기 결과는 1개 이상 4,500개 이하입니다.
+results 배열 각 행 [A, B]는 A 선수가 B 선수를 이겼다는 의미입니다.
+모든 경기 결과에는 모순이 없습니다.
+'''
+
 #T1: 9분
 #T2: 20분 36초(11분 36초)
 #T3: 30분 40초 ~
-from collections import defaultdict
+#=====설계 바꾸기
+# T1: 14분 25초
+# T2: 28분 35초(14분 10초)
+# T3: -
 def solution(n, results):
-    if n==1: return 1
-    win_res = defaultdict(set)
-    lose_res = defaultdict(set)
-    for win,lose in results:
-        win_res[win].add(lose)
-        lose_res[lose].add(win)
-        
-    print("lose:",lose_res)
-    print("win:", win_res)
-    #이긴거 
-    for k,v in list(win_res.items()):
-        add_set =set()
-        for vv in v: #k한테 지는 선수들이 이긴 선수 추가
-            add_set.update(win_res[vv])
-        win_res[k].update(add_set)
-    
-    #진거
-    for k,v in list(lose_res.items()):
-        add_set = set()
-        for vv in v: #k를 이기는 선수들이 지는 선수 추가
-            add_set.update(lose_res[vv])
-        lose_res[k].update(add_set)
-        
-    print("lose:",lose_res)
-    print("win:", win_res)
-    
-    return len(list(filter(lambda x: len(win_res[x]|lose_res[x]) == n-1, list(range(1,n+1)))))
+    adj = [[0 for _ in range(n)] for __ in range(n)]
+    for a, b in results:
+        adj[a - 1][b - 1] = 1#이김
+        adj[b - 1][a - 1] = -1#짐
+
+    for k in range(n):
+        adj[k][k] = 2#자기자신
+        for i in range(n):
+            for j in range(n):
+                if adj[i][k] ==1:
+                    if adj[k][j] == 1:
+                        adj[i][j] = 1
+                elif adj[i][k] == -1:
+                    if adj[k][j] == -1:
+                        adj[i][j] = -1
+
+    return len(list(filter(lambda x: 0 not in x, adj)))
+
+
 '''
 정확성  테스트
-테스트 1 〉	통과 (0.06ms, 10.3MB)
-테스트 2 〉	실패 (0.07ms, 10.3MB) -
-테스트 3 〉	통과 (0.13ms, 10.3MB)
-테스트 4 〉	통과 (0.11ms, 10.3MB)
-테스트 5 〉	통과 (0.83ms, 10.3MB)
-테스트 6 〉	통과 (1.34ms, 10.4MB)
-테스트 7 〉	실패 (4.69ms, 10.6MB) -
-테스트 8 〉	실패 (5.71ms, 10.9MB) -
-테스트 9 〉	실패 (7.40ms, 11.4MB) -
-테스트 10 〉	통과 (8.49ms, 11.4MB)
+테스트 1 〉	통과 (0.05ms, 10.4MB)
+테스트 2 〉	통과 (0.10ms, 10.2MB)
+테스트 3 〉	통과 (0.28ms, 10.2MB)
+테스트 4 〉	통과 (1.33ms, 10.2MB)
+테스트 5 〉	통과 (3.82ms, 10.2MB)
+테스트 6 〉	통과 (8.77ms, 10.2MB)
+테스트 7 〉	통과 (44.97ms, 10.4MB)
+테스트 8 〉	통과 (92.84ms, 10.5MB)
+테스트 9 〉	통과 (114.62ms, 10.7MB)
+테스트 10 〉	통과 (123.12ms, 10.6MB)
 '''
