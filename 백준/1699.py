@@ -37,6 +37,7 @@ def solution(N): #무조건 맞지만 메모리초과나는 코드(정답 체크
                 target +=1
         print(res)
 
+#sol1
 #제출:132548kb	1400ms
 N = int(input())
 memo = {i:i for i in range(N+1)}
@@ -48,10 +49,22 @@ for i in range(1,N+1):
         j+=1
 print(memo[N])
 
-#필요없는 연산 빼기
+#sol2: 필요없는 연산 빼기
 #제출:132548kb	772ms -> 시간이 거의 절반으로 축소됨
 N = int(input())
 memo = {i:i for i in range(N+1)}
+for i in range(4,N+1):#4부터 갱신하면 되니까
+    j=2 #1은 굳이 X
+    while i-j*j>=0:
+        if memo[i] > memo[i-j*j]+1:
+            memo[i] = memo[i-j*j]+1
+        j+=1
+print(memo[N])
+
+#sol3: sol2에서 dictionary -> list 변경
+#제출: 127688kb	196ms -> list가 값 변경이 더 빠른 것 같다.(둘 다 O(1)이긴함)
+N = int(input())
+memo = list(i for i in range(N+1))
 for i in range(4,N+1):#4부터 갱신하면 되니까
     j=2 #1은 굳이 X
     while i-j*j>=0:
@@ -81,7 +94,24 @@ else:
         if stat: break
     print(cnt)
 
+'''
+#초기화 과정이 list가 더 빠른가? -> No
+import time
+def test_list():
+    start = time.time()
+    l = list(i for i in range(10000000))
+    end = time.time()
+    return end-start
 
+def test_dict():
+    start = time.time()
+    l = {i:i for i in range(10000000)}
+    end = time.time()
+    return end-start
+print("list:",test_list())
+print("dict:", test_dict())
 
-
+#list: 0.923494815826416
+#dict: 0.7739691734313965
+'''
 
