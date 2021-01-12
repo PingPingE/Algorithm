@@ -17,25 +17,32 @@ N이 3보다 클 경우, 크기 N의 패턴은 공백으로 채워진 가운데�
 출력
 첫째 줄부터 N번째 줄까지 별을 출력한다.
 '''
+
+#T1:13분 51초
+#T2:1시간 30분 32초 (1시간 16분 41초)
+#T3:1시간 32분 43초 (2분 11초) : int() -> math.ceil()
+
+#139344kb	124ms
 import math
 N = int(input())
 memo = ["***","* *","***"] #상, 중, 하
-for i in range(1,int(math.log(N,3))):
-    tmp = [memo[i][:] for i in range(len(memo))]
-    space = " " * (3**i)
+for i in range(1,math.ceil(math.log(N,3))):
+    tmp = [memo[i][:] for i in range(len(memo))] #사본
+    space = " " * (3**i) #가운데 공백
     high = []
     mid = []
-    for j in range(3):
+    for j in range(3):#기존꺼 상중하 모두 돌면서
         for n in tmp[j].split('\n'):
             if n == "": continue
-            high.append(n*3)
-            mid.append(n + space + n)
+            high.append(n*3) #세 개 추가
+            mid.append(n + space + n) #가운데 공백 추가
             high.append("\n")
             mid.append("\n")
     memo[0] = "".join(high)
     memo[1] = "".join(mid)
-    memo[2] = "".join(high[:-1])
+    memo[2] = "".join(high[:-1]) #마지막은 개행 없애기
 if N == 3:
     print("\n".join(memo))
 else:
     print("".join(memo))
+    # print(len(memo[0]), len(memo[1]), len(memo[-1]),sum(len(a) for a in memo)-(N-1), N*N)
