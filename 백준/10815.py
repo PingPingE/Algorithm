@@ -25,3 +25,24 @@ for target in map(int, sys.stdin.readline().split()):
     else:
         ans.append('0')
 print(' '.join(ans))
+
+#sol2: 227588kb	560ms
+import sys
+def search(num): #binary search
+    l,r= 0, len(cards)-1
+    while l<=r:
+        m = (l+r)//2
+        if cards[m] == num:
+            return '1'
+        if cards[m] > num:
+            r = m-1
+        else:
+            l= m+1
+    return '0'
+N = int(input())
+cards = sorted(map(int, sys.stdin.readline().split()))
+M = int(input())
+ans = []
+for target in map(int, sys.stdin.readline().split()):
+    ans.append(search(target))
+print(' '.join(ans))
