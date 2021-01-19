@@ -19,9 +19,31 @@
 #T1: 13분 20초
 #T2: 45분 40초(32분 20초)
 #T3: -
+
+from collections import deque
+#sol3: 한번에 집어넣기
+#121220kb	108ms
+def order(node):
+    if node =='.':
+        return
+    ans[0].append(node) #preorder: 바로 넣기
+    l,r= nodes[node]
+    order(l)
+    ans[1].append(node) #inorder: 왼쪽 끝 찍고 넣기
+    order(r)
+    ans[2].append(node)#postorder: 오른쪽 끝 찍고 넣기
+
+N = int(input())
+nodes, ans = {},[[],[],[]]
+for _ in range(N):
+    a,b,c = input().split()
+    nodes[a] = [b,c]
+order('A')
+for a in ans:
+    print(''.join(a))
+
 #sol1: 그냥 구현
 #123560kb	144ms
-from collections import deque
 def get_preorder():
     stack = ['A']
     ans = []
@@ -82,3 +104,41 @@ for _ in range(N):
 print(get_preorder())
 print(get_inorder())
 print(get_postorder())
+
+#sol2: 재귀
+#121220kb  	112ms
+def preorder(node):
+    if node=='.':
+        return
+    l,r = nodes[node] #부모부터
+    ans[0].append(node)
+    preorder(l)
+    preorder(r)
+
+def inorder(node):
+    if node=='.':
+        return
+    l,r = nodes[node]
+    inorder(l)
+    ans[1].append(node)#왼쪽 끝 찍고 돌아왔을 때
+    inorder(r)
+
+def postorder(node):
+    if node=='.':
+        return
+    print(node)
+    l,r = nodes[node]
+    postorder(l)
+    postorder(r)
+    ans[2].append(node)#오른쪽 끝 찍고 돌아왔을 때
+
+N = int(input())
+nodes, ans = {},[[],[],[]]
+for _ in range(N):
+    a,b,c = input().split()
+    nodes[a] = [b,c]
+preorder('A')
+inorder('A')
+postorder('A')
+for a in ans:
+    print(''.join(a))
