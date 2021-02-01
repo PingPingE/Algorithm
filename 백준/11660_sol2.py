@@ -34,3 +34,17 @@ for _ in range(M):
     for i in range(x1-1,x2): #x1<=x2 이므로 (x1-1)~x2행을 봐야한다
         total += li[i][y2]-li[i][y1-1] #y1~y2열이 포함되어야하므로 y2열까지의 누적합에서 y1-1열까지의 누적합 빼주기
     print(total)
+
+#2차원 prefix sum
+#133984kb	440ms
+import sys
+N, M = map(int, input().split())
+li2 = list([0]*(N+1) for _ in range(N+1))
+for i in range(N):
+    tmp = list(map(int, sys.stdin.readline().split()))
+    for j in range(N):
+        li2[i+1][j+1] = li2[i+1][j]+ li2[i][j+1] - li2[i][j] + tmp[j]
+
+for _ in range(M):
+    x1, y1, x2, y2 = map(int, sys.stdin.readline().split())
+    print(li2[x2][y2]-li2[x1-1][y2]-li2[x2][y1-1]+li2[x1-1][y1-1]) #이전에는 x1~x2의 행을 하나씩 보면서(O(N)) 연산했지만 2차원 누적합은 O(1)에 구할 수 있다.
