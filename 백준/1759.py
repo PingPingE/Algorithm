@@ -32,3 +32,15 @@ for comb in combinations(targets,L):
     ans.add(comb)
 for a in sorted(ans):
     print(''.join(a))
+
+#122244kb	100ms
+#sol2
+from itertools import combinations
+L,C = map(int, input().split())
+targets=sorted(input().split())
+v = set(['a','e','i','o','u'])
+for comb in combinations(targets,L):
+    cnt= len(set(comb)&v)#집합 연산으로 모음 체크
+    if cnt ==0 or len(comb)-cnt<2:#모음 개수, 자음 개수 체크
+        continue
+    print(''.join(comb))#ans에 담지 않고 바로 print(어차피 오름차순으로 정렬된 상태이므로)
