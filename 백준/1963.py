@@ -67,3 +67,45 @@ while T:
 
     print("Impossible" if ans==0 else ans)
 
+
+#127672kb	248ms
+#코드 정리
+from collections import deque
+def get_candi(x):#한 자리씩 0~9 대입하고 소수인 것 찾기
+    candi=set()
+    for e in range(4):
+        for num in range(10):
+            tmp=x[:e]+str(num)+x[e+1:]
+            if not check[int(tmp)] or tmp in done: continue
+            if e==0 and num==0: continue
+            candi.add(tmp)
+            done.add(tmp)#done 여기서 추가
+    return candi
+
+#소수 구하기
+check=[0,0]+[1 for _ in range(2,10000)]
+for i in range(2,10000):
+    if not check[i]:continue
+    for j in range(i*i,10000,i):
+        check[j]=0
+
+T=int(input())
+while T:
+    T-=1
+    ans=0
+    A,B=input().split()
+
+    if A==B:
+        print(0)
+        continue
+    done = set()
+    que=deque((a,1) for a in get_candi(A))
+    while que:
+        target,cnt=que.popleft()
+        if target==B:
+            ans=cnt
+            break
+        for c in get_candi(target):
+            que.append((c,cnt+1))
+
+    print("Impossible" if ans==0 else ans)
