@@ -26,3 +26,18 @@ for name in sys.stdin:
     total+=1
 for k, v in sorted(name_dic.items(), key=lambda x: x[0]):
     print(f"{k} {tree_cnt[v]/total*100:.4f}")#백분율로 소수점 4째자리까지
+
+#sol2: 해싱없이 그냥 해보기
+#127836kb	444ms ===> 더 빠르다... 
+import sys
+from collections import defaultdict
+tree_cnt=defaultdict(int)
+index=0
+total=0
+for name in sys.stdin:
+    if name=='\n': break
+    name=name.strip()
+    tree_cnt[name] +=1
+    total+=1
+for k, v in sorted(tree_cnt.items(), key=lambda x: x[0]):
+    print(f"{k} {v/total*100:.4f}")
