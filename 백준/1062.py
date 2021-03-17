@@ -16,7 +16,7 @@
 출력
 첫째 줄에 김지민이 K개의 글자를 가르칠 때, 학생들이 읽을 수 있는 단어 개수의 최댓값을 출력한다.
 '''
-#====시간초과=====
+#131980kb	1592ms
 import sys
 def count():#현재 알고있는 알파벳으로 읽을 수 있는 단어 개수
     tmp_cnt=0
@@ -28,16 +28,16 @@ def count():#현재 알고있는 알파벳으로 읽을 수 있는 단어 개수
             tmp_cnt+=1
     return tmp_cnt
 
-def dfs(cur_cnt):
+def dfs(alpha):
     global cnt,K
     if sum(known) == K:
-        cnt = max(cnt, cur_cnt)
+        cnt = max(cnt, count()) #===시간초과 해결 방법1: K개 다 선택되었을 때만 count함수를 호출하면 된다.(굳이 하나 선택할 때마다 호출할 필요가 없었다)
         return
 
-    for i in range(26):
+    for i in range(alpha,26): #===시간초과 해결 방법2: 계속 26개를 다 봤는데, 그럴 필요없이 함수의 인자로 다음 차례를 받아서 거기서부터만 보도록 수정
         if not known[i]:
             known[i]=1
-            dfs(count())
+            dfs(i+1)
             known[i]=0
 
 N,K= map(int, input().split())
@@ -52,5 +52,5 @@ else:
     known=[0]*26
     for i in ['a','n','t','i','c']: #필수 포함 알파벳
         known[ord(i)-97]=1
-    dfs(count())
+    dfs(0)
 print(cnt)
