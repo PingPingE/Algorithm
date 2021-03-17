@@ -54,3 +54,40 @@ else:
         known[ord(i)-97]=1
     dfs(0)
 print(cnt)
+
+#sol2: 비트연산자 이용(괄호 주의)
+#130104kb	432ms -> 비트연산자를 사용하니 굉장히 빨라졌다.
+#참고:https://onlytrying.tistory.com/m/154?category=837398
+import sys
+def count():#현재 알고있는 알파벳으로 읽을 수 있는 단어 개수
+    tmp_cnt=0
+    for word in words:
+        if (word&known)==word:tmp_cnt+=1
+    return tmp_cnt
+
+def dfs(alpha,len_):
+    global cnt,K,known
+    if len_ == K:
+        cnt = max(cnt, count()) #===시간초과 해결 방법1: K개 다 선택되었을 때만 count함수를 호출하면 된다.(굳이 하나 선택할 때마다 호출할 필요가 없었다)
+        return
+
+    for i in range(alpha,26): #===시간초과 해결 방법2: 계속 26개를 다 봤는데, 그럴 필요없이 함수의 인자로 다음 차례를 받아서 거기서부터만 보도록 수정
+        if not(known&(1<<i)):
+            known|=(1<<i)
+            dfs(i+1,len_+1)
+            known&= ~(1<<i)
+
+N,K= map(int, input().split())
+words=[ 0 for _ in range(N)] #비트마스킹으로 각 단어에 포함된 알파벳 표시
+for _ in range(N):
+    for s in set(sys.stdin.readline().rstrip()):
+        words[_] |=1<<(ord(s)-97)
+cnt=0
+if K<5: cnt=0
+elif K==26: cnt=N
+else:
+    known=0
+    for i in ['a','n','t','i','c']: #필수 포함 알파벳
+        known |= 1<<(ord(i)-97)
+    dfs(0,5)
+print(cnt)
