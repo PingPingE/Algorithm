@@ -12,6 +12,7 @@ A를 B로 바꾸는데 필요한 연산의 최솟값을 구해보자.
 출력)
 A를 B로 바꾸는데 필요한 연산의 최솟값에 1을 더한 값을 출력한다. 만들 수 없는 경우에는 -1을 출력한다.
 '''
+#sol1: BFS
 #141648kb	180ms
 from collections import deque
 
@@ -39,4 +40,25 @@ while que:
     if x2 not in done and x1<=B:#조건 체크
         que.append((x2, cnt+1))
         done.add(x2)
+print(ans)
+
+#sol2: B -> A
+#121220kb	112ms
+A,B=map(int, input().split())
+ans, cnt=-1,0
+if A==B:
+    ans=0
+else:
+    while A<=B: #굳이 큐에 넣을 필요가 없다
+        if A==B:
+            ans=cnt+1
+            break
+        #나머지 연산으로 조건 체크
+        if B%2==0:
+            B//=2
+        elif B%10==1:
+            B//=10
+        else:
+            break
+        cnt+=1
 print(ans)
