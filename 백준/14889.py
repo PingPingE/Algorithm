@@ -87,3 +87,36 @@ for i in range(1<<N):
     if len(team1)==N//2:
         ans=min(ans, get_diff(team1,total-team1))
 print(ans)
+
+
+#sol3: 최적화
+#123756kb	708ms (868 -> 708 속도 개선)
+import sys
+def count_bits(x):#=====count만(조건에 못미치는데 계속 set에 add연산을 했으니까)
+    n=0
+    while x:
+        if x&1:n+=1
+        x>>=1
+    return n
+
+def get_diff(t1,t2):
+    return abs(get_sum(t1)-get_sum(t2))
+
+def get_sum(t):
+    sum=0
+    for i in t:
+        for j in t:
+            sum+=S[i][j]
+    return sum
+
+N=int(input())
+S=[list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+ans=sys.maxsize
+for i in range(1<<N):
+    if count_bits(i)==N//2: #====카운트만 해서 조건에 만족하면
+        team1,team2=set(),set()
+        for j in range(N):#====팀 구하는 걸로
+            if i&(1<<j): team1.add(j)
+            else: team2.add(j)
+        ans=min(ans, get_diff(team1,team2))
+print(ans)
