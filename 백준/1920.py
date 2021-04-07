@@ -10,6 +10,7 @@ N개의 정수 A[1], A[2], …, A[N]이 주어져 있을 때, 이 안에 X라는
 출력
 M개의 줄에 답을 출력한다. 존재하면 1을, 존재하지 않으면 0을 출력한다.
 '''
+#sol1: set의 in 연산으로 O(1)에 확인
 #152200kb	260ms
 import sys
 N=int(input())
@@ -20,3 +21,16 @@ for i in list(map(int, sys.stdin.readline().split())):
         print(1)
     else:
         print(0)
+
+#sol2: list의 in 연산으로 O(N)에 확인
+#147140kb  3676ms => 올바른 자료구조 선택의 중요성... 
+import sys
+N=int(input())
+A=list(map(int, sys.stdin.readline().split()))
+M=int(input())
+for i in list(map(int, sys.stdin.readline().split())):
+    if i in A:
+        print(1)
+    else:
+        print(0)
+        
