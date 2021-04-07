@@ -23,7 +23,7 @@ for i in list(map(int, sys.stdin.readline().split())):
         print(0)
 
 #sol2: list의 in 연산으로 O(N)에 확인
-#147140kb  3676ms => 올바른 자료구조 선택의 중요성... 
+#147140kb  3676ms => 올바른 자료구조 선택의 중요성...
 import sys
 N=int(input())
 A=list(map(int, sys.stdin.readline().split()))
@@ -33,4 +33,27 @@ for i in list(map(int, sys.stdin.readline().split())):
         print(1)
     else:
         print(0)
-        
+
+#sol3: list + binary search
+#144872kb	284ms => set보다 memory 줄고, 시간은 비슷
+import sys
+def binary_search(x):
+    l,r=0,len(A)-1
+    while l<=r:
+        m=(l+r)//2
+        if A[m] == x:
+            return True
+        elif A[m]<x:
+            l=m+1
+        else:
+            r=m-1
+    return False
+
+N=int(input())
+A=sorted(map(int, sys.stdin.readline().split()))
+M=int(input())
+for i in list(map(int, sys.stdin.readline().split())):
+    if binary_search(i):
+        print(1)
+    else:
+        print(0)
