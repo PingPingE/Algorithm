@@ -17,87 +17,113 @@
 출력
 최대 5번 이동시켜서 얻을 수 있는 가장 큰 블록을 출력한다.
 '''
-'''
-현재 방법)
-상하좌우 네 방향으로 갈 수 있는데,
-한 방향(현재는 '좌')만 구현하고 회전한 보드를 인풋으로 넣어줘서 네 방향으로 이동할 수 있도록 한다.
--> 개선점: 왼쪽으로 당길 때 좀 더 효율적으로(당길 때 중간에도 빈칸(0)이 없도록)
-'''
-from collections import deque
-def renew_maxx():
-    global maxx,board
+#124476kb	204ms
+#일단 상하좌우 다 구현
+def renew_maxx(board):
+    global maxx
     for b in board:
         maxx=max(maxx, max(b))
 
-def left():#=====좌로 이동 구현
-    global board
-    print("before======")
-    for b in board:
-        print(b)
-    print('============')
-    #===왼쪽으로 당기기(왼쪽에 빈칸(0) 없애기 위함)
+def right(board):
     for i in range(N):
-        que= deque(board[i][:])
-        for _ in range(N):
-            if que[0]>0:break
-            que.rotate(-1)
-        print(que)
-        board[i][:] = list(que)
-
-    for i in range(N):#===당긴 후 합치기 
-        cur_j = 0
+        cur_j = N-1#==차근차근 채울 col index
         cur_value = 0
-        for j in range(N):
+        for j in range(N-1,-1,-1):
             if board[i][j]>0:
+                if cur_value==0:
+                    cur_value=board[i][j]
+                    board[i][j]=0
+                    continue
                 if board[i][j] == cur_value:
                     board[i][cur_j] = cur_value * 2
                     cur_value = 0
                 else:
-                    board[i][cur_j] = board[i][j]
+                    board[i][cur_j]=cur_value
+                    cur_value=board[i][j]
+                board[i][j] = 0
+                cur_j -= 1
+        if cur_value>0:
+            board[i][cur_j]=cur_value
+    return board
+
+def up(board):
+    for j in range(N): #col
+        cur_i = 0#==차근차근 채울 row index
+        cur_value = 0
+        for i in range(N): #row
+            if board[i][j]>0:
+                if cur_value==0:
+                    cur_value=board[i][j]
+                    board[i][j]=0
+                    continue
+                if board[i][j] == cur_value:
+                    board[cur_i][j] = cur_value * 2
+                    cur_value = 0
+                else:
+                    board[cur_i][j]=cur_value
+                    cur_value=board[i][j]
+                board[i][j] = 0
+                cur_i += 1
+        if cur_value>0:
+            board[cur_i][j]=cur_value
+    return board
+
+def down(board):
+    for j in range(N):#col
+        cur_i = N-1
+        cur_value = 0
+        for i in range(N-1,-1,-1): #row
+            if board[i][j]>0:
+                if cur_value==0:
+                    cur_value=board[i][j]
+                    board[i][j]=0
+                    continue
+                if board[i][j] == cur_value:
+                    board[cur_i][j] = cur_value * 2
+                    cur_value = 0
+                else:
+                    board[cur_i][j]=cur_value
+                    cur_value=board[i][j]
+                board[i][j] = 0
+                cur_i -= 1
+        if cur_value>0:
+            board[cur_i][j]=cur_value
+    return board
+
+def left(board):
+    for i in range(N):
+        cur_j = 0
+        cur_value = 0
+        for j in range(N):
+            if board[i][j]>0:
+                if cur_value==0:
+                    cur_value=board[i][j]
+                    board[i][j]=0
+                    continue
+                if board[i][j] == cur_value:
+                    board[i][cur_j] = cur_value * 2
+                    cur_value = 0
+                else:
+                    board[i][cur_j]=cur_value
                     cur_value=board[i][j]
                 board[i][j] = 0
                 cur_j += 1
+        if cur_value>0:
+            board[i][cur_j]=cur_value
+    return board
 
-    print("after========")
-    for b in board:
-        print(b)
-    print('============')
-
-def rotation():
-    tmp=list([0]*N for _ in range(N))
-    for i in range(N):
-        for j in range(N):
-            tmp[i][j] = board[N-1-j][i]
-    return tmp
-
-def dfs(cnt):
-    global board
+def dfs(board,cnt):
     if cnt>=5:
+        renew_maxx(board)
         return
-    renew_maxx()
-    for _ in range(4):
-        board = rotation()#회전하고
-        left()#좌로 이동
-        dfs(cnt+1)
+    renew_maxx(board)
+    dfs(up(list(b[:] for b in board)), cnt+1)
+    dfs(down(list(b[:] for b in board)),cnt+1)
+    dfs(left(list(b[:] for b in board)),cnt+1)
+    dfs(right(list(b[:] for b in board)),cnt+1)
 
 N=int(input())
 board=[list(map(int, input().split()))for _ in range(N)]
 maxx=0
-dfs(0)
+dfs(list(b[:] for b in board), 0)
 print(maxx)
-
-'''
-Test Case
-
-3
-2 2 2
-4 4 4
-8 8 8
-
-5
-0 0 2 0 3
-0 5 0 0 0
-2 0 0 2 0
-0 0 0 0 0
-0 0 5 0 3
-'''
