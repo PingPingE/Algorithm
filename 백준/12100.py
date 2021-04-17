@@ -127,3 +127,75 @@ board=[list(map(int, input().split()))for _ in range(N)]
 maxx=0
 dfs(list(b[:] for b in board), 0)
 print(maxx)
+
+#=====코드 정리
+def renew_maxx(board):
+    global maxx
+    for b in board:
+        maxx=max(maxx, max(b))
+
+def UD(board,c_val,start_val,stop_val,step): #====Up & Down
+    for j in range(N): #col
+        cur_i = c_val#==차근차근 채울 row index
+        cur_value = 0
+        for i in range(start_val,stop_val,step): #row
+            if board[i][j]>0:
+                if cur_value==0:
+                    cur_value=board[i][j]
+                    board[i][j]=0
+                    continue
+                if board[i][j] == cur_value:
+                    board[cur_i][j] = cur_value * 2
+                    cur_value = 0
+                else:
+                    board[cur_i][j]=cur_value
+                    cur_value=board[i][j]
+                board[i][j] = 0
+                if c_val==0:
+                    cur_i+=1
+                else:
+                    cur_i-=1
+        if cur_value>0:
+            board[cur_i][j]=cur_value
+    return board
+
+def LR(board,c_val,start_val,stop_val,step): #===Left & Right
+    for i in range(N):
+        cur_j = c_val
+        cur_value = 0
+        for j in range(start_val,stop_val,step):
+            if board[i][j] > 0:
+                if cur_value == 0:
+                    cur_value = board[i][j]
+                    board[i][j] = 0
+                    continue
+                if board[i][j] == cur_value:
+                    board[i][cur_j] = cur_value * 2
+                    cur_value = 0
+                else:
+                    board[i][cur_j] = cur_value
+                    cur_value = board[i][j]
+                board[i][j] = 0
+                if c_val==0:
+                    cur_j+=1
+                else:
+                    cur_j-=1
+        if cur_value > 0:
+            board[i][cur_j] = cur_value
+    return board
+
+def dfs(board,cnt):
+    if cnt>=5:
+        renew_maxx(board)
+        return
+    renew_maxx(board)
+    dfs(UD(list(b[:] for b in board),N-1,N-1,-1,-1), cnt+1)
+    dfs(UD(list(b[:] for b in board),0,0,N,1),cnt+1)
+    dfs(LR(list(b[:] for b in board),N-1,N-1,-1,-1),cnt+1)
+    dfs(LR(list(b[:] for b in board),0,0,N,1),cnt+1)
+
+N=int(input())
+board=[list(map(int, input().split()))for _ in range(N)]
+maxx=0
+dfs(list(b[:] for b in board), 0)
+print(maxx)
