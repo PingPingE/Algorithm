@@ -18,9 +18,11 @@
 필요 자료구조)
 1. 현재 보고 있는 히스토그램의 높이
     => list에 높이 넣고 for문으로 하나씩 보기
+    
 2. (높이,인덱스) 오름차순 정렬 + 해당 높이에 해당되는 히스토그램 몇 개 
-    => stack에 해당 높이의 인덱스(위 list 기준)를 원소로 넣기 / 개수는 stack의 size
+    => stack에 해당 높이의 인덱스(위 list 기준)를 원소로 넣기 / 해당 높이에 해당되는 히스토그램 개수는 로직 3-3에서 설명
     => (높이, 인덱스)를 인덱스 하나로 대체
+    
 3. 현재까지의 가장 넓은 넓이
     => 그냥 스칼라타입 변수
 
@@ -30,17 +32,19 @@
 3. cur_height와 list[top_index] 비교
     3-1 cur_height = list[top_index] 경우
         => break
-        => 높이 안낮추고 같은 영역에 포함 가능하므로
+            => 높이 안낮추고 같은 영역에 포함 가능하므로
+            
     3-2 cur_height > list[top_index] 경우
         => append
-        => 새로운 시작
+            => 새로운 시작
+            
     3-3 cur_height < list[top_index] 경우
         => prev_index= 현재 top_index pop 하고 그다음 pop할 index (즉 순서를 보면, ... ~ prev_index ~ top_index ~ cur_index 이렇게 되어 있는거)
         => max값 갱신: max(maxx, (cur_index-prev_index-1)*list[top_index])
-        => list[top_index]의 높이로 더 이상 영역 확장 불가
+            => list[top_index]의 높이로 더 이상 영역 확장 불가
         
         => append
-        => 새로운 시작
+            => 새로운 시작
     => append가 겹치므로 그냥 공통으로 빼두는게 나을 듯(3-1의 경우도 append해도 노상관)
 '''
 #160248kb	216ms
@@ -98,7 +102,6 @@ while True:
             print(i-1-checked[-1])
             area = max(area, (i - 1 - checked[-1]) * heights[cur_height])
         checked.append(i)
-    print(checked)
     print(area)
 
 
