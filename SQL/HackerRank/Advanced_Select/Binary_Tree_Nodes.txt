@@ -1,0 +1,13 @@
+-- https://www.hackerrank.com/challenges/binary-search-tree-1/problem
+select
+concat(N,' ',
+       (
+        case
+            when P is null then 'Root'
+            when N in (select P from BST group by P) then 'Inner'
+            else 'Leaf'
+        end
+        )
+       )
+from BST
+order by N;
