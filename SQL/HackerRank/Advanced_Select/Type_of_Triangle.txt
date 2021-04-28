@@ -1,0 +1,9 @@
+-- https://www.hackerrank.com/challenges/what-type-of-triangle/problem
+select 
+case
+when A+B<=C then 'Not A Triangle'
+when (A=B and B=C) then 'Equilateral'
+when (A != B and B !=C and A!=C) then 'Scalene'
+else 'Isosceles'
+end
+from triangles
