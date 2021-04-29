@@ -11,3 +11,14 @@ concat(N,' ',
        )
 from BST
 order by N;
+
+
+---코드 개선
+select N,
+(case
+    when P is null then 'Root'
+    when N in (select distinct(P) from BST) then 'Inner'
+    else 'Leaf'
+end)       
+from BST
+order by N;
