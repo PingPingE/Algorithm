@@ -1,0 +1,6 @@
+select ceil(avg(e.salary)-avg(s.sal))
+from employees e, 
+(select 
+ replace(convert(salary,char),'0','') sal
+ from employees
+) s
