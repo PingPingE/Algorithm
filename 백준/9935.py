@@ -21,13 +21,35 @@
 출력)
 첫째 줄에 모든 폭발이 끝난 후 남은 문자열을 출력한다.
 '''
+#stack을 이용해서 시도2에서의 문자열 concat부분 없애서 성공
+#188536kb	240ms
+def check(target):
+    return target==bomb_str
+
+cur_str=input()
+bomb_str=input()
+bomb_len=len(bomb_str)
+st=[]
+for s in cur_str:
+    st.append(s)#===하나씩 넣다가
+    if s == bomb_str[-1]: #===끝부분이 bomb_str과 같고
+        if bomb_len > len(st): continue #====stack에 담긴 개수도 bomb_len만큼 충분하다면
+        if check(''.join(st[-bomb_len:])): #===뒷부분 문자열이 bomb_str과 같은지 확인
+            for _ in range(bomb_len):#===같다면 bomb_len만큼 pop
+                st.pop()
+        else:
+            continue
+print(''.join(st) if st else 'FRULA')
+
+
+
 #===시도2: 구간 [s,e) 만큼 조금씩만 보면 어떨까 -> 13%에서 시간초과
 cur_str=input()
 bomb_str=input()
 s,e=0,len(bomb_str)
 while s<e and e<=len(cur_str):
     if cur_str[s:e] == bomb_str: #===bomb_str은 길어봤자 36이라 문제될 것이 없는데..
-        cur_str=cur_str[:s]+cur_str[e:] #===이 부분이 문제인듯
+        cur_str=cur_str[:s]+cur_str[e:] #===이 부분(문자열 concat)이 문제인듯
         diff= s-len(bomb_str)
         remain= 0 if diff>=0 else -diff
         s,e= diff+remain, e+remain-len(bomb_str)
