@@ -1,0 +1,11 @@
+--sol1
+select round(LAT_N,4)
+from station
+where LAT_N>38.7780
+order by LAT_N
+limit 1
+
+--sol2
+select round(LAT_N,4)
+from station
+where LAT_N=(select min(LAT_N) from station where LAT_N>38.7780)
