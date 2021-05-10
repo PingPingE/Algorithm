@@ -1,0 +1,10 @@
+set @total_len:=(select count(*) from station);
+set @a:=0;
+
+--row(num) 하나 더 만들어서 where절로 자르기 
+select round(avg(tmp.LAT_N),4)
+from (select @a:=@a+1 num, LAT_N from station order by LAT_N) tmp
+where 
+case when @total_len%2=0 then num between ceil(@total_len/2) and ceil(@total_len/2)+1
+else num =ceil(@total_len/2)
+end;
