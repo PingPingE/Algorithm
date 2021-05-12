@@ -70,7 +70,7 @@ for i in range(1, n): #===이제 각 행을 보면서
     for j in range(1, m):
         right[j] = max(right[j-1] + data[i][j], dp[i-1][j] + data[i][j]) #==왼쪽이나 위에서 온 것 중 큰 것
 
-    #=== 오 <- 왼 방향으로
+    #=== 오 -> 왼 방향으로
     left[m-1] = dp[i-1][m-1] + data[i][m-1] #==젤 오른쪽에 있는건 오른쪽에서 오는 걸 받지 못하니까 이렇게 예외 처리한 듯
     for j in range(m-2, -1, -1):
         left[j] = max(left[j+1] + data[i][j], dp[i-1][j] + data[i][j]) #==오른쪽이나 위에서 온 것 중 큰 것
