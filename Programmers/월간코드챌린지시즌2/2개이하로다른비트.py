@@ -26,7 +26,28 @@ f(7) = 11 입니다. 다음 표와 같이 7보다 큰 수들 중에서 비트가
 numbers	result
 [2,7]	[3,11]
 '''
+#====string으로 풀어보기
+#===빠른데 정답이 아님
+def solution(numbers):
+    ans=[]
+    for n in numbers:
+        tmp=list(bin(n))
+        cnt=0
+        #뒤에서 부터 보면서 0인 부분있으면 바꿔주면 끝?
+        for e,s in enumerate(bin(n)[:1:-1],1):
+            if s=='0':
+                tmp[-e]='1'
+                ans.append(int(''.join(tmp),2))
+                break
+        #0 없으면 tmp[1]='b' -> '1'로 바꾸고, tmp[2]='1'->'0'으로 바꾸기
+        else:
+            tmp[1]='1'
+            tmp[2]='0'
+            ans.append(int('0b'+''.join(tmp[1:]),2))
+    return ans
 
+
+#===비트 연산자로 풀어보기
 def solution(numbers):
     ans=[]
     for n1 in numbers:
