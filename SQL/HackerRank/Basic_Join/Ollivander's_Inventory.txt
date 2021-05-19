@@ -17,12 +17,19 @@ order by w.power desc, wp.age desc
 
 
 -- try2: row_number() 활용해서 끊어보기
--- MySQL Version: 8.0.20 (https://www.hackerrank.com/environment)
--- 참고: https://dev.mysql.com/doc/refman/8.0/en/window-function-descriptions.html#function_row-number
+-- 참고1: https://learnsql.com/blog/sql-window-functions-vs-group-by/
+-- 참고2: https://www.sqlservertutorial.net/sql-server-window-functions/sql-server-row_number-function/
+-- MS SQL Server로 돌려서 성공 ㅎ
 
---일단 번호부터 부여해보기(실패)
-select w2.power, wp2.age, row_number() over wind as row_num
-    from wands w2
-    join wands_property wp2
-    on w2.code = wp2.code
-window wind as (order by w2.coins_needed)
+select id, age, coins_needed, power
+from
+(
+    select w.id, w.coins_needed, wp.age, w.power,
+     row_number() over(partition by wp.age, w.power order by w.coins_needed) as row_num
+    from wands w
+    join wands_property wp
+    on w.code=wp.code
+    where wp.is_evil=0
+ )tmp
+where row_num=1
+order by power desc, age desc;
