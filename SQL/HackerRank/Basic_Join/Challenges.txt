@@ -1,0 +1,31 @@
+-- 차근 차근
+-- 1. 각 학생이 참가한 챌린지 개수 필요(c_cnt)
+-- 2. count(c_cnt) 필요
+-- 3. c_cnt가 max(c_cnt)인지 확인 필요   
+
+-- 처음에는 window함수를 이용했는데 오히려 더 복잡해짐
+-- 1,2,3을 보면 카운트 값과 학생을 구분하기 위한 id만 있으면 됨
+
+with tmp as
+(
+    select hacker_id, count(challenge_id) as c_cnt
+    from challenges
+    group by hacker_id
+)
+
+
+select h.hacker_id, h.name, t.c_cnt
+from hackers as h
+join
+tmp as t
+on h.hacker_id = t.hacker_id
+where t.c_cnt = (select max(c_cnt) from tmp) 
+or t.c_cnt 
+in 
+(
+    select c_cnt
+    from tmp
+    group by c_cnt
+    having count(c_cnt)=1
+)
+order by t.c_cnt desc, h.hacker_id;
