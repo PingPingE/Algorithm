@@ -1,0 +1,27 @@
+
+with tmp as
+(
+    select s.hacker_id as h_id, count(s.challenge_id) as cnt
+    from submissions as s
+    join
+    (
+        select c.challenge_id, c.hacker_id, d.score
+        from challenges as c
+        join
+        difficulty as d
+        on c.difficulty_level = d.difficulty_level
+    ) as c
+
+    on s.challenge_id = c.challenge_id
+    -- on s.hacker_id = c.hacker_id 이 기준으로 했을 때 틀렸다. -> c테이블에서의 hacker_id는 challenge를 만든사람이고, s테이블에서의 hacker_id는 submission한 사람이기 때문
+
+    where s.score = c.score
+    group by s.hacker_id
+)
+
+select t.h_id, h.name
+from tmp as t
+join hackers as h
+on t.h_id = h.hacker_id
+where t.cnt>1
+order by t.cnt desc, t.h_id;
