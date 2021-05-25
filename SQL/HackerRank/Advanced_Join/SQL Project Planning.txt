@@ -13,7 +13,7 @@ with tmp as
     from projects
 )
 
--- diff가 1이상이다 = 다른 프로젝트의 시작 지점
+-- diff가 1초과다 = 다른 프로젝트의 시작 지점
 -- 따라서 diff>1인 지점의 row_num만 추출해서 lead함수로 다음 row_num과의 차이를 구하면 프로젝트 일수가 나옴 -> 그걸 dateadd의 number값으로 넘김
 select t1.start_date,
 isNull(dateadd(day, 
