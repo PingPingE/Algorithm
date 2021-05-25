@@ -1,0 +1,35 @@
+-- LAG (scalar_expression [,offset] [,default]) 
+-- DATEDIFF ( datepart , startdate , enddate )
+-- DATEADD (datepart , number , date )  
+
+-- lag함수로 이전 start_date 값을 보고 현재 start_date와의 차이를 구한다 -> 만약 같은 프로젝트면 1일 것이다.
+-- isNull에 2를 부여한 이유는 1만 아니면 되니까..
+
+with tmp as
+(
+    select start_date, end_date,
+    isNull(datediff(day,lag(start_date) over(order by start_date), start_date),2) as diff,
+    row_number() over(order by start_date) as row_num
+    from projects
+)
+
+-- diff가 1이상이다 = 다른 프로젝트의 시작 지점
+-- 따라서 diff>1인 지점의 row_num만 추출해서 lead함수로 다음 row_num과의 차이를 구하면 프로젝트 일수가 나옴 -> 그걸 dateadd의 number값으로 넘김
+select t1.start_date,
+isNull(dateadd(day, 
+               lead(t1.row_num) over(order by t1.start_date)-t1.row_num, 
+               t1.start_date),t1.end_date
+      ) as end_date2
+from tmp as t1
+
+join
+(select *
+ from tmp 
+ where diff>1
+)
+tmp2
+
+on t1.row_num = tmp2.row_num
+order by isNull(lead(t1.row_num) 
+                over(order by t1.start_date)-t1.row_num,
+                1), t1.start_date;
