@@ -1,0 +1,18 @@
+select t2.name
+from 
+(
+    select f.id as id, p.id as f_id, p.salary
+    from friends as f
+    join packages as p
+    on f.friend_id = p.id
+)t1
+join
+(
+    select s.id as id, s.name, p.salary
+    from students as s
+    join packages as p
+    on s.id = p.id
+)t2
+on t1.id = t2.id
+where t2.salary < t1.salary
+order by t1.salary;
