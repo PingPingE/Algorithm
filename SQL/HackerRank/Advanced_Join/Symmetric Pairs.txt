@@ -1,0 +1,11 @@
+with tmp as
+(
+    select X, Y,
+    X-lead(Y,1,1)over(partition by abs(X-Y) order by X) as diff
+    from functions
+)
+
+select X, Y
+from tmp 
+where diff=0
+order by X
