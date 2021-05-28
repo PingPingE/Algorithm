@@ -1,0 +1,38 @@
+with tmp as
+(
+    select col.contest_id, sum(v.tv) as s_tv, 
+    sum(v.u_tv) as s_u_tv, 
+    sum(s.ts) as s_ts, 
+    sum(s.a_ts) as s_a_ts
+    from colleges as col
+    join
+    challenges as ch
+    on ch.college_id = col.college_id
+    join
+    (
+        select challenge_id, sum(total_views) as tv,
+        sum(total_unique_views) as u_tv 
+        from view_stats
+        group by challenge_id
+    )as v
+    on v.challenge_id = ch.challenge_id
+    join
+    (
+        select challenge_id, sum(total_submissions) as ts,
+        sum(total_accepted_submissions) as a_ts 
+        from submission_stats
+        group by challenge_id
+    )as s
+    on s.challenge_id = ch.challenge_id
+    group by col.contest_id 
+)
+
+-- select * from tmp;
+select c.contest_id, c.hacker_id, c.name, sum(t.s_ts), sum(t.s_a_ts), sum(t.s_tv), sum(t.s_u_tv)
+from contests as c
+join
+tmp as t
+on c.contest_id =t.contest_id
+group by c.contest_id, c.hacker_id, c.name
+having sum(t.s_tv)>0 or sum(t.s_ts)>0
+order by c.contest_id
