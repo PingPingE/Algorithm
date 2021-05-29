@@ -1,14 +1,28 @@
-with tmp as
-(
-    select col.contest_id, sum(v.tv) as s_tv, 
-    sum(v.u_tv) as s_u_tv, 
+-- 0. contest에 참여한 여러 college를 묶고 
+-- 1. college의 여러 challenge를 묶고
+-- 2. view_stats, submission_stats를 challenge별로 합산하고 묶고 (누락방지를 위한 left join 중요)
+-- 3. contest, hacker, name별로 합산
+-- 4. 예외처리
+
+
+select c.contest_id, c.hacker_id, c.name,
     sum(s.ts) as s_ts, 
-    sum(s.a_ts) as s_a_ts
-    from colleges as col
+    sum(s.a_ts) as s_a_ts,
+    sum(v.tv) as s_tv, 
+    sum(v.u_tv) as s_u_tv
+from contests as c
+    -- 0
+    join
+    colleges as col
+    on c.contest_id = col.contest_id
+    
+    -- 1
     join
     challenges as ch
     on ch.college_id = col.college_id
-    join
+    
+    -- 2
+    left join
     (
         select challenge_id, sum(total_views) as tv,
         sum(total_unique_views) as u_tv 
@@ -16,7 +30,8 @@ with tmp as
         group by challenge_id
     )as v
     on v.challenge_id = ch.challenge_id
-    join
+    
+    left join
     (
         select challenge_id, sum(total_submissions) as ts,
         sum(total_accepted_submissions) as a_ts 
@@ -24,15 +39,38 @@ with tmp as
         group by challenge_id
     )as s
     on s.challenge_id = ch.challenge_id
-    group by col.contest_id 
-)
+    
+    -- 3
+    group by c.contest_id, c.hacker_id, c.name
+    
+    -- 4
+    having  sum(v.tv) >0 or sum(s.ts) >0
+    order by c.contest_id
 
--- select * from tmp;
-select c.contest_id, c.hacker_id, c.name, sum(t.s_ts), sum(t.s_a_ts), sum(t.s_tv), sum(t.s_u_tv)
-from contests as c
-join
-tmp as t
-on c.contest_id =t.contest_id
-group by c.contest_id, c.hacker_id, c.name
-having sum(t.s_tv)>0 or sum(t.s_ts)>0
-order by c.contest_id
+
+
+
+
+-- 검산용
+select col.contest_id, s.ts, s.a_ts,v.tv, v.u_tv
+    from 
+    colleges as col
+    join
+    challenges as ch
+    on ch.college_id = col.college_id
+    left join
+    (
+        select challenge_id, sum(total_views) as tv,
+        sum(total_unique_views) as u_tv 
+        from view_stats
+        group by challenge_id
+    )as v
+    on v.challenge_id = ch.challenge_id
+    left join
+    (
+        select challenge_id, sum(total_submissions) as ts,
+        sum(total_accepted_submissions) as a_ts 
+        from submission_stats
+        group by challenge_id
+    )as s
+on s.challenge_id = ch.challenge_id
