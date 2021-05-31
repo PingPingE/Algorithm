@@ -23,7 +23,7 @@ def solution(n):
             li[i][c] = num
             num += 1
 
-        return N - 1, c
+        return right(N - 1, c)
 
     def right(r, c):
         nonlocal li, num
@@ -31,7 +31,7 @@ def solution(n):
             if li[r][j] > 0: break
             li[r][j] = num
             num += 1
-        return r, N - 1
+        return up(r, N - 1)
 
     def up(r, c):
         nonlocal li, num
@@ -45,9 +45,7 @@ def solution(n):
     #R,C는 시작 위치, N은 범위, num은 채워넣을 숫자
     R, C, N, num = 0, 0, n, 1
     while (R < n and C < n) and not li[R][C]: #시작 위치 및 범위를 갱신하면서 아래->오른쪽->위 순서대로 채워넣기 
-        r_, c_ = down(R, C)
-        r_, c_ = right(r_, c_)
-        up(r_, c_)
+        down(R, C)
         
         #시작 위치 갱신
         R += 2
