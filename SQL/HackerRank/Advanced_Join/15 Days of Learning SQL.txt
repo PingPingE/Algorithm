@@ -1,0 +1,25 @@
+with tmp as (
+    select
+        s.submission_date, s.hacker_id, h.name,
+        count(s.hacker_id) over(partition by s.submission_date) as total_cnt,
+        count(s.submission_id) over(partition by s.submission_date, s.hacker_id) as sub_cnt
+    from submissions as s
+        left join hackers as h
+        on s.hacker_id = h.hacker_id
+)
+
+-- total_cnt에 유니크 hacker_id가 반영되지 않는 것이 문제점
+
+select distinct(tmp.submission_date), tmp2.total_cnt, tmp.hacker_id, tmp.name
+from tmp
+join
+    (select
+        submission_date,
+        hacker_id,
+        row_number() over(partition by submission_date order by sub_cnt desc, hacker_id) as row_num,
+        total_cnt
+    from tmp
+     )tmp2
+on tmp.hacker_id = tmp2.hacker_id and tmp.submission_date = tmp2.submission_date 
+where tmp2.row_num=1
+order by tmp.submission_date;
