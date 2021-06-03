@@ -1,0 +1,24 @@
+/*
+Problem)
+
+P(R) represents a pattern drawn by Julia in R rows. The following pattern represents P(5):
+
+* * * * * 
+* * * * 
+* * * 
+* * 
+*
+Write a query to print the pattern P(20).
+*/
+
+-- string function 모음: https://dev.mysql.com/doc/refman/8.0/en/string-functions.html 
+
+with recursive tmp as(
+    -- 공백때문에 +19
+    select 20+19 as n
+    union
+    -- 공백때문에 -2
+    select n-2 from tmp where n>1
+)
+-- lpad(원본 문자열, 총 길이, 왼쪽에 붙일 문자열)
+select lpad('*',n,'* ') from tmp
