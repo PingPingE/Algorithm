@@ -22,3 +22,14 @@ with recursive tmp as(
 )
 -- lpad(원본 문자열, 총 길이, 왼쪽에 붙일 문자열)
 select lpad('*',n,'* ') from tmp
+
+
+
+-- 더 쉬운 방법: repeat함수
+with recursive tmp as (
+    select 20 as n
+    union
+    select n-1 from tmp where n>1
+)
+
+select repeat('* ', n) from tmp
