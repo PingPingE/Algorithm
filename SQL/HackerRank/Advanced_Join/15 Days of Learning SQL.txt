@@ -1,3 +1,47 @@
+-- 나의 풀이: dense_rank 활용
+with tmp as(
+    select t.submission_date, 
+    h.hacker_id, 
+    h.name,
+    -- 각 submission_date가 대회 며칠째인지 -> date_num 
+    dense_rank() over(order by t.submission_date) as date_num,
+    
+    -- 각 hacker_id별로 해당 date에 내는게 몇 번째 submission인지 -> sub_num
+    dense_rank() over(partition by h.hacker_id order by t.submission_date) as sub_num,
+    
+    -- 각 date에 최다 submission + 그 중 id도 가장 작은사람 순위 매기기 -> row_num
+    row_number() over(partition by t.submission_date 
+                      order by t.sub_cnt desc, h.hacker_id)as row_num
+    from 
+    (
+        select submission_date, hacker_id, count(submission_id)as sub_cnt
+        from submissions
+        group by submission_date, hacker_id
+    )t
+    join
+        hackers as h
+    on t.hacker_id = h.hacker_id
+)
+
+select t1.submission_date, t2.cnt, t1.hacker_id, t1.name 
+from (
+    -- 각 date 최다 제출자
+    select submission_date,hacker_id, name
+    from tmp
+    where row_num=1
+)t1
+join
+(
+    -- date_num과 sub_num이 같다면 현재 date까진 매일 제출한 사람
+    select submission_date, count(distinct hacker_id) as cnt
+    from tmp
+    where date_num=sub_num
+    group by submission_date
+)t2
+on t1.submission_date = t2.submission_date
+
+
+
 -- 이 문제의 핵심은 이전의 모든 대회 참가 여부를 어떻게 추출해낼 것인지 생각해내는 것
 -- 코드 출처: https://www.hackerrank.com/challenges/15-days-of-learning-sql/forum 
 
