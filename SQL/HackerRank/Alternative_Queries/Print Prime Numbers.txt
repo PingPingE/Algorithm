@@ -1,0 +1,15 @@
+with recursive tmp as(
+    select 2 as n
+    union
+    select n+1 from tmp where n<1000
+)
+-- group_concat 참고: https://stackoverflow.com/questions/276927/can-i-concatenate-multiple-mysql-rows-into-one-field
+select group_concat(n separator '&')from tmp as t
+
+-- not exists 참고: https://stackoverflow.com/questions/37234893/print-prime-numbers-with-sql-query
+-- in과 exists의 차이 참고: https://doorbw.tistory.com/222
+where not exists
+(   
+    select n from tmp
+    where t.n > n and t.n%n=0
+)
