@@ -41,24 +41,17 @@ def sol(arr):
     if check(arr):
         return
     N=len(arr)
-    
+
     #4개의 정사각형으로 쪼개기
     a1,a2,a3,a4 = [], [], [], []
-    for e,a in enumerate(arr[:N//2]):
-        if e==0:
-            a1.append(a[:N//2])
-            a2.append(a[N//2:])
-        else:
-            a1.append(a[:N//2])
-            a2.append(a[N//2:])
+    for a in arr[:N//2]:
+        a1.append(a[:N//2])
+        a2.append(a[N//2:])
 
-    for e,a in enumerate(arr[N//2:]):
-        if e==0:
-            a3.append(a[:N//2])
-            a4.append(a[N//2:])
-        else:
-            a3.append(a[:N//2])
-            a4.append(a[N//2:])
+    for a in arr[N//2:]:
+        a3.append(a[:N // 2])
+        a4.append(a[N // 2:])
+
     sol(a1)
     sol(a2)
     sol(a3)
