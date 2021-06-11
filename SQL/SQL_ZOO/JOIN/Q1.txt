@@ -1,0 +1,7 @@
+-- 문제 출처: https://sqlzoo.net/wiki/The_JOIN_operation
+
+-- 1.Show the matchid and player name for all goals scored by Germany. To identify German players, check for: teamid = 'GER'
+
+select matchid, player 
+from goal 
+where teamid like 'GER'
