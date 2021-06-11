@@ -1,0 +1,10 @@
+-- 문제 출처: https://sqlzoo.net/wiki/The_JOIN_operation
+
+-- 4. Show the team1, team2 and player for every goal scored by a player called Mario player LIKE 'Mario%'
+
+select team1, team2, player
+from game
+join
+goal
+on game.id = goal.matchid
+where goal.player like 'Mario%' 
