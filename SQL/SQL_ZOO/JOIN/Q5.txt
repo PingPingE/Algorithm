@@ -1,0 +1,10 @@
+-- 문제 출처: https://sqlzoo.net/wiki/The_JOIN_operation
+
+-- 5. Show player, teamid, coach, gtime for all goals scored in the first 10 minutes gtime<=10
+
+select goal.player, goal.teamid, eteam.coach, goal.gtime
+from goal
+join
+eteam
+on goal.teamid = eteam.id
+where goal.gtime<=10
