@@ -1,0 +1,10 @@
+-- 문제 출처: https://sqlzoo.net/wiki/The_JOIN_operation
+
+-- 3.Show the player, teamid, stadium and mdate for every German goal.
+
+select goal.player, goal.teamid, game.stadium, game.mdate
+from game
+join 
+goal
+on game.id = goal.matchid
+where goal.teamid like 'GER' 
