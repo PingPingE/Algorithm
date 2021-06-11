@@ -1,0 +1,7 @@
+-- 문제 출처: https://sqlzoo.net/wiki/The_JOIN_operation
+
+-- 2.Show id, stadium, team1, team2 for just game 1012
+
+select id,stadium,team1,team2
+from game
+where id like '1012'
