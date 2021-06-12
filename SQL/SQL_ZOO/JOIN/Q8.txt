@@ -1,0 +1,8 @@
+-- https://sqlzoo.net/wiki/The_JOIN_operation
+-- 8. show the name of all players who scored a goal against Germany.
+
+select distinct(goal.player)
+from (select * from game where team1 like 'GER' or team2 like 'GER') game_
+join goal
+on game_.id = goal.matchid
+where goal.teamid not like 'GER'
