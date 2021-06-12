@@ -1,0 +1,8 @@
+-- https://sqlzoo.net/wiki/The_JOIN_operation
+--7. List the player for every goal scored in a game where the stadium was 'National Stadium, Warsaw'
+
+select goal.player
+from game
+join goal
+on game.id = goal.matchid
+where game.stadium like 'National Stadium, Warsaw'
