@@ -1,0 +1,9 @@
+-- https://sqlzoo.net/wiki/The_JOIN_operation
+-- 6. List the dates of the matches and the name of the team in which 'Fernando Santos' was the team1 coach.
+
+select game.mdate, eteam.teamname
+from game
+join
+eteam
+on  game.team1 = eteam.id
+where eteam.coach like 'Fernando Santos'
