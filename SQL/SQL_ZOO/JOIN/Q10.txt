@@ -1,0 +1,8 @@
+-- https://sqlzoo.net/wiki/The_JOIN_operation
+-- 10. Show the stadium and the number of goals scored in each stadium.
+
+select game.stadium, count(*)
+from game
+join goal
+on game.id = goal.matchid
+group by game.stadium
