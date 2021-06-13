@@ -1,0 +1,11 @@
+-- https://sqlzoo.net/wiki/The_JOIN_operation
+-- 12. For every match where 'GER' scored, show matchid, match date and the number of goals scored by 'GER'
+
+select game.id , game.mdate, count(*)
+from game
+left join (select * from goal where teamid like 'GER') g
+on game.id = g.matchid
+where game.team1 like 'GER' or game.team2 like 'GER'
+group by game.id, game.mdate
+
+
