@@ -1,0 +1,8 @@
+-- https://sqlzoo.net/wiki/The_JOIN_operation
+--11. For every match involving 'POL', show the matchid, date and the number of goals scored.
+
+select g.id, g.mdate, count(*)
+from (select  * from game where team1 like 'POL' or team2 like 'POL') g
+join goal
+on g.id = goal.matchid
+group by g.id, g.mdate
