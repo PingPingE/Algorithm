@@ -1,0 +1,44 @@
+--------------------------------------------------------------------------------------------------------------------------------------------------
+https://sqlzoo.net/wiki/The_JOIN_operation
+
+13. List every match with the goals scored by each team as shown. This will use "CASE WHEN" which has not been explained in any previous exercises.
+mdate	team1	score1	team2	score2
+1 July 2012	ESP	4	ITA	0
+10 June 2012	ESP	1	ITA	1
+10 June 2012	IRL	1	CRO	3
+...
+Notice in the query given every goal is listed. 
+If it was a team1 goal then a 1 appears in score1, otherwise there is a 0. 
+You could SUM this column to get a count of the goals scored by team1. Sort your result by mdate, matchid, team1 and team2.
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+select tmp1. mdate, tmp1.team1, tmp1.s1 as score1, tmp2.team2, tmp2.s2 as score2
+
+from
+-- team1의 score 구하기 (주의:left join)
+(
+select  id, mdate,team1, sum(score1) s1
+from (select id, mdate,
+  team1,
+  case when teamid=team1 then 1 else 0 end score1
+  from game left join goal on matchid = id
+) tmp
+group by id, mdate, team1
+)tmp1
+
+join
+
+-- team2의 score 구하기
+(
+select  id, mdate,team2, sum(score2) s2
+from (select id, mdate,
+  team2,
+  case when teamid=team2 then 1 else 0 end score2
+  from game left join goal on matchid = id
+) tmp
+group by id, mdate, team2
+) tmp2
+
+on tmp1.id = tmp2.id
+group by tmp1.id, tmp1.mdate, tmp1.team1, tmp1.s1, tmp2.team2, tmp2.s2
+order by tmp1.mdate, tmp1.id, tmp1.team1, tmp2.team2
