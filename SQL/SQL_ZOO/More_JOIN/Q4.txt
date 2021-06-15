@@ -1,0 +1,6 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 4. What id number does the actor 'Glenn Close' have?
+select m.id from movie as m 
+join actor as a
+on m.id = a.id
+where a.name like 'Glenn Close'
