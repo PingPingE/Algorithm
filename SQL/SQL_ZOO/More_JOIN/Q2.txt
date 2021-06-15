@@ -1,0 +1,3 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 2. Give year of 'Citizen Kane'.
+select yr from movie where title like 'Citizen Kane'
