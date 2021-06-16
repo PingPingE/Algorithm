@@ -1,0 +1,10 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 11. Which were the busiest years for 'Rock Hudson', show the year and the number of movies he made each year for any year in which he made more than 2 movies.
+
+select m.yr, count(m.id)
+from movie as m
+join actor as a
+on m.director = a.id
+where a.name like' Rock Hudson'
+group by m.yr
+having count(m.id)>2
