@@ -1,0 +1,20 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 15.List all the people who have worked with 'Art Garfunkel'.
+
+select distinct(a2.name)
+from
+-- Art Garfunkel이 출연한 영화의 id 먼저 추출 후 같이 출연한 배우들 추출
+(select m.id
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a
+on a.id = c.actorid
+where a.name like 'Art Garfunkel') as m2
+
+join casting as c2
+on m2.id = c2.movieid
+
+join actor as a2
+on a2.id = c2.actorid
+where a2.name not like 'Art Garfunkel'
