@@ -1,0 +1,9 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 7.Obtain the cast list for the film 'Alien'
+
+select a.name from casting as c
+join movie as m
+on c.movieid = m.id
+join actor as a
+on c.actorid = a.id
+where m.title like 'Alien'
