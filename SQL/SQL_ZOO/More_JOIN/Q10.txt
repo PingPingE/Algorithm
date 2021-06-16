@@ -1,0 +1,10 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 10. List the films together with the leading star for all 1962 films.
+
+select m.title, a.name
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a
+on c.actorid = a.id
+where m.yr = 1962 and c.ord = 1
