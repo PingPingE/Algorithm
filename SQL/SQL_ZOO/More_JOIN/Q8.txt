@@ -1,0 +1,10 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 8. List the films in which 'Harrison Ford' has appeared
+
+select m.title 
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a
+on c.actorid = a.id
+where a.name like 'Harrison Ford' 
