@@ -1,0 +1,20 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 12.List the film title and the leading actor for all of the films 'Julie Andrews' played in.
+
+select  m2.title, a2.name
+from
+-- Julie Andrews가 출연한 영화의 id, title 추출 후 해당 영화의 주연 추출
+(select m.id, m.title
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a 
+on c.actorid = a.id
+where a.name like 'Julie Andrews') as m2
+
+join casting as c2
+on m2.id = c2.movieid
+
+join actor as a2
+on c2.actorid = a2.id
+where c2.ord = 1
