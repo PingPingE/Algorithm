@@ -1,0 +1,15 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 6.Obtain the cast list for 'Casablanca'.
+
+select a.name from casting as c
+join movie as m
+on c.movieid = m.id
+join actor as a
+on c.actorid = a.id
+where m.title like 'Casablanca'
+
+
+
+
+
+
