@@ -1,0 +1,12 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 14.List the films released in the year 1978 ordered by the number of actors in the cast, then by title.
+
+select m.title, count(a.id)
+from movie as m
+join casting as c
+on m.id = c.movieid
+join actor as a
+on c.actorid = a.id
+where m.yr= 1978
+group by m.id, m.title
+order by count(a.id) desc, m.title
