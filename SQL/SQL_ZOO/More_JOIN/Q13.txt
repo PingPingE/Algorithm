@@ -1,0 +1,11 @@
+-- https://sqlzoo.net/wiki/More_JOIN_operations
+-- 13.Obtain a list, in alphabetical order, of actors who've had at least 15 starring roles.
+
+select a.name
+from casting as c
+join actor as a
+on c.actorid =a.id
+where c.ord=1
+group by a.name
+having count(*)>=15
+order by a.name
