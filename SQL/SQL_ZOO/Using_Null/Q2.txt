@@ -1,0 +1,4 @@
+-- https://sqlzoo.net/wiki/Using_Null
+-- 2.Note the INNER JOIN misses the teachers with no department and the departments with no teacher.
+
+select t.name, d.name from teacher as t join dept as d on t.dept = d.id 
