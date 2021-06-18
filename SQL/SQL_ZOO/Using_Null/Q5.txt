@@ -1,0 +1,5 @@
+-- https://sqlzoo.net/wiki/Using_Null
+-- https://sqlzoo.net/wiki/COALESCE
+-- 5.Use COALESCE to print the mobile number. Use the number '07986 444 2266' if there is no number given. Show teacher name and mobile number or '07986 444 2266'
+
+select name, coalesce(mobile,  '07986 444 2266') from teacher
