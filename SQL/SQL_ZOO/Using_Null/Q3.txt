@@ -1,0 +1,4 @@
+-- https://sqlzoo.net/wiki/Using_Null
+-- 3.Use a different JOIN so that all teachers are listed.
+
+select t.name, d.name from teacher as t left join dept as d on t.dept = d.id
