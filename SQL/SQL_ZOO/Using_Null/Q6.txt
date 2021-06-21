@@ -1,0 +1,7 @@
+-- https://sqlzoo.net/wiki/Using_Null
+-- 6.Use the COALESCE function and a LEFT JOIN to print the teacher name and department name. Use the string 'None' where there is no department.
+
+select t.name, coalesce(d.name, 'None') 
+from teacher as t 
+left join dept as d 
+on t.dept = d.id

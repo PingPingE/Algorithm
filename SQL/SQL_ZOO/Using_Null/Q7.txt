@@ -1,0 +1,4 @@
+-- https://sqlzoo.net/wiki/Using_Null
+-- 7.Use COUNT to show the number of teachers and the number of mobile phones.
+
+select count(id), count(mobile) from teacher

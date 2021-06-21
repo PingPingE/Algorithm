@@ -1,0 +1,9 @@
+-- https://sqlzoo.net/wiki/Using_Null
+-- 8.Use COUNT and GROUP BY dept.name to show each department and the number of staff. Use a RIGHT JOIN to ensure that the Engineering department is listed.
+
+select d.name, count(t.id)
+from teacher as t
+right join
+dept as d
+on t.dept = d.id
+group by d.name
