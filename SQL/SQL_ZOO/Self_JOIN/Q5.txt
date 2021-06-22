@@ -1,0 +1,7 @@
+-- https://sqlzoo.net/wiki/Self_join
+-- 5.Execute the self join shown and observe that b.stop gives all the places you can get to from Craiglockhart, without changing routes. Change the query so that it shows the services from Craiglockhart to London Road.
+
+select b.company, b.num, a.stop,b.stop
+from route as a  join route as b
+on  a.num=b.num
+where a.stop=53 and b.stop=149
