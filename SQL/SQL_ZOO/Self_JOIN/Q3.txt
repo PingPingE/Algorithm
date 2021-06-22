@@ -1,0 +1,7 @@
+-- https://sqlzoo.net/wiki/Self_join
+-- 3.Give the id and the name for the stops on the '4' 'LRT' service.
+
+select s.id, s.name 
+from stops as s join route as r 
+on s.id = r.stop
+where r.company like 'LRT' and r.num= '4'
