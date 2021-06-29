@@ -1,45 +1,80 @@
-#틀린 코드
-from collections import deque
+'''
+문제 설명)
+다음과 같은 것들을 정의합니다.
+
+어떤 수열 x의 부분 수열(Subsequence)이란, x의 몇몇 원소들을 제거하거나 그러지 않고 남은 원소들이 원래 순서를 유지하여 얻을 수 있는 새로운 수열을 말합니다.
+
+예를 들어, [1,3]은 [1,2,3,4,5]의 부분수열입니다. 원래 수열에서 2, 4, 5를 제거해서 얻을 수 있기 때문입니다.
+다음과 같은 조건을 모두 만족하는 수열 x를 스타 수열이라고 정의합니다.
+
+x의 길이가 2 이상의 짝수입니다. (빈 수열은 허용되지 않습니다.)
+x의 길이를 2n이라 할 때, 다음과 같은 n개의 집합 {x[0], x[1]}, {x[2], x[3]}, ..., {x[2n-2], x[2n-1]} 의 교집합의 원소의 개수가 1 이상입니다.
+x[0] != x[1], x[2] != x[3], ..., x[2n-2] != x[2n-1] 입니다.
+예를 들어, [1,2,1,3,4,1,1,3]은 스타 수열입니다. {1,2}, {1,3}, {4,1}, {1,3} 의 교집합은 {1} 이고, 각 집합 내의 숫자들이 서로 다르기 때문입니다.
+1차원 정수 배열 a가 매개변수로 주어집니다. a의 모든 부분 수열 중에서 가장 길이가 긴 스타 수열의 길이를 return 하도록 solution 함수를 완성해주세요.
+이때, a의 모든 부분 수열 중에서 스타 수열이 없다면, 0을 return 해주세요.
+
+제한사항)
+a의 길이는 1 이상 500,000 이하입니다.
+a의 모든 수는 0 이상 (a의 길이) 미만입니다.
+
+입출력 예)
+a	                result
+[0]	                    0
+[5,2,3,3,5,3]	        4
+[0,3,3,0,7,2,0,2,2,0]	8
+'''
+
 def solution(a):
     answer = 0
-    que = deque()
-    for i in a:
-        que.append([i, None, None, 1, 1])
-    while que:
-        #idx로 순서대로 보니까 부분수열 조건 만족
-        #prev1,prev2로 이전 집합의 원소 확인
-        #inter로 교집합 원소 확인
-        prev1, prev2, inter, cnt, idx = que.popleft()
-        # print(prev1, prev2, inter, cnt, idx)
-        
-        if cnt % 2 == 0:
-            answer = max(answer, cnt)
+    dic = {}
+    for i in range(len(a)):
+        #a[i]를 교집합 원소로 지정했을 때 조건을 만족하는 원소들의 인덱스 담기
+        if a[i] not in dic:
+            dic[a[i]] = []
 
-            for i in range(idx, len(a)):
-                if a[i] in [prev1, prev2]:
-                    que.append([a[i], None, inter, cnt + 1, i + 1])
-                    continue
+        #초기에 계속 틀린 이유: 왼쪽부터 안보고 오른쪽부터 봄(i+1부터 체크했음)
+        #1. 왼쪽에서부터(유효 구간 모두) 조건 체크
+        mini = 0 if len(dic[a[i]]) == 0 else dic[a[i]][-1] + 1 #이전에 a[i]를 교집합 원소
+        for j in range(mini, i):
+            if a[j] != a[i]:
+                dic[a[i]].extend([j, i])
+                break
         else:
-            #먼저 들어온 prev1이 교집합 원소와 같은 경우
-            if inter == prev1:
-                for i in range(idx, len(a)):
-                    if a[i] != prev1:
-                        que.append([prev1, a[i], inter, cnt + 1, i + 1])
-                        continue
-                        
-            #교집합 원소가 없는 경우(시작)
-            elif inter == None:
-                for i in range(idx, len(a)):
-                    if a[i] != prev1:
-                        que.append([prev1, a[i], prev1, cnt + 1, i + 1])
-                        que.append([prev1, a[i], a[i], cnt + 1, i + 1])
-                        continue
-                        
-            #이번에 교집합 원소와 같은 값을 넣어야 하는 경우
-            else:
-                for i in range(idx, len(a)):
-                    if a[i] == inter:
-                        que.append([prev1, a[i], inter, cnt + 1, i + 1])
-                        continue
-
+            #2. 왼쪽에 없으면 오른쪽
+            if i + 1 < len(a) and a[i + 1] != a[i]:
+                dic[a[i]].extend([i, i + 1])
+        answer= max(answer, len(dic[a[i]]))
     return answer
+
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.02ms, 10.2MB)
+테스트 2 〉	통과 (0.02ms, 10.2MB)
+테스트 3 〉	통과 (0.02ms, 10.3MB)
+테스트 4 〉	통과 (0.03ms, 10.3MB)
+테스트 5 〉	통과 (0.02ms, 10.3MB)
+테스트 6 〉	통과 (0.03ms, 10.2MB)
+테스트 7 〉	통과 (0.03ms, 10.2MB)
+테스트 8 〉	통과 (0.03ms, 10.1MB)
+테스트 9 〉	통과 (0.04ms, 10.2MB)
+테스트 10 〉	통과 (0.06ms, 10.2MB)
+테스트 11 〉	통과 (0.08ms, 10.2MB)
+테스트 12 〉	통과 (0.09ms, 10.1MB)
+테스트 13 〉	통과 (291.51ms, 46.5MB)
+테스트 14 〉	통과 (476.02ms, 59.5MB)
+테스트 15 〉	통과 (470.92ms, 69.4MB)
+테스트 16 〉	통과 (636.54ms, 70.6MB)
+테스트 17 〉	통과 (496.71ms, 72MB)
+테스트 18 〉	통과 (131.02ms, 30MB)
+테스트 19 〉	통과 (265.96ms, 49.8MB)
+테스트 20 〉	통과 (814.20ms, 98.7MB)
+테스트 21 〉	통과 (776.54ms, 98.4MB)
+테스트 22 〉	통과 (759.13ms, 98.6MB)
+테스트 23 〉	통과 (588.16ms, 83.3MB)
+테스트 24 〉	통과 (747.52ms, 95.7MB)
+테스트 25 〉	통과 (752.41ms, 98.7MB)
+테스트 26 〉	통과 (725.00ms, 91.7MB)
+테스트 27 〉	통과 (496.61ms, 72.5MB)
+테스트 28 〉	통과 (0.04ms, 10.1MB)
+'''
