@@ -35,7 +35,7 @@ def solution(a):
 
         #초기에 계속 틀린 이유: 왼쪽부터 안보고 오른쪽부터 봄(i+1부터 체크했음)
         #1. 왼쪽에서부터(유효 구간 모두) 조건 체크
-        mini = 0 if len(dic[a[i]]) == 0 else dic[a[i]][-1] + 1 #이전에 a[i]를 교집합 원소
+        mini = 0 if len(dic[a[i]]) == 0 else dic[a[i]][-1] + 1 #이전에 담은 인덱스가 없다면 0, 있다면 해당 인덱스+1부터
         for j in range(mini, i):
             if a[j] != a[i]:
                 dic[a[i]].extend([j, i])
