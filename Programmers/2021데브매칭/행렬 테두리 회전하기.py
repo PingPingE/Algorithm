@@ -26,10 +26,15 @@ return 하도록 solution 함수를 완성해주세요.
 def solution(rows, columns, queries):
     answer = []
     board = [list(range(n,n+columns)) for n in range(1,rows*columns+1,columns)]
+    
     def rotation(x1,y1,x2,y2):
         nonlocal answer
+        #이번 회전에서 이동한 숫자 중 최솟값 저장을 위한 변수 선언
         mini = 10001
+        
+        #갱신될 부분의 크기만큼의 배열 선언
         new_board=[[0]*(y2-y1) for _ in range(x2-x1)]
+        
         #왼쪽
         for new_i,i in zip(range(x2-x1),range(x1,x2)):
             if i+1 < x2 and new_board[new_i][0]==0:
@@ -54,16 +59,20 @@ def solution(rows, columns, queries):
                 new_board[-1][new_j] = board[x2-1][j+1]
                 mini = min(mini,board[x2-1][j+1])
                 
+        #이번 회전에서 이동한 숫자 중 최솟값 추가
         answer.append(mini)   
         return new_board
     
     for x1,y1,x2,y2 in queries:
         new_board = rotation(x1-1, y1-1, x2, y2)
+        
+        #board 갱신
         for r,i in enumerate(range(x1-1, x2)):
             for c,j in enumerate(range(y1-1,y2)):
                 if new_board[r][c]!=0:
                     board[i][j] = new_board[r][c]
     return answer
+
 
 '''
 정확성  테스트
