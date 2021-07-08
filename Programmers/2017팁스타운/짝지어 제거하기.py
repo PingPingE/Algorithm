@@ -19,7 +19,7 @@ b aa baa → bb aa → aa →
 문자열은 모두 소문자로 이루어져 있습니다.
 '''
 
-# 시간초과는 안나는데 일부 히든 테케가 틀린 코드
+# 틀린 코드
 # 아마 제거 순서를 고려안해서?
 
 from collections import deque
