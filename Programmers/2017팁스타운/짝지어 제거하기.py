@@ -19,43 +19,55 @@ b aa baa → bb aa → aa →
 문자열은 모두 소문자로 이루어져 있습니다.
 '''
 
-# 틀린 코드
-# 아마 제거 순서를 고려안해서?
+#원소 두 개씩 보면서 공백으로 바꾸는 것 보다는
+#stack , deque를 활용하여 효율적으로
 
 from collections import deque
-# 붙어있는 짝 찾아 제거하기
-def sol(s):
-    before = len(s)
-    i = 0
-    while i < len(s) - 1:
-        if s[i] == s[i + 1]:
-            s[i], s[i + 1] = '', ''
-            i += 2
-        else:
-            i += 1
-
-    return (len(s) != before, ''.join(s))
-
-
-# 문자열이 남아있는지
-def check(s):
-    if len(s) == 0:
-        return True
-    return False
-
 
 def solution(s):
-    que = deque([s])
-    while que:
-        q = que.popleft()
-        if check(q):
-            return 1
+    s = list(s)
 
-        diff, new_s = sol(list(q))
+    #sol함수의 인자로 s를 전달했을 땐 일부 테케에서 런타임에러가 났음
+    def sol():
+        nonlocal s
+        new_s = deque()
+        while s:
+            if len(new_s) >0 and s[-1] == new_s[0]:
+                new_s.popleft()
+            else:
+                new_s.appendleft(s[-1])
+            s.pop()
+        return new_s
 
-        if not diff:
-            continue
+    while len(s) > 0:
+        before = len(s)
+        s = sol()
+        if len(s) == before:
+            return 0
+    return 1
 
-        que.append(new_s)
-
-    return 0
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.01ms, 10.1MB)
+테스트 2 〉	통과 (17.34ms, 11MB)
+테스트 3 〉	통과 (20.36ms, 11.1MB)
+테스트 4 〉	통과 (21.16ms, 11.1MB)
+테스트 5 〉	통과 (21.75ms, 11.2MB)
+테스트 6 〉	통과 (20.42ms, 11.1MB)
+테스트 7 〉	통과 (20.34ms, 11.1MB)
+테스트 8 〉	통과 (24.39ms, 11.1MB)
+테스트 9 〉	통과 (0.01ms, 10.3MB)
+테스트 10 〉	통과 (0.04ms, 10.2MB)
+테스트 11 〉	통과 (0.01ms, 10.2MB)
+테스트 12 〉	통과 (0.01ms, 10.2MB)
+테스트 13 〉	통과 (0.01ms, 10.2MB)
+효율성  테스트
+테스트 1 〉	통과 (210.07ms, 22.6MB)
+테스트 2 〉	통과 (175.30ms, 18.5MB)
+테스트 3 〉	통과 (207.16ms, 20.1MB)
+테스트 4 〉	통과 (204.79ms, 20.1MB)
+테스트 5 〉	통과 (207.83ms, 20.1MB)
+테스트 6 〉	통과 (208.95ms, 20MB)
+테스트 7 〉	통과 (208.83ms, 20MB)
+테스트 8 〉	통과 (196.93ms, 20.8MB)
+'''
