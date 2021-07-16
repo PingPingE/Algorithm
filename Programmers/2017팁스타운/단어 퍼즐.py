@@ -1,5 +1,4 @@
-#시간 초과 코드
-#다음 시도: 같은 단어 조각이 연속으로 나온다면 굳이 재귀 돌지 않고 한 번에 처리하도록
+#시도중
 import sys
 
 sys.setrecursionlimit(10 ** 8)
@@ -18,9 +17,9 @@ class Node:
 class Trie:
     def __init__(self, t):
         self.node = Node(None)
-        self.ans = INF
         self.t = t
         self.len = len(t)
+        self.ans = [INF for _ in range(self.len)]
 
     def insert(self, target):
         cur_node = self.node
@@ -39,9 +38,7 @@ class Trie:
 
         cur_node.end = True
 
-    def search(self, idx, cnt):
-        if cnt >= self.ans:
-            return
+    def search(self, s_idx, idx, cnt):  # 시작 인덱스, 현재 인덱스, 현재까지의 단어조각 개수
         cur_node = self.node
         i = idx
         while cur_node.children and i < self.len:
@@ -49,18 +46,35 @@ class Trie:
                 cur_node = cur_node.children[self.t[i]]
                 i += 1
                 if cur_node.end:
-                    self.search(i, cnt + 1)
+                    if self.ans[i - 1] >= cnt + 1:
+                        self.ans[i - 1] = cnt + 1
+                        flag = True
+                        d_cnt = 0
+                        k = i
+                        while flag:
+                            for j in range(idx - s_idx + 1):
+                                if k + j >= self.len or self.t[k + j] != self.t[s_idx + j]:
+                                    flag = False
+                                    break
+                            else:  # 바로 뒤에 또 같은 단어가 있으면
+                                d_cnt += 1
+                                k += idx - s_idx + 1
+
+                        if d_cnt > 0 and self.ans[k - 1] > cnt + d_cnt + 1:
+                            self.search(k, k, cnt + d_cnt + 1)
+                        self.search(i, i, cnt + 1)
+                    else:
+                        return
             else:
-                break
+                return
 
         if i == self.len and cur_node.end:
-            self.ans = min(self.ans, cnt)
+            return
 
 
 def solution(strs, t):
     trie = Trie(t)
     for s in strs:
         trie.insert(s)
-
-    trie.search(0, 1)
-    return -1 if trie.ans == INF else trie.ans
+    trie.search(0, 0, 0)
+    return -1 if trie.ans[-1] == INF else trie.ans[-1]
