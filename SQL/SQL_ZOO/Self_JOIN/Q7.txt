@@ -1,0 +1,9 @@
+-- https://sqlzoo.net/wiki/Self_join
+-- 7. Give a list of all the services which connect stops 115 and 137 ('Haymarket' and 'Leith')
+
+select distinct(t.company), t.num
+from 
+(select company, num  from route
+where stop = 115) as t
+where t.num in (select num  from route
+where stop = 137) 
