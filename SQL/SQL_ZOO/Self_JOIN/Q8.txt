@@ -1,0 +1,16 @@
+-- 8. Give a list of the services which connect the stops 'Craiglockhart' and 'Tollcross'
+
+select t1.company, t1.num
+from 
+(
+select company, num
+from route
+where stop= (select id from stops where name like 'Craiglockhart')
+) t1
+join
+(
+select company, num
+from route
+where stop =  (select id from stops where name like 'Tollcross')
+)t2
+on t1.num = t2.num
