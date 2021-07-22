@@ -1,0 +1,22 @@
+-- 9. Give a distinct list of the stops which may be reached from 'Craiglockhart' by taking one bus, 
+-- including 'Craiglockhart' itself, offered by the LRT company. Include the company and bus no. of the relevant services.
+
+-- 1. company가 LRT
+-- 2. stop에 Craiglockhart가 있어야한다
+-- 3. stop - stops의 id로 name 구하기
+
+select s.name, t.company, t.num
+from 
+(select company, num, stop
+from route 
+where company like 'LRT') r
+
+join
+(select company, num
+from route
+where stop= (select id from stops where name like 'Craiglockhart')) t
+on r.num = t.num
+
+join
+stops s
+on r.stop = s.id 
