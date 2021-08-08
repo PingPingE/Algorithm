@@ -1,0 +1,41 @@
+-- 10. Find the routes involving two buses that can go from Craiglockhart to Lochend.
+-- Show the bus no. and company for the first bus, the name of the stop for the transfer,
+-- and the bus no. and company for the second bus.
+
+-- 1. Craiglockhart를 지나는 버스 데이터 추출(t1)
+-- 2. Lochend를 지나는 버스 데이터 추출(t2)
+-- 3. 1과 2의 공통 stop 추출 -> 이 stop이 환승역
+-- 4. 해당 stop의 이름 추출
+
+select t1.num, t1.company, s.name, t2.num, t2.company
+from
+
+-- 1.
+(select r.num, r.company,r.stop from route as r
+right join
+	(select num,company from route
+	where stop =  (select id from stops where name like 'Craiglockhart')
+	) as  t
+on  r.num = t.num and r.company = t.company
+) as t1
+
+join
+
+-- 2.
+(select r.num, r.company, r.stop  from route as r
+right join
+	(select num,company from route
+	where stop =  (select id from stops where name like 'Lochend')
+	) as  t
+on r.num = t.num and r.company = t.company 
+) as t2
+
+-- 3.
+on t1.stop = t2.stop
+
+-- 4.
+join
+stops as s
+on s.id = t2.stop
+
+order by t1.num, s.name, t2.num
