@@ -1,4 +1,54 @@
-#시도 중
+#풀이 참고: https://programmers.co.kr/questions/17805
+def solution(arr):
+    i = len(arr) - 1
+    sum = 0 # '-'부호가 나타나기 전까지의 연산값
+    total_sum = [0, 0]  # index 0: min, 1:max
+
+    #뒤에서부터 보기
+    while i >= 0:
+        if arr[i] >= '0':
+            sum += int(arr[i])
+
+        # 맨뒤에서 여기까지 최솟값,최댓값 갱신
+        elif arr[i] == '-':
+
+            #기존 값(tmp_sum)이랑 합치고 - 부호 붙일지, -sum + 기존 값 할지
+            # arr[i+1]을 +arr[i+1]로 할지, -arr[i+1]로 할지
+            candi = [-(total_sum[1] + sum), -(total_sum[0] + sum), total_sum[0] - sum, total_sum[1] + sum - (2 * int(arr[i + 1]))]
+            total_sum[0] = min(candi)
+            total_sum[1] = max(candi)
+
+            sum = 0
+        i -= 1
+        # print(total_sum)
+        # print("sum:",sum)
+    return total_sum[1] + sum
+
+
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.03ms, 10.4MB)
+테스트 2 〉	통과 (0.03ms, 10.3MB)
+테스트 3 〉	통과 (0.02ms, 10.4MB)
+테스트 4 〉	통과 (0.02ms, 10.3MB)
+테스트 5 〉	통과 (0.03ms, 10.4MB)
+테스트 6 〉	통과 (0.04ms, 10.4MB)
+테스트 7 〉	통과 (0.03ms, 10.4MB)
+테스트 8 〉	통과 (0.03ms, 10.3MB)
+테스트 9 〉	통과 (0.02ms, 10.3MB)
+테스트 10 〉	통과 (0.02ms, 10.3MB)
+효율성  테스트
+테스트 1 〉	통과 (0.14ms, 10.3MB)
+테스트 2 〉	통과 (0.13ms, 10.3MB)
+테스트 3 〉	통과 (0.15ms, 10.3MB)
+테스트 4 〉	통과 (0.14ms, 10.3MB)
+테스트 5 〉	통과 (0.07ms, 10.2MB)
+테스트 6 〉	통과 (0.69ms, 10.2MB)
+테스트 7 〉	통과 (0.20ms, 10.3MB)
+테스트 8 〉	통과 (0.22ms, 10.4MB)
+'''
+
+
 #======version2(조금 개선)
 import sys
 sys.setrecursionlimit(10 ** 8)
