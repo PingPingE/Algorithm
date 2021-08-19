@@ -42,7 +42,6 @@ def solution(sales, links):
             if tmp_set:
                 t_x = min(tmp_set, key=lambda x: sales[x - 1])
                 dfs(teams, done | {k, t_x}, ans + sales[t_x - 1])
-                dfs(teams, done | {k, t_x}, ans + sales[t_x - 1])
 
             # 팀원 중 최소
             tmp_set2 = v - leaders
