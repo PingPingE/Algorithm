@@ -1,3 +1,4 @@
+#127444kb	1032ms
 import sys
 INF = sys.maxsize
 N = int(input())
@@ -9,28 +10,12 @@ for i in range(N-1):
     memo[i][i+1] = arr[i][0] * arr[i][1] * arr[i+1][1]
 memo[-1][-1] = 0
 
-for k in range(N-1):
-    for i in range(k):
-        for j in range(k+1,N):
-            memo[i][j] = min(memo[i][k-1] + memo[k][j] + (arr[i][0] * arr[j][0] * arr[j][1]),memo[i][j])
-print(memo)
+#아 k를 가장 바깥에 두면 안됐음(이건 [i,j]구간 내에 계속 돌려야하니)
+for diff in range(1,N):#ABCD가 있을 때 AB 먼저 보고 ABC 보고 그다음 ABCD 보고 (그 안에서 k로 쪼개서 최소 비용 계산하고) 
+    for i in range(N-diff):
+        j = i+diff
+        for k in range(i,j):
+            # print(i,k,j)
+            memo[i][j] = min(memo[i][k] + memo[k+1][j] + (arr[i][0] * arr[k][1] * arr[j][1]),memo[i][j])
+# print(memo)
 print(memo[0][-1])
-
-# def dfs(num,cur, left, right):
-#     global mini
-#     if num >= mini: return
-#     if not left and not right:
-#         mini=min(mini, num)
-#         return
-#
-#     if left:
-#         top = left[-1]
-#         dfs(num+(top[0]*top[1]*cur[1]),(top[0],cur[1]), left[:-1], right[:])
-#
-#     if right:
-#         top = right[0]
-#         dfs(num + (cur[0] * cur[1] * top[1]), (cur[0], top[1]), left[:], right[1:])
-#
-# for n in range(N):
-#     dfs(0,arr[n],arr[:n],arr[n+1:])
-# print(mini)
