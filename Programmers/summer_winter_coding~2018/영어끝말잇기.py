@@ -38,7 +38,7 @@ def solution(n, words):
     done = set()
     prev = words[0][0]
     for e, word in enumerate(words):
-        if word in done or word[0][0] != prev:
+        if word in done or word[0] != prev:
             return [e % n + 1, e // n + 1]
         prev = word[-1]
         done.add(word)
