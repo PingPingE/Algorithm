@@ -1,3 +1,4 @@
+#https://deok2kim.tistory.com/126
 #시도중(시간초과)
 
 def solution(land, P, Q):
