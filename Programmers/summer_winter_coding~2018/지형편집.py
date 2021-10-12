@@ -1,6 +1,78 @@
 #https://deok2kim.tistory.com/126
 #시도중(시간초과)
 
+#기존 로직에서 2차원 -> 1차원으로 변형한 후 계산: 조오금 나아짐
+from itertools import chain
+def solution(land, P, Q):
+    candi = set()
+    for l in land:
+        candi.update(l)
+    flatten = list(chain.from_iterable(land))
+
+    answer = -1
+
+    def get_cost(N):
+        cost = 0
+        for m in map(lambda x: x - N, flatten):
+            if m < 0:
+                cost -= m * P
+            else:
+                cost += m * Q
+        if answer > -1 and cost >= answer: return answer
+        return cost
+
+    for N in candi:  # 높이
+        if answer == -1:
+            answer = get_cost(N)
+        else:
+            answer = min(answer, get_cost(N))
+    return answer
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.01ms, 10.3MB)
+테스트 2 〉	통과 (0.05ms, 10.3MB)
+테스트 3 〉	통과 (0.02ms, 10.3MB)
+테스트 4 〉	통과 (0.02ms, 10.3MB)
+테스트 5 〉	통과 (0.01ms, 10.2MB)
+테스트 6 〉	통과 (0.02ms, 10.3MB)
+테스트 7 〉	통과 (0.01ms, 10.3MB)
+테스트 8 〉	통과 (0.01ms, 10.3MB)
+테스트 9 〉	통과 (0.01ms, 10.2MB)
+테스트 10 〉	통과 (0.06ms, 10.2MB)
+테스트 11 〉	통과 (1.02ms, 10.3MB)
+테스트 12 〉	통과 (18.72ms, 10.3MB)
+테스트 13 〉	통과 (50.97ms, 10.3MB)
+테스트 14 〉	통과 (705.79ms, 10.4MB)
+테스트 15 〉	통과 (2396.00ms, 10.4MB)
+테스트 16 〉	통과 (5455.31ms, 10.9MB)
+테스트 17 〉	통과 (8825.17ms, 11.1MB)
+테스트 18 〉	통과 (8896.55ms, 11.1MB)
+테스트 19 〉	실패 (시간 초과)
+테스트 20 〉	실패 (시간 초과)
+테스트 21 〉	통과 (0.02ms, 10.3MB)
+테스트 22 〉	통과 (0.02ms, 10.2MB)
+테스트 23 〉	통과 (0.03ms, 10.2MB)
+테스트 24 〉	통과 (0.02ms, 10.2MB)
+테스트 25 〉	통과 (0.04ms, 10.2MB)
+테스트 26 〉	통과 (0.03ms, 10.2MB)
+테스트 27 〉	통과 (0.10ms, 10.3MB)
+테스트 28 〉	통과 (0.02ms, 10.3MB)
+테스트 29 〉	통과 (0.05ms, 10.3MB)
+테스트 30 〉	통과 (0.02ms, 10.2MB)
+테스트 31 〉	통과 (0.01ms, 10.3MB)
+테스트 32 〉	통과 (0.01ms, 10.3MB)
+효율성  테스트
+테스트 1 〉	실패 (시간 초과)
+테스트 2 〉	실패 (시간 초과)
+테스트 3 〉	실패 (시간 초과)
+테스트 4 〉	실패 (시간 초과)
+테스트 5 〉	실패 (시간 초과)
+테스트 6 〉	통과 (62.03ms, 11.7MB)
+테스트 7 〉	통과 (64.14ms, 14.9MB)
+테스트 8 〉	실패 (시간 초과)
+'''
+
+
 def solution(land, P, Q):
     min_N, max_N = min([min(i) for i in land]), max([max(i) for i in land])
     if max_N == 0:
