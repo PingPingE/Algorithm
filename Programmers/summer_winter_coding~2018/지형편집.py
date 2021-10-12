@@ -1,7 +1,7 @@
 #https://deok2kim.tistory.com/126
 #시도중(시간초과)
 
-#기존 로직에서 2차원 -> 1차원으로 변형한 후 계산: 조오금 나아짐
+#이미 있는 높이만 고려 + 2차원 -> 1차원으로 변형한 후 계산: 조오금 나아짐
 from itertools import chain
 def solution(land, P, Q):
     candi = set()
