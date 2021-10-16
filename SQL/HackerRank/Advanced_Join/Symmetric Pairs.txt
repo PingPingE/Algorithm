@@ -9,3 +9,16 @@ select X, Y
 from tmp 
 where diff=0
 order by X
+
+
+
+-- 윈도우함수 안쓰고 푸는 방법
+select A.X, A.Y from Functions as A
+join
+Functions as B
+on A.X = B.Y and A.Y=B.X
+group by A.X, A.Y
+having count(A.X)>1 or A.X < A.Y
+order by A.X
+
+-- having count(A.X) > 1: X와 Y가 같은 레코드가 하나 있어도 조인 조건은 충족하기 때문에 이 조건이 꼭 필요 
