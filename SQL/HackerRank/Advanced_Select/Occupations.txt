@@ -8,11 +8,16 @@ set @r1=0, @r2=0, @r3=0, @r4=0;
 select max(Doctor), max(Professor), max(Singer), max(Actor)
 from(
     select 
+
+	-- 각 직업별로 순서 부여
+	-- window함수의 row_num을 부여하는 것과 같음(partition by occupation order by name) 
         case when occupation='Doctor' then (@r1:=@r1+1)
              when occupation='Professor' then (@r2:=@r2+1)
              when occupation='Singer' then (@r3:=@r3+1)
              when occupation='Actor' then (@r4:=@r4+1)
         end RowN,
+
+	-- 컬럼을 각 직업별로 생성(근데 직업이 엄청 많으면 너무 비효율적인데 다른 방법은..?)
         case when occupation='Doctor' then name end Doctor,
         case when occupation='Professor' then name end Professor,
         case when occupation='Singer' then name end Singer,
