@@ -29,3 +29,29 @@ def solution(land, height):
             done[i][j] = 1
             dfs(i, j, 0, 1)
     return answer
+
+
+from collections import defaultdict
+def solution2(land, height):
+    answer = 0
+    N = len(land)
+    links = defaultdict(lambda: defaultdict())
+    dy, dx = [0, 0, 1, -1], [1, -1, 0, 0]
+
+    # 일단 dict[from][to] = 이동 비용 으로 나타내기
+    for i in range(N):
+        for j in range(N):
+            n = land[i][j]
+            for d in range(4):
+                ny, nx = i + dy[d], j + dx[d]
+                if 0 <= ny < N and 0 <= nx < N and abs(land[ny][nx] - n) > height:
+                    cost = abs(land[ny][nx] - n)
+                    links[(i, j)][(ny, nx)] = cost
+                    links[(ny, nx)][(i, j)] = cost
+
+    # 해당 위치까지 가는데 최소 비용
+    costs = [[10001] * N for _ in range(N)]
+
+    # 음
+
+    return answer
