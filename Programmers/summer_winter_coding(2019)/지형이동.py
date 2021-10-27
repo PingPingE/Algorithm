@@ -32,13 +32,12 @@ def solution(land, height):
 
 
 from collections import defaultdict
+import heapq
 def solution2(land, height):
     answer = 0
     N = len(land)
     links = defaultdict(lambda: defaultdict())
     dy, dx = [0, 0, 1, -1], [1, -1, 0, 0]
-
-    # 일단 dict[from][to] = 이동 비용 으로 나타내기
     for i in range(N):
         for j in range(N):
             n = land[i][j]
@@ -49,9 +48,25 @@ def solution2(land, height):
                     links[(i, j)][(ny, nx)] = cost
                     links[(ny, nx)][(i, j)] = cost
 
-    # 해당 위치까지 가는데 최소 비용
+    #다익스트라로 풀어보기
     costs = [[10001] * N for _ in range(N)]
+    costs[0][0] = 0
+    que = [[costs[0][0], 0, 0]]
+    heapq.heapify(que)
+    while que:
+        cost, y, x = heapq.heappop(que)
+        if cost > costs[y][x]: continue
 
-    # 음
-
+        for k, v in links[(y, x)].items():
+            if v <= height:
+                ncost = cost
+            else:
+                ncost = cost + v
+            # print(f"from ({y},{x}) to {k}, ncost: {ncost}, cur_costs: {costs[]}")
+            if ncost <= costs[k[0]][k[1]]:
+                costs[k[0]][k[1]] = ncost
+                heapq.heappush(que, [ncost, k[0], k[1]])
+    print(costs)
     return answer
+
+print(solution2([[1, 4, 8, 10], [5, 5, 5, 5], [10, 10, 10, 10], [10, 10, 10, 20]], 3)) #기댓값: 15
