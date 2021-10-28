@@ -31,42 +31,28 @@ def solution(land, height):
     return answer
 
 
-from collections import defaultdict
 import heapq
 def solution2(land, height):
     answer = 0
     N = len(land)
-    links = defaultdict(lambda: defaultdict())
     dy, dx = [0, 0, 1, -1], [1, -1, 0, 0]
-    for i in range(N):
-        for j in range(N):
-            n = land[i][j]
-            for d in range(4):
-                ny, nx = i + dy[d], j + dx[d]
-                if 0 <= ny < N and 0 <= nx < N and abs(land[ny][nx] - n) > height:
-                    cost = abs(land[ny][nx] - n)
-                    links[(i, j)][(ny, nx)] = cost
-                    links[(ny, nx)][(i, j)] = cost
-
-    #다익스트라로 풀어보기
     costs = [[10001] * N for _ in range(N)]
     costs[0][0] = 0
     que = [[costs[0][0], 0, 0]]
     heapq.heapify(que)
     while que:
         cost, y, x = heapq.heappop(que)
-        if cost > costs[y][x]: continue
-
-        for k, v in links[(y, x)].items():
-            if v <= height:
-                ncost = cost
-            else:
-                ncost = cost + v
-            # print(f"from ({y},{x}) to {k}, ncost: {ncost}, cur_costs: {costs[]}")
-            if ncost <= costs[k[0]][k[1]]:
-                costs[k[0]][k[1]] = ncost
-                heapq.heappush(que, [ncost, k[0], k[1]])
+        for d in range(4):
+            ny, nx = y + dy[d], x + dx[d]
+            add = 0
+            if 0 <= ny < N and 0 <= nx < N:
+                if abs(land[ny][nx] - land[y][x]) > height:
+                    add = abs(land[ny][nx] - land[y][x])
+                ncost = cost + add
+                if ncost < costs[ny][nx]:
+                    costs[ny][nx] = ncost
+                    heapq.heappush(que, [ncost, ny, nx])
     print(costs)
-    return answer
+    return costs[-1][-1]
 
 print(solution2([[1, 4, 8, 10], [5, 5, 5, 5], [10, 10, 10, 10], [10, 10, 10, 20]], 3)) #기댓값: 15
