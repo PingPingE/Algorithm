@@ -1,3 +1,4 @@
+#https://yeeybook.tistory.com/18
 #시도중
 import sys
 sys.setrecursionlimit(10 ** 8)
