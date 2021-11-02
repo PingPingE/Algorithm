@@ -1,59 +1,40 @@
 #https://yeeybook.tistory.com/18
-#시도중
-import sys
-sys.setrecursionlimit(10 ** 8)
-
+#1. 비용 0으로 갈 수 있는 좌표끼리 묶음 -> 그룹 생성
+#2. 각 그룹으로 가는데 드는 최소비용 구하기
+from collections import deque
 def solution(land, height):
-    N = len(land)
-    answer = 10001 * N * N
-    dy, dx = [1, -1, 0, 0], [0, 0, -1, 1]
-
-    def dfs(y, x, cost, cnt):
-        nonlocal answer, done
-        if cost >= answer:
-            return
-        if cnt == N * N:
-            answer = min(cost, answer)
-            return
-
-        for d in range(4):
-            ny, nx = y + dy[d], x + dx[d]
-            if 0 <= ny < N and 0 <= nx < N and not done[ny][nx]:
-                diff = abs(land[y][x] - land[ny][nx])
-                done[ny][nx] = 1
-                dfs(ny, nx, cost + (diff if diff > height else 0), cnt + 1)
-                done[ny][nx] = 0
-
-    for i in range(N):
-        for j in range(N):
-            done = [[0] * N for _ in range(N)]
-            done[i][j] = 1
-            dfs(i, j, 0, 1)
-    return answer
-
-
-import heapq
-def solution2(land, height):
     answer = 0
     N = len(land)
-    dy, dx = [0, 0, 1, -1], [1, -1, 0, 0]
-    costs = [[10001] * N for _ in range(N)]
-    costs[0][0] = 0
-    que = [[costs[0][0], 0, 0]]
-    heapq.heapify(que)
-    while que:
-        cost, y, x = heapq.heappop(que)
-        for d in range(4):
-            ny, nx = y + dy[d], x + dx[d]
-            add = 0
-            if 0 <= ny < N and 0 <= nx < N:
-                if abs(land[ny][nx] - land[y][x]) > height:
-                    add = abs(land[ny][nx] - land[y][x])
-                ncost = cost + add
-                if ncost < costs[ny][nx]:
-                    costs[ny][nx] = ncost
-                    heapq.heappush(que, [ncost, ny, nx])
-    print(costs)
-    return costs[-1][-1]
+    groups = {0:[(0,0)]}
+    dy,dx = [1,-1,0,0], [0,0,1,-1]
+    que = deque()
+    done =set()
+    num=0
+    
+    #1. 그룹만들기
+    for i in range(N):
+        for j in range(N):
+            if (i,j) not in done:
+                que.append((i,j))
+                groups[num] = [(i,j)]
+                done.add((i,j))
+                while que:
+                    y,x= que.popleft()
+                    for d in range(4):
+                        ny,nx = y+dy[d], x+dx[d]
+                        if ny<0 or nx<0 or ny>=N or nx>=N or (ny,nx) in done: continue
+                        diff = abs(land[y][x] - land[ny][nx])
+                        if diff>height: continue
+                        groups[num].append((ny,nx))
+                        done.add((ny,nx))
+                        que.append((ny,nx))
+                num+=1
+            else: continue
+            
+    # print(num)
+    # print(groups)
 
-print(solution2([[1, 4, 8, 10], [5, 5, 5, 5], [10, 10, 10, 10], [10, 10, 10, 20]], 3)) #기댓값: 15
+    #2. 각 그룹으로 이동하는 최소비용 구하기
+    links = {i:i for i in range(num)}
+    
+    return answer
