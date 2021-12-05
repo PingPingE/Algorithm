@@ -1,3 +1,69 @@
+#통과
+##최소 비용 두 번 구함((0,0)에서 시작 했을 때, (N-1,N-1)에서 시작 했을 때)
+import heapq
+def solution(board):
+    N = len(board)
+    INF = 600 * N * N
+    ans = INF
+    dy, dx = [0, 0, -1, 1], [-1, 1, 0, 0]
+
+    def dijkstra(start):
+        end = [-1, -1] if start[0] == 0 else [0, 0]
+        # cost, prev, cur
+        que = [[0, start, start]]
+        heapq.heapify(que)
+        costs = [[INF] * N for _ in range(N)]
+        costs[start[0]][start[1]] = 0
+
+        while que:
+            cost, prev, cur = heapq.heappop(que)
+            if costs[cur[0]][cur[1]] < cost: continue
+
+            for d in range(4):
+                ny, nx = cur[0] + dy[d], cur[1] + dx[d]
+                if 0 <= ny < N and 0 <= nx < N and board[ny][nx] == 0:
+                    if ny == prev[0] or nx == prev[1]:
+                        ncost = cost + 100
+                    else:
+                        ncost = cost + 600
+
+                    if ncost <= costs[ny][nx]:
+                        que.append([ncost, cur, (ny, nx)])
+                        costs[ny][nx] = ncost
+        return costs[end[0]][end[0]]
+
+    #출발점(0,0)에서부터 구한 최소비용, 도착점(N-1,N-1)에서부터 구한 최소비용 중 최솟값
+    return min(dijkstra([0, 0]), dijkstra([N - 1, N - 1]))
+'''
+정확성  테스트
+테스트 1 〉	통과 (0.07ms, 10.3MB)
+테스트 2 〉	통과 (0.03ms, 10.4MB)
+테스트 3 〉	통과 (0.03ms, 10.3MB)
+테스트 4 〉	통과 (0.12ms, 10.2MB)
+테스트 5 〉	통과 (0.08ms, 10.3MB)
+테스트 6 〉	통과 (0.61ms, 10.4MB)
+테스트 7 〉	통과 (0.41ms, 10.3MB)
+테스트 8 〉	통과 (0.39ms, 10.3MB)
+테스트 9 〉	통과 (0.38ms, 10.4MB)
+테스트 10 〉	통과 (0.74ms, 10.3MB)
+테스트 11 〉	통과 (3.56ms, 10.3MB)
+테스트 12 〉	통과 (7.24ms, 10.3MB)
+테스트 13 〉	통과 (0.20ms, 10.2MB)
+테스트 14 〉	통과 (0.46ms, 10.3MB)
+테스트 15 〉	통과 (1.24ms, 10.3MB)
+테스트 16 〉	통과 (1.31ms, 10.3MB)
+테스트 17 〉	통과 (1.70ms, 10.3MB)
+테스트 18 〉	통과 (2.01ms, 10.3MB)
+테스트 19 〉	통과 (1.76ms, 10.4MB)
+테스트 20 〉	통과 (2.00ms, 10.3MB)
+테스트 21 〉	통과 (1.57ms, 10.2MB)
+테스트 22 〉	통과 (0.11ms, 10.3MB)
+테스트 23 〉	통과 (0.18ms, 10.3MB)
+테스트 24 〉	통과 (0.11ms, 10.4MB)
+테스트 25 〉	통과 (0.07ms, 10.3MB)
+'''
+
+
 #마지막 TC에서 걸림
 import heapq
 def solution(board):
