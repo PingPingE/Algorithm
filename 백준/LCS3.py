@@ -11,22 +11,25 @@
 출력
 첫 줄에 첫 번째 문자열과 두 번째 문자열과 세 번째 문자열의 LCS의 길이를 출력한다.
 '''
-from itertools import permutations
 #1,2와 2,3의 CS를 구하고, 공통된 것중에 가장 긴 것 픽 -> 역시 시간초과
+
+#솔루션: 기존 2차원 풀이를 3차원으로
+#134228kb	188ms
 st_list = list(input() for _ in range(3))
-set_12, set_23 = set(), set()
-def get_CS(st1, st2):
-    common = []
-    for i in range(len(st1)):
-        for j in range(len(st2)):
-            if st1[i-1] == st2[j-1]:
-                common.append(st1[i-1])
-    return common
-ans = 0
-candi_st = [get_CS(st_list[0], st_list[1]), get_CS(st_list[1], st_list[2]), get_CS(st_list[0], st_list[2])]
-min_size = min([len(candi_st[i]) for i in range(3)])
-for size in range(1,min_size+1):
-    perm_list = list(set(permutations(candi_st[i], size)) for i in range(3))
-    if perm_list[0]&perm_list[1]&perm_list[2]:
-        ans = size
-print(size)
+
+def get_CS(st_list):
+    ans = 0
+    st1,st2,st3 = st_list
+    cs = list(list([0]*(len(st3)+1) for _ in range(len(st2)+1)) for __ in range(len(st1)+1))
+    for i in range(1,len(st1)+1):
+        for j in range(1,len(st2)+1):
+            for k in range(1,len(st3)+1):
+                if st1[i-1] == st2[j-1] == st3[k-1]:
+                    cs[i][j][k] = cs[i-1][j-1][k-1] +1
+                    ans = max(ans,cs[i][j][k])
+                else:
+                    cs[i][j][k] = max(cs[i-1][j][k], cs[i][j-1][k] , cs[i][j][k-1])
+
+    return ans
+
+print(get_CS(st_list))
