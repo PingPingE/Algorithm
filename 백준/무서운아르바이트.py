@@ -21,7 +21,14 @@
 '''
 # 적절한 window size 및 구간을 잘 정해야하는 문제
 
-from collections import defaultdict
+# 정답 확인용
+def bruteforce():
+    ans = 0
+    for window in range(1, n + 1):
+        ans = max(ans, get_total_pay(window))
+    return ans
+
+
 def get_total_pay(window):
     s,e = 0, window
     count_dict = {}
@@ -34,7 +41,6 @@ def get_total_pay(window):
         count_dict[daily_pay[s]] -= 1
         count_dict[daily_pay[e]] = count_dict.get(e,0)+1
         if count_dict[daily_pay[s]] == 0 and daily_pay[s] == mini:
-            #value값이 0이 되어도 key값이 남아있으므로 지워야함
             del(count_dict[daily_pay[s]])
             #mini 갱신 시점
             mini = max(mini, min(count_dict))
@@ -45,17 +51,18 @@ def get_total_pay(window):
 
 n = int(input())
 daily_pay = list(map(int, input().split()))
-ans = min(daily_pay)
+ans = min(daily_pay)*n
 
 l,r= 1, n
 while l<=r:
     m = (l+r)//2
     tmp = get_total_pay(m)
-    print("m: ",m, "tmp: ", tmp)
     if tmp > ans:
         ans = tmp
         l = m+1
     else:
         r = m-1
-print(l,r)
+
 print(ans)
+print(bruteforce())
+
