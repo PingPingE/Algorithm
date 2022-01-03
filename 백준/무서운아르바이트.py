@@ -20,37 +20,38 @@
 준수가 일을 해서 벌 수 있는 최대 이익을 출력한다.
 '''
 # 적절한 window size 및 구간을 잘 정해야하는 문제
+
 from collections import defaultdict
 def get_total_pay(window):
     s,e = 0, window
-    count_dict = defaultdict(int)
+    count_dict = {}
 
     for i in range(s,e):
-        count_dict[daily_pay[i]] += 1
+        count_dict[daily_pay[i]] = count_dict.get(i,0)+1
+
     mini = min(count_dict)
     while s<e and e<n:
         count_dict[daily_pay[s]] -= 1
-        count_dict[daily_pay[e]] += 1
-        if count_dict[daily_pay[s]] == 0:
+        count_dict[daily_pay[e]] = count_dict.get(e,0)+1
+        if count_dict[daily_pay[s]] == 0 and daily_pay[s] == mini:
+            #value값이 0이 되어도 key값이 남아있으므로 지워야함
+            del(count_dict[daily_pay[s]])
             #mini 갱신 시점
-            if daily_pay[s] == mini and daily_pay[e] > daily_pay[s]:
-                mini = min(count_dict)
+            mini = max(mini, min(count_dict))
 
         s+=1
         e+=1
-    mini = min(count_dict)
     return mini*window
 
 n = int(input())
 daily_pay = list(map(int, input().split()))
 ans = min(daily_pay)
 
-l,r= 0, n-1
+l,r= 1, n
 while l<=r:
     m = (l+r)//2
-    print(m)
     tmp = get_total_pay(m)
-    
+    print("m: ",m, "tmp: ", tmp)
     if tmp > ans:
         ans = tmp
         l = m+1
