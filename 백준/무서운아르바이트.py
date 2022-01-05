@@ -51,17 +51,33 @@ def get_total_pay(window):
 
 n = int(input())
 daily_pay = list(map(int, input().split()))
-ans = min(daily_pay)*n
+ans = 0
+idx_dict = {}
+for e,pay in enumerate(daily_pay):
+    if pay not in idx_dict:
+        idx_dict[pay] = e
 
-l,r= 1, n
-while l<=r:
-    m = (l+r)//2
-    tmp = get_total_pay(m)
-    if tmp > ans:
-        ans = tmp
-        l = m+1
-    else:
-        r = m-1
+# print(idx_dict)
+prev = 0
+
+for pay in sorted(idx_dict):
+    i = idx_dict[pay]
+    ans = max(ans, pay*(i-prev))
+    prev = i
+    for j in range(i+1, n):
+        if daily_pay[j] < pay:
+            ans = max(ans, pay*(j-i))
+
+#
+# l,r= 1, n
+# while l<=r:
+#     m = (l+r)//2
+#     tmp = get_total_pay(m)
+#     if tmp > ans:
+#         ans = tmp
+#         l = m+1
+#     else:
+#         r = m-1
 
 print(ans)
 print(bruteforce())
