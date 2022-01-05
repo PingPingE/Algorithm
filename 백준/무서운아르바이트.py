@@ -19,35 +19,6 @@
 출력
 준수가 일을 해서 벌 수 있는 최대 이익을 출력한다.
 '''
-# 적절한 window size 및 구간을 잘 정해야하는 문제
-
-# 정답 확인용
-def bruteforce():
-    ans = 0
-    for window in range(1, n + 1):
-        ans = max(ans, get_total_pay(window))
-    return ans
-
-
-def get_total_pay(window):
-    s,e = 0, window
-    count_dict = {}
-
-    for i in range(s,e):
-        count_dict[daily_pay[i]] = count_dict.get(i,0)+1
-
-    mini = min(count_dict)
-    while s<e and e<n:
-        count_dict[daily_pay[s]] -= 1
-        count_dict[daily_pay[e]] = count_dict.get(e,0)+1
-        if count_dict[daily_pay[s]] == 0 and daily_pay[s] == mini:
-            del(count_dict[daily_pay[s]])
-            #mini 갱신 시점
-            mini = max(mini, min(count_dict))
-
-        s+=1
-        e+=1
-    return mini*window
 
 n = int(input())
 daily_pay = list(map(int, input().split()))
@@ -60,25 +31,15 @@ for e,pay in enumerate(daily_pay):
 # print(idx_dict)
 prev = 0
 
-for pay in sorted(idx_dict):
+for e,pay in enumerate(sorted(idx_dict)):
+    if e==0:
+        ans = max(ans, pay*n)
     i = idx_dict[pay]
-    ans = max(ans, pay*(i-prev))
+    ans = max(ans, pay*max(1,i-prev))
     prev = i
     for j in range(i+1, n):
         if daily_pay[j] < pay:
             ans = max(ans, pay*(j-i))
 
-#
-# l,r= 1, n
-# while l<=r:
-#     m = (l+r)//2
-#     tmp = get_total_pay(m)
-#     if tmp > ans:
-#         ans = tmp
-#         l = m+1
-#     else:
-#         r = m-1
-
 print(ans)
-print(bruteforce())
 
