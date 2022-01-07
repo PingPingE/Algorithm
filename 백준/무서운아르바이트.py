@@ -19,27 +19,44 @@
 출력
 준수가 일을 해서 벌 수 있는 최대 이익을 출력한다.
 '''
+#ㅎㅜ.. 시간초과
+def get_max_pay(start, pay):
+    global ans
+    s,e = start, start+1
+    while e<n and (n-s)*pay > ans:
+        if daily_pay[e] >= pay:
+            e+=1
+        else:
+            ans = max(ans, (e-s)*pay)
+            s=e
+            e+=1
+
+    ans = max(ans, (e-s)*pay)
 
 n = int(input())
 daily_pay = list(map(int, input().split()))
 ans = 0
-idx_dict = {}
+done = set()
 for e,pay in enumerate(daily_pay):
-    if pay not in idx_dict:
-        idx_dict[pay] = e
-
-# print(idx_dict)
-prev = 0
-
-for e,pay in enumerate(sorted(idx_dict)):
-    if e==0:
-        ans = max(ans, pay*n)
-    i = idx_dict[pay]
-    ans = max(ans, pay*max(1,i-prev))
-    prev = i
-    for j in range(i+1, n):
-        if daily_pay[j] < pay:
-            ans = max(ans, pay*(j-i))
-
+    if pay not in done:
+        get_max_pay(e,pay)
+        done.add(pay)
 print(ans)
 
+
+#
+# for e,pay in enumerate(sorted(idx_dict)):
+#     if e==0:
+#         ans = max(ans, pay*n)
+#     i = idx_dict[pay]
+#     ans = max(ans, pay*max(1,i-prev))
+#     prev = i
+#     for j in range(i+1, n):
+#         if daily_pay[j] < pay:
+#             ans = max(ans, pay*(j-i))
+#
+# print(ans)
+'''
+5
+1 1 2 2 1
+'''
