@@ -19,44 +19,29 @@
 출력
 준수가 일을 해서 벌 수 있는 최대 이익을 출력한다.
 '''
-#ㅎㅜ.. 시간초과
-def get_max_pay(start, pay):
-    global ans
-    s,e = start, start+1
-    while e<n and (n-s)*pay > ans:
-        if daily_pay[e] >= pay:
-            e+=1
-        else:
-            ans = max(ans, (e-s)*pay)
-            s=e
-            e+=1
-
-    ans = max(ans, (e-s)*pay)
+#풀이 참고: https://www.acmicpc.net/blog/view/12
 
 n = int(input())
 daily_pay = list(map(int, input().split()))
+st = []
 ans = 0
-done = set()
-for e,pay in enumerate(daily_pay):
-    if pay not in done:
-        get_max_pay(e,pay)
-        done.add(pay)
+
+for i in range(n):
+    #현재 index(i)에 있는 원소가 스택의 top 값을 인덱스로하는 원소보다 더 작으면 계산 ㄲ
+    while st and daily_pay[st[-1]] > daily_pay[i]:
+        height = daily_pay[st[-1]]
+        st.pop()
+        width = i-(-1 if not st else st[-1])-1
+        ans = max(ans, height*width)
+    st.append(i)
+
+i=n
+while st:
+    height = daily_pay[st[-1]]
+    st.pop()
+    width = i - (-1 if not st else st[-1]) - 1
+    ans = max(ans, height * width)
+st.append(i)
+
+
 print(ans)
-
-
-#
-# for e,pay in enumerate(sorted(idx_dict)):
-#     if e==0:
-#         ans = max(ans, pay*n)
-#     i = idx_dict[pay]
-#     ans = max(ans, pay*max(1,i-prev))
-#     prev = i
-#     for j in range(i+1, n):
-#         if daily_pay[j] < pay:
-#             ans = max(ans, pay*(j-i))
-#
-# print(ans)
-'''
-5
-1 1 2 2 1
-'''
