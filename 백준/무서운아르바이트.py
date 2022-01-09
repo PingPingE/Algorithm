@@ -20,13 +20,13 @@
 준수가 일을 해서 벌 수 있는 최대 이익을 출력한다.
 '''
 #풀이 참고: https://www.acmicpc.net/blog/view/12
-
+#143672kb	164ms
 n = int(input())
-daily_pay = list(map(int, input().split()))
+daily_pay = list(map(int, input().split())) + [-1]
 st = []
 ans = 0
 
-for i in range(n):
+for i in range(n+1):
     #현재 index(i)에 있는 원소가 스택의 top 값을 인덱스로하는 원소보다 더 작으면 계산 ㄲ
     while st and daily_pay[st[-1]] > daily_pay[i]:
         height = daily_pay[st[-1]]
@@ -34,14 +34,4 @@ for i in range(n):
         width = i-(-1 if not st else st[-1])-1
         ans = max(ans, height*width)
     st.append(i)
-
-i=n
-while st:
-    height = daily_pay[st[-1]]
-    st.pop()
-    width = i - (-1 if not st else st[-1]) - 1
-    ans = max(ans, height * width)
-st.append(i)
-
-
 print(ans)
