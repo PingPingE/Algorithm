@@ -23,4 +23,30 @@
 출력)
 첫째 줄에는 잘라진 햐얀색 색종이의 개수를 출력하고, 둘째 줄에는 파란색 색종이의 개수를 출력한다.
 '''
+#128084kb	160ms
+import sys
+N = int(input())
+arr = [list(map(int,sys.stdin.readline().split())) for _ in range(N)]
+ans = [0,0] #흰, 파
 
+def solution(r,c,size):
+    global ans
+    # print("r,c:",r,c," size:",size)
+    prev = arr[r][c]
+    for i in range(size):
+        nr = r+i
+        for j in range(size):
+            nc=c+j
+            if arr[nr][nc] != prev:
+                half = size//2
+                solution(r,c,half)
+                solution(r+half, c, half)
+                solution(r,c+half, half)
+                solution(r+half, c+half, half)
+                return
+    ans[prev] +=1
+    return
+
+solution(0,0,N)
+print(ans[0])
+print(ans[1])
