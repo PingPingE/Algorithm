@@ -11,19 +11,22 @@ i번째 빌딩 (1부터 시작)은 (i,0)부터 (i,높이)의 선분으로 나타
 출력
 첫째 줄에 문제의 정답을 출력한다.
 '''
+#참고: https://suri78.tistory.com/280
+#127380kb	132ms
+from collections import defaultdict
 N = int(input())
 arr = list(map(int, input().split()))
-ans = 0
+cnt = defaultdict(int)
 
-def check(s,e):
-    return False
+for s in range(N):
+    prev_g = -1000000000
+    for e in range(s+1,N):
+        cur_g = (arr[e] - arr[s]) / (e - s)
+        if cur_g > prev_g:
+            #오른쪽 방향(x 증가)으로만 +1하는게 아니라 양쪽 다 +1
+            cnt[s] += 1
+            cnt[e] += 1
+            prev_g = cur_g
 
-s,e = 0,0
-while s<=e and e<N:
-    if check(s,e):
-        ans = max(ans, e-s)
-        s+=1
-    else:
-        e+=1
-
-print(max(ans, e-s-1))
+# print(cnt)
+print(max(cnt.values()) if cnt else 0)
