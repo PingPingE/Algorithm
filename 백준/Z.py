@@ -44,20 +44,26 @@ r행 c열을 몇 번째로 방문했는지 출력한다.
 0 ≤ r, c < 2N
 
 '''
+#123316kb	112ms
 N, r, c= map(int, input().split())
 cnt= 0
+status= False
 
 def visit(row, col, size):
-    global cnt
+    global cnt,status
     # print(row,col)
+    if status or (row==r and col ==c):
+        print(cnt)
+        status=True
+        #return이 아니라 바로 나가줘야함
+        exit(0)
+
     if size == 1:
-        if (row, col) == (r,c):
-            print(cnt)
         cnt += 1
         return
     else:
         #굳이 재귀 돌지 않아도 되는 경우
-        if row > r or col > c:
+        if not (row<=r<row+size and col<=c<col+size):
             cnt += size*size
             return
 
