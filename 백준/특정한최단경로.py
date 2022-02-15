@@ -14,6 +14,7 @@ a번 정점에서 b번 정점까지 양방향 길이 존재하며, 그 거리가
 출력
 첫째 줄에 두 개의 정점을 지나는 최단 경로의 길이를 출력한다. 그러한 경로가 없을 때에는 -1을 출력한다.
 '''
+#149988kb	556ms
 import sys, heapq
 from collections import defaultdict
 
@@ -26,7 +27,7 @@ for _ in range(E):
 
 v1,v2 = map(int, input().split())
 
-INF = 1001
+INF = 987654321
 
 def dijkstra(start, end):
     costs = [INF for _ in range(N+1)]
@@ -45,5 +46,6 @@ def dijkstra(start, end):
                 heapq.heappush(heap, (costs[n_node], n_node))
 
     return costs[end]
+
 ans = min(dijkstra(1,v1) + dijkstra(v1,v2) + dijkstra(v2,N), dijkstra(1,v2) + dijkstra(v2,v1) + dijkstra(v1,N))
 print(-1 if ans >= INF else ans)
