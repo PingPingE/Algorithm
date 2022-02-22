@@ -11,20 +11,23 @@ n가지 종류의 동전이 있다. 각각의 동전이 나타내는 가치는 �
 출력
 첫째 줄에 경우의 수를 출력한다. 경우의 수는 231보다 작다.
 '''
-#메모리 초과
+#30864kb	256ms
 import sys
 n, k = map(int, input().split())
-n_list = list([0]*(k+1) for _ in range(n+1))
+n_list = [0]*(k+1)
 origin_n = [0]
 
-#n_list[i][j]: i까지 사용해서 j를 나타낼 수 있는 경우의 수
+#1차원 배열로 하는거면 미리 list에 +1로 하면 안됨
+#for문 돌면서 해당 차례가 왔을 때 +1 해야함(중복)
 for e in range(1,n+1):
     tmp_n = int(sys.stdin.readline())
-    n_list[e][tmp_n] = 1
     origin_n.append(tmp_n)
 
-for n1 in range(n):
-    for n2 in range(n1+1,k+1):
-        n_list[n1][n2] += n_list[n1-1][n2] + n_list[n1][n2-origin_n[n1]]
+for i in range(1,n+1):
+    num = origin_n[i]
+    if num > k: continue
+    n_list[num]+=1
+    for j in range(num+1, k+1):
+        n_list[j] += n_list[j-num]
+print(n_list[-1])
 
-print(sum(list(li[-1] for li in n_list)))
