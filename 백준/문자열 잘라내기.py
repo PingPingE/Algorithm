@@ -20,7 +20,30 @@ adatak
 
 출력)
 문제의 설명과 같이 count의 값을 출력한다.
+
 '''
+#227552kb	652ms
+import sys
+R,C = map(int, input().split())
+arr = list('' for _ in range(C))
+for r in range(R):
+    row = list(sys.stdin.readline().strip())
+    for c in range(C):
+        arr[c] = row[c] + arr[c]
+
+count = 0
+while True:
+    tmp_set = set(arr)
+    if len(tmp_set) < C:
+        break
+    count+=1
+    arr = list(map(lambda x: x[:-1], arr))
+print(count-1 if count >=1 else 0)
+
+
+
+#============삽질 기록
+#왜 두개만 보냐
 import sys
 R,C = map(int, input().split())
 arr=[[],[]]
