@@ -21,9 +21,9 @@
 
 입력)
 첫째 줄에는 테스트케이스의 개수 T가 주어진다. 각 테스트 케이스는 다음과 같이 주어진다.
-첫째 줄에 건물의 개수 N과 건물간의 건설순서 규칙의 총 개수 K이 주어진다. (건물의 번호는 1번부터 N번까지 존재한다) 
+첫째 줄에 건물의 개수 N과 건물간의 건설순서 규칙의 총 개수 K이 주어진다. (건물의 번호는 1번부터 N번까지 존재한다)
 둘째 줄에는 각 건물당 건설에 걸리는 시간 D1, D2, ..., DN이 공백을 사이로 주어진다.
-셋째 줄부터 K+2줄까지 건설순서 X Y가 주어진다. (이는 건물 X를 지은 다음에 건물 Y를 짓는 것이 가능하다는 의미이다) 
+셋째 줄부터 K+2줄까지 건설순서 X Y가 주어진다. (이는 건물 X를 지은 다음에 건물 Y를 짓는 것이 가능하다는 의미이다)
 마지막 줄에는 백준이가 승리하기 위해 건설해야 할 건물의 번호 W가 주어진다.
 
 출력)
@@ -37,57 +37,30 @@
 1 ≤ X, Y, W ≤ N
 0 ≤ Di ≤ 100,000, Di는 정수
 '''
-
+#217496kb	848ms
 import sys
-from collections import defaultdict, deque
+from collections import defaultdict
 T = int(input())
-INF = sys.maxsize
 while T:
     T-=1
     N, K = map(int, input().split())
     weight = [0] +  list(map(int, input().split()))
-    D = defaultdict(int)
-    G = defaultdict(list)
+    D = defaultdict(set)
     for value in list( tuple(map(int, sys.stdin.readline().split()))for _ in range(K)):
         from_, to_ = value
-        D[to_] += 1
-        G[from_].append(to_)
+        #indegree만 저장
+        D[to_].add(from_)
 
     W = int(input())
-    que = deque()
-
-    def get_result(start):
-        que = deque([start])
-        done =set()
-        result = 0
-
-        # (현재값, 현재 노드) 이런식으로 넣어야하나?
-        # 동시에 처리가능한거 고려(동시에 처리하는 것 중에서 가중치 젤 큰거만 반영)
-        while que:
-            cur = que.popleft()
-            result += weight[cur]
-            done.add(cur)
-            if cur == W:
-                break
-
-            cur_weight = 0
-            for i in G[cur]:
-                cur_weight = max(cur_weight, weight[i])
-
-            result+=cur_weight
-            print("cur: ", cur, " result:", result, )
-        return result
-
-    ans = {}
-    for n in range(1, N+1):
-        if D[n] == 0:
-            ans[n]= get_result(n)
-    print(ans)
-
-
-
-
-
-
-
+    memo = {}
+    def dfs(v):
+        global memo
+        add_w=0
+        for next_v in D[v]:
+            if next_v not in memo:
+                memo[next_v] = dfs(next_v)
+            add_w = max(add_w, memo[next_v])
+        return weight[v] + add_w
+    
+    print(dfs(W))
 
