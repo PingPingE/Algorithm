@@ -18,50 +18,39 @@
 출력)
 각 테스트 케이스에 대해 필요한 최소의 배추흰지렁이 마리 수를 출력한다.
 '''
-from collections import deque
+#33216kb	436ms
+import sys
+sys.setrecursionlimit(10**8)
 T = int(input())
-dy,dx = [0,0,1,-1], [1,-1,0,0]
+dy,dx= [0,0,-1,1], [1,-1,0,0]
 while T:
     T-=1
-
-    #가로 / 세로 / 배추 개수
     M, N, K =map(int, input().split())
-    ans = N*M
-    board = [[0] * M for _ in range(N)]
-    que = deque()
+    ans = 0
+    remain = set()
     isTrue = set()
 
     for _ in range(K):
-        c,r = map(int, input().split())
-        board[r][c] = 1
+        r,c = map(int, input().split())
         isTrue.add((r,c))
+        remain.add((r,c))
 
-
-    for value in isTrue:
-        r,c = value
-        remain = isTrue - set(value)
-        que.append((r,c,1,[board[i][:] for i in range(N)],remain))
-
-    # 넘 비효율적인데...
-    while que:
-        r,c,cnt, field,remain = que.popleft()
-        print(r,c,cnt,field, remain)
-        if not remain:
-            ans = min(ans, cnt)
-            continue
-
-        if ans <= cnt:
-            continue
-
+    def dfs(r,c):
+        global remain
         for d in range(4):
-            nr, nc = r+dy[d], c+dx[d]
-            while 0<=nr<N and 0<=nc<M:
-                field[nr][nc] = 1
-                nr, nc = nr+dy[d], nc+dx[d]
+            nr,nc = r+dy[d], c+dx[d]
+            while 0<=nr<M and 0<=nc<N and (nr,nc) in isTrue:
+                if (nr,nc) in remain:
+                    remain.remove((nr,nc))
+                    dfs(nr,nc)
+                nr += dy[d]
+                nc += dx[d]
+        return
 
-        for value in remain:
-            r, c = value
-            n_remain = remain - set(value)
-            que.append((r, c, cnt+1, [board[i][:] for i in range(N)], n_remain))
-
+    while remain:
+        # print('before:', remain)
+        r,c = remain.pop()
+        dfs(r,c)
+        # print('after:', remain)
+        ans +=1
     print(ans)
