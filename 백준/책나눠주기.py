@@ -17,6 +17,7 @@
 출력)
 각 테스트 케이스마다 백준이가 책을 줄 수 있는 최대 학생 수를 한 줄에 하나씩 출력한다.
 '''
+#115268kb	156ms
 import sys
 T= int(input())
 while T:
@@ -24,20 +25,15 @@ while T:
     N, M = map(int, input().split())
     book, student = {}, {}
     stack = sorted(list(list(map(int, sys.stdin.readline().split())) for _ in range(M)), reverse=True, key=lambda x: (x[1],x[0]))
-    # print(stack)
+    done = set()
     ans = 0
-    next =1
-    while next <= N and stack:
+    while stack:
         a,b = stack.pop()
-        if a<= next <= b:
-            ans+=1
-            next+=1
-        else:
-            if next > b:
-                continue
-            else:
-                next=a
+        for i in range(a,b+1):
+            if i not in done:
+                done.add(i)
                 ans+=1
+                break
     print(ans)
 
 
