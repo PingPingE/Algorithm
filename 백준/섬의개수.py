@@ -12,14 +12,48 @@
 출력
 각 테스트 케이스에 대해서, 섬의 개수를 출력한다.
 '''
-import sys
-dy,dx = [0,0,-1,1], [1,-1,0,0]
+#115988kb	196ms
+dy,dx = [0,0,-1,1,-1,1,1,-1], [1,-1,0,0,-1,1,-1,1]
+
 while True:
     input_ = input()
     if input_ == '0 0':
         break
     else:
         w,h = map(int,input_.split())
-        arr = [list(sys.stdin.readline().split()) for _ in range(h)]
+        arr = [list(map(int, sys.stdin.readline().split())) for _ in range(h)]
+        e=2
         stack = []
-        print(arr)
+        for i in range(h):
+            for j in range(w):
+                if arr[i][j] ==0: continue
+                stack.append((i,j,e))
+                e+=1
+
+        while stack:
+            r,c,num = stack.pop()
+
+            if arr[r][c] > 1:
+                continue
+
+            arr[r][c] = num
+            for d in range(len(dy)):
+                nr, nc = r+dy[d], c+dx[d]
+                if 0<=nr<h and 0<=nc<w and arr[nr][nc] == 1:
+                    stack.append((nr,nc,num))
+
+
+        # for a in arr:
+        #     print(a)
+        # print()
+
+
+    def get_num_count():
+        num_set = set()
+        for i in range(h):
+            for j in range(w):
+                if arr[i][j] > 1:
+                    num_set.add(arr[i][j])
+        return len(num_set)
+
+    print(get_num_count())
