@@ -25,7 +25,7 @@ KOI 준비를 위해 회의를 개최하려 한다. 주최측에서는 회의에
 '''
 
 import sys
-from collections import defaultdict
+from collections import defaultdict, deque
 N = int(input())
 M = int(input())
 links =defaultdict(list)
@@ -38,16 +38,13 @@ def find(x):
     chief[x] = find(chief[x])
     return chief[x]
 
+#일단 아는 사람이 많은 사람을 대표로
 def union(x,y):
     global chief
     x_ = find(x)
     y_ = find(y)
     if len(links[x_]) > len(links[y_]):
         chief[y_] = x_
-    elif len(links[x_]) == len(links[y_]):
-        minn = min(x_, y_)
-        chief[y_] = minn
-        chief[x_] =minn
     else:
         chief[x_] = y_
 
@@ -60,7 +57,35 @@ for k,nodes in links.items():
     for node in nodes:
         union(k,node)
 
-ans = set(chief.values())
+#각 위원회에서 대표가 k일때 의사전달시간 각각 구해서
+#음.......
+def find_real_chief(target):
+    que = deque()
+    ret= 987654321
+
+    for from_ in target:
+        for to_ in target:
+            que.append((from_,to_,0, set())) #from, to, cur_time
+
+    while que:
+        from_node, to_node, cur_time, done = que.popleft()
+        if cur_time >= ret:
+            continue
+
+
+    return
+
+#같은 위원회끼리 묶기
+targets = defaultdict(list)
+for k,v in chief.items():
+    targets[v].append(k)
+
+ans = []
+#의사전달시간 가장 짧게 할 수 있는 위원장 뽑기
+for k,v in targets.items():
+    ans.append(find_real_chief(v))
+
 print(len(ans))
 for a in sorted(ans):
     print(a)
+
