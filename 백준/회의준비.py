@@ -25,10 +25,11 @@ KOI 준비를 위해 회의를 개최하려 한다. 주최측에서는 회의에
 '''
 
 import sys
-from collections import defaultdict, deque
+from collections import defaultdict
 N = int(input())
 M = int(input())
-links =defaultdict(list)
+INF = sys.maxsize
+links = defaultdict(lambda: defaultdict(int))
 chief = {i:i for i in range(1,N+1)}
 
 def find(x):
@@ -43,47 +44,57 @@ def union(x,y):
     global chief
     x_ = find(x)
     y_ = find(y)
-    if len(links[x_]) > len(links[y_]):
+    if y_ > x_:
         chief[y_] = x_
     else:
         chief[x_] = y_
 
+for i in range(1,N+1):
+    links[i][i] = 1
+
 for _ in range(M):
     v1,v2 = map(int, sys.stdin.readline().split())
-    links[v1].append(v2)
-    links[v2].append(v1)
+    links[v1][v2] = 1
+    links[v2][v1] = 1
 
-for k,nodes in links.items():
-    for node in nodes:
-        union(k,node)
+print(links)
+#그룹 묶기
+for i in range(1,N+1):
+    for j in range(1,N+1):
+        if links[i][j] ==1:
+            union(i,j)
 
-#각 위원회에서 대표가 k일때 의사전달시간 각각 구해서
-#음.......
-def find_real_chief(target):
-    que = deque()
-    ret= 987654321
+#아 최댓값을 알고 그 중에서 최솟값을 뽑아야하는데
+#음...
 
-    for from_ in target:
-        for to_ in target:
-            que.append((from_,to_,0, set())) #from, to, cur_time
+dist = [[0]*(N+1) for _ in range(N+1)]
+for k in range(1,N+1):
+    for i in range(1, N+1):
+        for j in range(1,N+1):
+            dist[i][j] = max(links[i][k] + links[k][j], dist[i][j])
 
-    while que:
-        from_node, to_node, cur_time, done = que.popleft()
-        if cur_time >= ret:
-            continue
-
-
-    return
-
-#같은 위원회끼리 묶기
+#같은 위원회끼리 묶고
 targets = defaultdict(list)
 for k,v in chief.items():
     targets[v].append(k)
 
-ans = []
+ans=[]
+
+def get_real_chief(group):
+    maxx = (INF, INF)
+    for from_ in sorted(group):
+        t_max = 0
+        for to_ in group:
+            t_max = max(dist[from_][to_], t_max)
+        if t_max < maxx[0]:
+            maxx = (t_max, from_)
+    return maxx[-1]
+
+for d in dist:
+    print(d)
 #의사전달시간 가장 짧게 할 수 있는 위원장 뽑기
 for k,v in targets.items():
-    ans.append(find_real_chief(v))
+    ans.append(get_real_chief(v))
 
 print(len(ans))
 for a in sorted(ans):
