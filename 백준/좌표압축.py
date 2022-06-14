@@ -14,7 +14,8 @@ X1, X2, ..., XN에 좌표 압축을 적용한 결과 X'1, X'2, ..., X'N를 출�
 출력
 첫째 줄에 X'1, X'2, ..., X'N을 공백 한 칸으로 구분해서 출력한다.
 '''
-#265884kb	1076ms
+#binary_search 방법: 265884kb	1076ms
+#sorted_dict 방법: 302640kb	1296ms -> 메모리만 더 먹고 딱히 속도 개선 없음
 N = int(input())
 X = list(map(int, input().split()))
 sorted_X = sorted(set(X))
@@ -28,5 +29,8 @@ def get_result(x):
             r = m-1
     return str(r+1)
 
-ans = [get_result(x) for x in X]
+sorted_dict = {x:str(idx) for idx, x in enumerate(sorted_X)}
+
+# ans = [get_result(x) for x in X]
+ans = [sorted_dict[x] for  x in X]
 print(' '.join(ans))
