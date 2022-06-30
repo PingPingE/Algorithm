@@ -25,18 +25,17 @@ def find(x):
 
 def union(a,b):
     global links
-    a_ = find(a)
-    b_ = find(b)
-    if a <= b:
-        links[b] = a_
+    a= find(a)
+    b= find(b)
+    if a<= b:
+        links[b] = a
     else:
-        links[a] = b_
-
-for _ in range(M):
-    a,b = map(int, sys.stdin.readline().split())
+        links[a] = b
+pairs = sorted(sorted(map(int, sys.stdin.readline().split())) for _ in range(M))
+for a,b in pairs:
     union(a,b)
 
-for k in range(1, N+1):
-    union(k,links[k])
+for a,b in pairs:
+    union(a,b)
 
-print(len(list(filter(lambda x: x==1, links.values())))-1)
+print(max(len(list(filter(lambda x: x==1, links.values())))-1,0))
