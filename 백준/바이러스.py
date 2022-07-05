@@ -13,29 +13,26 @@
 출력)
 1번 컴퓨터가 웜 바이러스에 걸렸을 때, 1번 컴퓨터를 통해 웜 바이러스에 걸리게 되는 컴퓨터의 수를 첫째 줄에 출력한다.
 '''
+#113112kb	112ms
 import sys
 N = int(input())
 M = int(input())
-links = {i:i for i in range(1, N+1)} #value: root
-def find(x):
-    if links[x] == x:
-        return x
-    links[x] = find(links[x])
-    return links[x]
+links = {i:[] for i in range(1,N+1)}
 
-def union(a,b):
-    global links
-    a= find(a)
-    b= find(b)
-    if a<= b:
-        links[b] = a
-    else:
-        links[a] = b
-pairs = sorted(sorted(map(int, sys.stdin.readline().split())) for _ in range(M))
-for a,b in pairs:
-    union(a,b)
+for _ in range(M):
+    a,b = map(int, sys.stdin.readline().split())
+    links[a].append(b)
+    links[b].append(a)
 
-for a,b in pairs:
-    union(a,b)
+cnt = 0
+done =set()
+def dfs(num):
+    global cnt, done
+    done.add(num)
+    for node in links[num]:
+        if node not in done:
+            dfs(node)
+            cnt+=1
 
-print(max(len(list(filter(lambda x: x==1, links.values())))-1,0))
+dfs(1)
+print(cnt)
