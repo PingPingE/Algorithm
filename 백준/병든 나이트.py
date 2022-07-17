@@ -20,19 +20,20 @@
 '''
 #규칙을 찾아야하는 문제(핵노가다) -> 움직일 수 있는 조건을 보면 N>=3, M>=7일때부터 정답이 같아짐(그 전엔 구간별로 룰작성)
 N,M = map(int, input().split())
-ans = 0
+#한줄 컷
+print(1 if N==1 else (min((M+1)//2,4) if N<=2 else (min(M,4) if M<=6 else M-2)))
 
-#규칙 : M<=6까지는 최대 4까지 나올 수 밖에 없음
-if N == 1:
-    ans = 1
-elif N<=2:
-    ans = min((M+1)//2,4)
-elif M<=6:
-    ans = min(M, 4)
-else:
-    ans = M-2
-
-print(ans)
+# ans=0
+# #규칙 : M<=6까지는 최대 4까지 나올 수 밖에 없음
+# if N == 1:
+#     ans = 1
+# elif N<=2:
+#     ans = min((M+1)//2,4)
+# elif M<=6:
+#     ans = min(M, 4)
+# else:
+#     ans = M-2
+# print(ans)
 
 '''
 삽질 기록)
