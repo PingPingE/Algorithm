@@ -13,17 +13,48 @@
 #150308kb	708ms
 import sys, heapq
 from collections import defaultdict
+# V,E = map(int, input().split())
+# K = int(input())
+# INF = sys.maxsize
+# links = defaultdict(lambda: defaultdict(int))
+#
+# for _ in range(E):
+#     u,v,w = map(int, sys.stdin.readline().split())
+#     if links[u][v]:
+#         links[u][v] = min(links[u][v],w)
+#     else:
+#         links[u][v] = w
+#
+# def dijkstra(start):
+#     costs = [INF for _ in range(V+1)]
+#     costs[start] = 0
+#     heap = [(costs[start],start)]
+#     heapq.heapify(heap)
+#     while heap:
+#         cost,node = heapq.heappop(heap)
+#         for n_node, weight in links[node].items():
+#             if cost+weight < costs[n_node]:
+#                 costs[n_node] = cost+weight
+#                 heapq.heappush(heap,(costs[n_node],n_node))
+#     return '\n'.join(map(lambda x: str(x) if x < INF else 'INF', costs[1:]))
+#
+# print(dijkstra(K))
+#
+
+'''
+solution2: dict(dict(int)) 자료구조가 아닌, dict(list)자료구조로 변경
+142784kb	652ms
+'''
+import sys, heapq
+from collections import defaultdict
 V,E = map(int, input().split())
 K = int(input())
 INF = sys.maxsize
-links = defaultdict(lambda: defaultdict(int))
+links = defaultdict(list)
 
 for _ in range(E):
     u,v,w = map(int, sys.stdin.readline().split())
-    if links[u][v]:
-        links[u][v] = min(links[u][v],w)
-    else:
-        links[u][v] = w
+    links[u].append((v,w))
 
 def dijkstra(start):
     costs = [INF for _ in range(V+1)]
@@ -32,11 +63,10 @@ def dijkstra(start):
     heapq.heapify(heap)
     while heap:
         cost,node = heapq.heappop(heap)
-        for n_node, weight in links[node].items():
+        for n_node, weight in links[node]:
             if cost+weight < costs[n_node]:
                 costs[n_node] = cost+weight
                 heapq.heappush(heap,(costs[n_node],n_node))
     return '\n'.join(map(lambda x: str(x) if x < INF else 'INF', costs[1:]))
 
 print(dijkstra(K))
-
