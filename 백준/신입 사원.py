@@ -16,25 +16,49 @@
 각 테스트 케이스에 대해서 진영 주식회사가 선발할 수 있는 신입사원의 최대 인원수를 한 줄에 하나씩 출력한다.
 '''
 #220712kb	3968ms
+# import sys
+# T= int(input())
+# while T:
+#     T-=1
+#     N = int(input())
+#     #1차 순위 기준으로 정렬(stack)
+#     arr = sorted(list(tuple(map(int, sys.stdin.readline().split())) for _ in range(N)), key=lambda x: -x[0])
+#
+#     #1차 순위가 높은 지원자(앞에서 먼저 pop된 애들)들의 2차 순위 중 가장 높은 순위
+#     min_rank = N
+#     cnt = 0
+#
+#     while arr:
+#         rank1, rank2 =  arr.pop()
+#         if rank2 <= min_rank:
+#             cnt+=1
+#             min_rank = rank2
+#             continue
+#         else: #1차도 낮은데 2차도 min_rank보다 낮은 경우
+#             continue
+#     print(cnt)
+
+'''
+solution2
+자료 구조 변경
+기존: list(tuple(int)) -> 변경 후: list(int)
+
+즉 리스트의 index가 1차 rank, 각 원소가 2차 rank
+'''
+#131316kb	1132ms
 import sys
 T= int(input())
 while T:
     T-=1
     N = int(input())
-    #1차 순위 기준으로 정렬(stack)
-    arr = sorted(list(tuple(map(int, sys.stdin.readline().split())) for _ in range(N)), key=lambda x: -x[0])
-
-    #1차 순위가 높은 지원자(앞에서 먼저 pop된 애들)들의 2차 순위 중 가장 높은 순위
+    arr = [0 for _ in range(N+1)]
+    for _ in range(N):
+        a,b = map(int,sys.stdin.readline().split())
+        arr[a] = b
     min_rank = N
     cnt = 0
-
-    while arr:
-        rank1, rank2 =  arr.pop()
-        if rank2 <= min_rank:
+    for i in range(1,N+1):
+        if arr[i] <= min_rank:
+            min_rank=arr[i]
             cnt+=1
-            min_rank = rank2
-            continue
-        else: #1차도 낮은데 2차도 min_rank보다 낮은 경우
-            continue
     print(cnt)
-
