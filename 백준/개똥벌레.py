@@ -20,19 +20,32 @@
 '''
 #이진탐색, 누적합 전부 다 풀어보기
 #https://hyeo-noo.tistory.com/310
+
+#122992kb	208ms
 import sys
 N,H= map(int, input().split())
-ans = [0 for _ in range(H)]
-values = list(int(sys.stdin.readline()) for _ in range(N))
+bottom, top = [0 for _ in range(H+1)], [0 for _ in range(H+1)]
 #석순: bottom, 종유석: top
-for n in range(1, N+1):
-    length = values[n-1]
-    if n%2: #석순
-        for i in range(H-length, H):
-            ans[i] +=1
+for n in range(1,N+1):
+    length = int(sys.stdin.readline())
+    if not n%2: #석순
+        bottom[length] += 1
     else:#종유석
-        for i in range(0,length):
-            ans[i]+=1
+        top[H-length+1] += 1
 
-min_value = min(ans)
-print(min_value, len(list(filter(lambda x: x==min_value , ans))))
+for h in range(1,H+1):
+    bottom[H-h] += bottom[H-h+1]
+    top[h] += top[h-1]
+
+min_value = N+1
+cnt= 0
+for h in range(1, H+1):
+    value = top[h] + bottom[h]
+    if min_value > value:
+        cnt = 1
+        min_value = value
+
+    elif min_value == value:
+        cnt +=1
+
+print(min_value, cnt)
