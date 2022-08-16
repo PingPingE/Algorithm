@@ -18,37 +18,21 @@
 출력
 첫째 줄에 개똥벌레가 파괴해야 하는 장애물의 최솟값과 그러한 구간의 수를 공백으로 구분하여 출력한다.
 '''
+#이진탐색, 누적합 전부 다 풀어보기
+#https://hyeo-noo.tistory.com/310
 import sys
-from collections import Counter
 N,H= map(int, input().split())
-info = {'bottom':[], 'top':[]}
-
+ans = [0 for _ in range(H)]
+values = list(int(sys.stdin.readline()) for _ in range(N))
 #석순: bottom, 종유석: top
 for n in range(1, N+1):
-    if n%2:
-        info['bottom'].append(int(sys.stdin.readline()))
-    else:
-        info['top'].append(int(sys.stdin.readline()))
-
-bottom_counter = Counter(info['bottom'])
-top_counter = Counter(info['top'])
-
-ans = [N+2 for _ in range(H+1)]
-for h in range(1,H+1): #종유석 >= h, 석순 >= H-h 개수 카운트
-    b_count, t_count =0,0
-
-    for value in range(h,H+1):
-        try:
-            t_count += top_counter[value]
-        except:
-            continue
-
-    for value in range(H-h+1, H+1):
-        try:
-            b_count += bottom_counter[value]
-        except:
-            continue
-    ans[h] = b_count + t_count
+    length = values[n-1]
+    if n%2: #석순
+        for i in range(H-length, H):
+            ans[i] +=1
+    else:#종유석
+        for i in range(0,length):
+            ans[i]+=1
 
 min_value = min(ans)
-print(min_value, len(list(filter(lambda x: x==min_value, ans))))
+print(min_value, len(list(filter(lambda x: x==min_value , ans))))
