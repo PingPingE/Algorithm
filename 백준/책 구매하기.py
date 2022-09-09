@@ -46,10 +46,12 @@ for i in range(1, M+1): #서점
 for j in range(M+1,M+N+1): #사람
     graph[j].append([M+N+1, A[j-M-1]])
 
-
+T=1
 #최종 return 값
 weight = 0
 while True:
+    print("=====", T, "=======")
+    T+=1
     #비용 초기화
     res = [INF] * (M+N+2)
     res[0] = 0
@@ -127,5 +129,12 @@ while True:
             graph[nxt].append([cur, flow])
 
         nxt = cur
+    print("flow:", flow, " weight:", weight)
+    print("prev: ",prev)
+    print(res)
+    print("graph")
+    for e,g in enumerate(graph):
+        print(f"{e}: {g}")
+print(graph)
 
 print(weight)
