@@ -21,7 +21,7 @@ T는 10,000보다 작거나 같은 자연수 또는 0이다.
 출력
 TC개의 줄에 걸쳐서 만약에 시간이 줄어들면서 출발 위치로 돌아오는 것이 가능하면 YES, 불가능하면 NO를 출력한다.
 '''
-from collections import defaultdict
+#115848kb	492ms
 import sys
 TC = int(input())
 INF = sys.maxsize
@@ -29,27 +29,28 @@ while TC:
     TC-=1
     #노드 수, 엣지 수, 음수 엣지 수
     N,M,W = map(int, input().split())
-    links = defaultdict(lambda: defaultdict(int))
+
+    #조건에 '두 지점을 연결하는 도로가 한 개보다 많을 수도 있다'가 있었기 때문에 defaultdict(defaultdict(int)) 자료구조는 적절하지 않았다.
+    links = []
     for _ in range(M):
         S,E,T = map(int, sys.stdin.readline().split())
-        links[S][E] = T
-        links[E][S] = T
+        links.append((S,E,T))
+        links.append((E,S,T))
 
     for _ in range(W):
         S, E, T = map(int, sys.stdin.readline().split())
-        links[S][E] = -T
+        links.append((S, E, -T))
 
     def bellman_ford(start):
         costs = [INF for _ in range(N+1)]
         costs[start] = 0
 
         for _ in range(N):
-            for node in links:
-                for n_node in links[node]:
-                    if costs[n_node] > costs[node] + links[node][n_node]:
-                        costs[n_node] = costs[node] + links[node][n_node]
-                        if _ == N-1:
-                            return True
+            for s,e,t in links:
+                if costs[e] > costs[s] + t:
+                    costs[e] = costs[s]+t
+                    if _ == N-1:
+                        return True
         return False
 
     if bellman_ford(1):
