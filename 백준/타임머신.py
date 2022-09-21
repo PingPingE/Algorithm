@@ -15,41 +15,22 @@ N개의 도시가 있다. 그리고 한 도시에서 출발하여 다른 도시�
 그렇지 않다면 N-1개 줄에 걸쳐 각 줄에 1번 도시에서 출발해 2번 도시, 3번 도시, ..., N번 도시로 가는 가장 빠른 시간을 순서대로 출력한다.
 만약 해당 도시로 가는 경로가 없다면 대신 -1을 출력한다.
 '''
-
 import sys
-from collections import defaultdict,deque
+N,M = map(int, input().split())
+links = [tuple(map(int, sys.stdin.readline().split())) for _ in range(M)]
 INF = sys.maxsize
-N,M= map(int,input().split())
-links = defaultdict(lambda : defaultdict(int))
-ans = [INF]*(N+1)
-ans[1] = 0
-
-for _ in range(M):
-    A,B,C =map(int, sys.stdin.readline().split())
-    links[A][B] = C
-
-#cycle check -> cycle cost < 0 이면 -1 프린트
-def cycle_check()
-    return False
-
-if cycle_check():
-    print(-1)
-else:
-    #현재 위치, cost
-    que = deque([[1,0,set([1])]])
-    done = set([1])
-    while que:
-        cur_n, cur_c, done = que.popleft()
-        if ans[cur_n] > cur_c:
-            ans[cur_n] = cur_c
-
-        for next_n in links[cur_n]:
-            if next_n not in done:
-                next_c = links[cur_n][next_n]
-                que.append((next_n, next_c, done|set([next_n])))
-
-    for i in range(2,N+1):
-        if ans[i] ==INF:
-            print(-1)
-        else:
-            print(ans[i])
+def bellman_ford(start):
+    costs = [INF for _ in range(N+1)]
+    costs[start] =0
+    for _ in range(N):
+        for a,b,c in links:
+            if costs[b] > costs[a]+c:
+                costs[b] = costs[a]+c
+                if _ == N-1:
+                    return [-1]
+    return costs[2:]
+for cost in bellman_ford(1):
+    if cost ==INF:
+        print(-1)
+    else:
+        print(cost)
