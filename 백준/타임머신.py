@@ -15,6 +15,7 @@ N개의 도시가 있다. 그리고 한 도시에서 출발하여 다른 도시�
 그렇지 않다면 N-1개 줄에 걸쳐 각 줄에 1번 도시에서 출발해 2번 도시, 3번 도시, ..., N번 도시로 가는 가장 빠른 시간을 순서대로 출력한다.
 만약 해당 도시로 가는 경로가 없다면 대신 -1을 출력한다.
 '''
+#115704kb	180ms
 import sys
 N,M = map(int, input().split())
 links = [tuple(map(int, sys.stdin.readline().split())) for _ in range(M)]
@@ -24,7 +25,7 @@ def bellman_ford(start):
     costs[start] =0
     for _ in range(N):
         for a,b,c in links:
-            if costs[b] > costs[a]+c:
+            if costs[a]!=INF and costs[b] > costs[a]+c:
                 costs[b] = costs[a]+c
                 if _ == N-1:
                     return [-1]
