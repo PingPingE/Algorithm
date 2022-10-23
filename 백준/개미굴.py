@@ -84,6 +84,8 @@ def print_dfs(trie, target, level):
             level+=1
     return
 
+
 for k in sorted(trie.nodes.keys()):
     ret = []
     print_dfs(trie.nodes, k, 0)
+
