@@ -27,7 +27,7 @@ def solution(y,x):
     if y<0 or y>=N or x<0 or x>=M:
         return -INF
     if memo[y][x] == -INF:
-        memo[y][x] = max(max(max(solution(y-1,x), solution(y,x-1)), solution(y-1,x-1))+board[y][x], memo[y][x])
+        memo[y][x] = max(max(solution(y-1,x), solution(y,x-1), solution(y-1,x-1))+board[y][x], memo[y][x])
     return memo[y][x]
 
 for y in range(N):
