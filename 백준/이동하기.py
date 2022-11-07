@@ -12,23 +12,25 @@
 출력)
 첫째 줄에 준규가 (N, M)으로 이동할 때, 가져올 수 있는 사탕 개수를 출력한다.
 '''
+#77132kb	2312ms
 from collections import deque
 import sys
+INF = sys.maxsize
 dy,dx = [1,0,1], [0,1,1]
 N,M = map(int, input().split())
 board = list(list(map(int, sys.stdin.readline().split())) for _ in range(N))
-memo = list([0]*M for _ in range(N))
+memo = list([-INF]*M for _ in range(N))
 memo[0][0] = board[0][0]
-que = deque([(0,0)])
-while que:
-    y,x = que.popleft()
-    if (y,x) == (N-1, M-1):
-        continue
 
-    for d in range(3):
-        ny,nx = y+dy[d], x+dx[d]
-        if 0<=ny<N and 0<=nx<M and memo[y][x]+board[ny][nx] > memo[ny][nx]:
-            memo[ny][nx] = memo[y][x]+board[ny][nx]
-            que.append((ny,nx))
+def solution(y,x):
+    global memo
+    if y<0 or y>=N or x<0 or x>=M:
+        return -INF
+    if memo[y][x] == -INF:
+        memo[y][x] = max(max(max(solution(y-1,x), solution(y,x-1)), solution(y-1,x-1))+board[y][x], memo[y][x])
+    return memo[y][x]
 
+for y in range(N):
+    for x in range(M):
+        solution(y,x)
 print(memo[-1][-1])
