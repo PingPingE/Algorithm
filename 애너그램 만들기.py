@@ -16,16 +16,9 @@
 '''
 #LCS 구해서 그 길이만큼 빼면 되지 않나?
 #반례: dared - bread
-st1 = input()
-st2 = input()
-N1, N2 = len(st1), len(st2)
-LCS = [[0]*(N1+1) for _ in range(N2+1)]
-cnt = 0
-for e1, c1 in enumerate(st1,1):
-    for e2, c2 in enumerate(st2,1):
-        if c1 == c2:
-            LCS[e1][e2] = LCS[e1-1][e2-1] + 1
-        else:
-            LCS[e1][e2] = max(LCS[e1-1][e2], LCS[e1][e2-1])
-print(N1-LCS[-1][-1]+N2-LCS[-1][-1])
-
+#st1, st2 길이가 다를 수 있다는 점도 고려해야함
+from collections import Counter
+counter1 = Counter(input())
+counter2 = Counter(input())
+for i in range(97,123):
+    if
