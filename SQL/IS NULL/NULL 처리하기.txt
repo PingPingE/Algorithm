@@ -2,3 +2,8 @@
 SELECT ANIMAL_TYPE, IF(NAME IS NULL, "No name",NAME), SEX_UPON_INTAKE 
 FROM ANIMAL_INS 
 ORDER BY ANIMAL_ID
+
+-- ifnull 함수 사용
+SELECT animal_type,ifnull(name, 'No name') as name, sex_upon_intake
+from animal_ins 
+order by animal_id
