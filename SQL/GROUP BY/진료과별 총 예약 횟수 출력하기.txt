@@ -1,0 +1,6 @@
+-- 코드를 입력하세요
+select  mcdp_cd as `진료과 코드`, count(pt_no) as `5월예약건수`
+from appointment
+where apnt_ymd between '2022-05-01' and '2022-05-31'
+group by mcdp_cd
+order by `5월예약건수`,`진료과 코드`
