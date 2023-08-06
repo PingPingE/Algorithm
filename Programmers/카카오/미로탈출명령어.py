@@ -29,6 +29,35 @@ d: 아래쪽으로 한 칸 이동
 (x, y) ≠ (r, c)
 1 ≤ k ≤ 2,500
 '''
+#heapq로 문자열 순서가 우선이고, 짧은것 부터
+import heapq
+def solution(n, m, x, y, r, c, k):
+    def get_distance(cur_x, cur_y):
+        return abs(r-1- cur_x) + abs(c-1 - cur_y)
+
+    que = [['', x - 1, y - 1]]  # 거쳐온 경로, 현 위치
+    dy, dx = [0, 0, 1, -1], [1, -1, 0, 0]
+    d_map = {0: 'd', 1: 'u', 2: 'r', 3: 'l'}
+    
+    while que:
+        path, cur_x, cur_y = heapq.heappop(que)
+        # 도착했는지 검사
+        if (cur_x, cur_y) == (r - 1, c - 1):
+            if len(path) == k:
+                return path
+            elif len(path)>k or (k-len(path))%2:
+                break
+
+        for d in range(4):
+            nx, ny = cur_x + dx[d], cur_y + dy[d]
+            if len(path)+1+get_distance(nx,ny) > k:
+                continue
+            if 0 <= nx < n and 0 <= ny < m:
+                heapq.heappush(que, [path + d_map[d], nx, ny])
+
+    return 'impossible'
+
+print(solution(3,4,2,3,3,1,5))
 
 #목적지 도착 여부 도착 후 남은 길이 검사 -> 시간 초과
 from collections import deque
@@ -91,4 +120,3 @@ def solution1(n, m, x, y, r, c, k):
 
     return 'impossible' if answer.startswith('z') else answer
 
-print(solution2(3,4,2,3,3,1,5))
