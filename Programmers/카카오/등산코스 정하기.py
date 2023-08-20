@@ -1,3 +1,51 @@
+
+'''
+다익스트라
+'''
+
+import heapq
+from collections import defaultdict
+from itertools import product
+def solution(n, paths, gates, summits):
+    INF = 987654321
+    answer = [INF, INF]
+    graph = defaultdict(lambda: defaultdict(int))
+    all_nodes = set(gates + summits)
+    min_intensity = [INF] * (n + 1)
+    for i, j, w in paths:
+        graph[i][j] = w
+        graph[j][i] = w
+
+    def get_min_intensity(from_node, to_node):
+        min_intensity = [INF] * (n + 1)
+        heap = []
+        min_intensity[from_node] = 0
+        heapq.heappush(heap, (0, from_node))
+
+        forbidden_nodes = all_nodes - set([from_node, to_node])
+
+        while heap:
+            intensity, node = heapq.heappop(heap)
+            for n_node in graph[node].keys():
+                if n_node in forbidden_nodes:
+                    continue
+                n_intensity = graph[node][n_node]
+                if max(intensity, n_intensity) < min_intensity[n_node]:
+                    heapq.heappush(heap, (max(intensity, n_intensity), n_node))
+                    min_intensity[n_node] = max(intensity, n_intensity)
+
+        return min_intensity[to_node]
+
+    # 최솟값이나오면 skip?
+    for comb in sorted(product(gates, summits), key=lambda x: x[1]):
+        gate, summit = comb
+        candi_intensity = get_min_intensity(gate, summit)
+
+        if candi_intensity < answer[1]:
+            answer = [summit, candi_intensity]
+
+    return answer
+
 '''
 파라메트릭서치 + 디익스트라?
 주의: 경로에 다른 산봉우리, 게이트가 있으면 안됨
@@ -5,6 +53,9 @@
 다익스트라는 출발 -> 목적까지의 총 비용이 아니라 max weight
 파라메트릭서치는 나올 수 있는 모든 weight를 대상으로 (list의 Index로)
 '''
+
+
+
 from collections import defaultdict
 import heapq
 def solution(n, paths, gates, summits):
