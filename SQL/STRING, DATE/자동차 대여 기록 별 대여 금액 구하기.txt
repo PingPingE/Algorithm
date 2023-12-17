@@ -1,0 +1,25 @@
+
+select HISTORY_ID,truncate(total_fee*(100- if(discount_rate is not null, discount_rate, 0))*0.01,0) as FEE from
+(
+    select *,  period*daily_fee as total_fee, case
+        when 7<=period and period<30
+        then "7일 이상"
+        when 30<=period and period<90
+        then "30일 이상"
+        when 90<=period
+        then "90일 이상"
+        else NULL
+    end as duration_type from
+    (
+        select history.history_id, history.car_id,truck_id.car_type, truck_id.daily_fee, datediff(end_date, start_date)+1 as period
+        from car_rental_company_rental_history as history
+        join
+        (SELECT * from car_rental_company_car where car_type like '트럭') as truck_id
+        on history.car_id = truck_id.car_id
+    ) as truck_tmp
+) as truck
+left join
+car_rental_company_discount_plan as plan
+on plan.car_type = truck.car_type and truck.duration_type = plan.duration_type
+order by fee desc, history_id desc
+;
