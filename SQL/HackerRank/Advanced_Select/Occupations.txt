@@ -4,13 +4,13 @@ with Doctor as (
     select row_number() over(order by name asc) as id , name  from occupations where occupation = "Doctor" 
 )
 , Professor as (
-     select row_number() over(order by name asc) as id , name from occupations where occupation = "Professor" order by name asc
+     select row_number() over(order by name asc) as id , name from occupations where occupation = "Professor" 
 )
 , Singer as (
-    select row_number() over(order by name asc) as id , name from occupations where occupation = "Singer" order by name asc
+    select row_number() over(order by name asc) as id , name from occupations where occupation = "Singer" 
 )
 , Actor as (
-   select row_number() over(order by name asc) as id , name from occupations where occupation = "Actor" order by name asc
+   select row_number() over(order by name asc) as id , name from occupations where occupation = "Actor" 
 )
 , T as (
     select distinct id from (
