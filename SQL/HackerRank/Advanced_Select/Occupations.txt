@@ -1,3 +1,37 @@
+-- 최근 풀이: 길어도 좀 더 직관적임 - 베이스 테이블(T)만들고 거기에 다 left join
+
+with Doctor as (
+    select row_number() over(order by name asc) as id , name  from occupations where occupation = "Doctor" 
+)
+, Professor as (
+     select row_number() over(order by name asc) as id , name from occupations where occupation = "Professor" order by name asc
+)
+, Singer as (
+    select row_number() over(order by name asc) as id , name from occupations where occupation = "Singer" order by name asc
+)
+, Actor as (
+   select row_number() over(order by name asc) as id , name from occupations where occupation = "Actor" order by name asc
+)
+, T as (
+    select distinct id from (
+    select id from Doctor as D
+    union select id from Professor as P
+    union select id as id from Singer as S
+    union select id as id from Actor as A
+                         ) as tmp
+    )
+
+(select D.name, P.name, S.name, A.name  from
+T
+left join Doctor as D on T.id = D.id
+left join Professor as P on T.id = P.id
+left join Singer as S on T.id = S.id
+left join Actor as A on T.id = A.id
+ )
+
+
+
+-- 과거 풀이: 엄청 복잡하게 풀었네
 -- https://www.hackerrank.com/challenges/occupations/problem
 -- https://www.hackerrank.com/challenges/occupations/forum 참고
 
